@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -304,23 +305,24 @@ public class WATFeatureGenerator {
                                                          String indexLocation){
         Map<String, Map<String, Double[]>> entities_features = new LinkedHashMap<>();
         Map<String, Double[]> entities_normalized_features = new LinkedHashMap<>();
+        HashSet<String> wat_entity_ids = new HashSet<>();
         IndexSearcher indexSearcher = null;
         try {
             indexSearcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(Paths.get(indexLocation))));
         }catch (IOException ioe){
             System.out.println("in featuregenetor index searcher io exception");
         }
-        Entities entities_utils = new Entities();
-        List<String> entities_array = entities_utils.getEntityIdsList(entities_list);
+        //Entities entities_utils = new Entities();
+        //List<String> entities_array = entities_utils.getEntityIdsList(entities_list);
 
-        String[] entities_ids = new String[entities_array.size()];
+        /*String[] entities_ids = new String[entities_array.size()];
 
         for(int i = 0; i < entities_array.size(); i++){
             entities_ids[i] = entities_array.get(i);
-        }
+        }*/
 
-        databaseWrapper dbwrapper = new databaseWrapper();
-        Map<String, String[]> entities_details = dbwrapper.getRecordDetails(entities_ids);
+        /*databaseWrapper dbwrapper = new databaseWrapper();
+        Map<String, String[]> entities_details = dbwrapper.getRecordDetails(entities_ids);*/
 
 
         Map<String, Container> c2 = bm25_ranking.get(query_id);
@@ -351,8 +353,15 @@ public class WATFeatureGenerator {
             System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
         }*/
 
+        for(Map.Entry<String, Map<String, EntityAnnotation>> queryid: wat_entity_annotations.entrySet()){
+            for(Map.Entry<String, EntityAnnotation> ranking: queryid.getValue().entrySet()){
+                wat_entity_ids.add(String.valueOf(ranking.getValue().getId()));
+            }
+        }
+        List<String> entities_array = wat_entity_ids.stream().collect(Collectors.toList());
+
         //System.out.println(cursor.length());
-        int entity_length = entities_ids.length;
+        int entity_length = wat_entity_ids.size();
         //System.out.println(entity_length);
         Double hop_relations[] = new Double[] {0.0, 0.0, 0.0, 0.0, 0.0};
         //double co_mention[] = new double[]{0.0, 0.0};
@@ -441,12 +450,14 @@ public class WATFeatureGenerator {
                     /*co_mention[0] = 0.0;
                     co_mention[1] = 0.0;*/
 
-                    hop_relations = getHopRelations(entities_array.get(c), entities_array.get(e), entities_details, hop_relations);
+                    //hop_relations = getHopRelations(entities_array.get(c), entities_array.get(e), entities_details, hop_relations);
                     //features_list[2] = entityCoMentions(entities_array.get(c), entities_array.get(e), bm25_ranking.get(query_id));
                     //double co_mention[] = entityCoMentions(entities_array.get(c), entities_array.get(e), bm25_ranking.get(query_id));
                     double co_mention[] = entityCoMentions(entities_array.get(c), entities_array.get(e), bm25_ranking.get(query_id), wat_entity_annotations);
-                    double biblo_relations[] = getBibloCouplingFeatures(entities_array.get(c), entities_array.get(e), entities_details, entity_ranking.get(query_id));
-                    double cocoupling_relations[] = getCoCouplingFeatures(entities_array.get(c), entities_array.get(e), entities_details, entity_ranking.get(query_id));
+                    //double biblo_relations[] = getBibloCouplingFeatures(entities_array.get(c), entities_array.get(e), entities_details, entity_ranking.get(query_id));
+                    //double cocoupling_relations[] = getCoCouplingFeatures(entities_array.get(c), entities_array.get(e), entities_details, entity_ranking.get(query_id));
+                    double biblo_relations[] = new double [] {0.0, 0.0};
+                    double cocoupling_relations[] = new double [] {0.0, 0.0};
                     features_list[0] = hop_relations[0]; //undirected direct links
                     features_list[1] = hop_relations[1];
                     features_list[2] = co_mention[0]; //co-occurrence relevance
@@ -484,11 +495,11 @@ public class WATFeatureGenerator {
                         }
                     }*/
 
-                    if(entities_array.get(c).equals("enwiki:Centers%20for%20Disease%20Control%20and%20Prevention")){
+                    /*if(entities_array.get(c).equals("enwiki:Centers%20for%20Disease%20Control%20and%20Prevention")){
                         System.out.println("********************************************");
                         System.out.println(features_list[2]);
                         System.out.println("********************************************");
-                    }
+                    }*/
 
                 }
 
