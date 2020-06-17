@@ -10,9 +10,11 @@ import main.java.entityrelation.QueryExapansion;
 import main.java.entityrelation.WATFeatureGenerator;
 import main.java.searcher.BaseBM25;
 import main.java.utils.*;
+import main.java.containers.RankingJSONTemplate;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.List;
 
 //import main.java.dbpedia.DBpedia;
 //import main.java.queryexpansion.QueryExpansion;
@@ -78,6 +80,10 @@ public class SearchRunner implements ProgramRunner
             try{
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
+                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+                WriteJSONFile writeJSONFile = new WriteJSONFile();
+                writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);
 
                 Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
@@ -146,7 +152,10 @@ public class SearchRunner implements ProgramRunner
 
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
-
+                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+                WriteJSONFile writeJSONFile = new WriteJSONFile();
+                writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);
 
 
                 Entities e = new Entities();

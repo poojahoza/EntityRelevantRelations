@@ -75,22 +75,20 @@ public class BaseBM25 extends BaseSearcher
     {
         for(Map.Entry<String,String> m:out.entrySet())
         {
-            try
-            {
-                TopDocs topDocuments = null;
+            if(m.getKey().equals("enwiki:Antibiotics/Research")) {
                 try {
-                    topDocuments = this.performSearch(m.getValue(),this.k);
-                } catch (org.apache.lucene.queryparser.classic.ParseException e) {
-                    e.printStackTrace();
+                    TopDocs topDocuments = null;
+                    try {
+                        topDocuments = this.performSearch(m.getValue(), this.k);
+                    } catch (org.apache.lucene.queryparser.classic.ParseException e) {
+                        e.printStackTrace();
+                    }
+                    ScoreDoc[] scoringDocuments = topDocuments.scoreDocs;
+                    this.parseScoreDocs(scoringDocuments, m.getKey());
+                } catch (IOException io) {
+                    System.out.println(io.getMessage());
                 }
-                ScoreDoc[] scoringDocuments = topDocuments.scoreDocs;
-                this.parseScoreDocs(scoringDocuments, m.getKey());
             }
-            catch (IOException io)
-            {
-                System.out.println(io.getMessage());
-            }
-
         }
     }
 
