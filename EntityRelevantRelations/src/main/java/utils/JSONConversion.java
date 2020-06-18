@@ -27,7 +27,7 @@ public class JSONConversion {
                         jsonTemplate.setQueryid(queryid.getKey());
                         jsonTemplate.setContextid(para.getKey());
                         Document doc = searcher.doc(para.getValue().getDocID());
-                        jsonTemplate.setContexttext(doc.get("text"));
+                        jsonTemplate.setContexttext(doc.get("Text"));
                         jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
                         jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
                         rankingJSONTemplateList.add(jsonTemplate);

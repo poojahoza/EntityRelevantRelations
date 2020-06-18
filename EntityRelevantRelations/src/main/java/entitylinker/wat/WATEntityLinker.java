@@ -1,14 +1,34 @@
 package main.java.entitylinker.wat;
 
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.apache.http.client.utils.URIBuilder;
+
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 import main.java.containers.EntityAnnotation;
+
+import javax.print.URIException;
 
 /**
  * @author poojaoza
@@ -45,6 +65,7 @@ public class WATEntityLinker {
     private void setData(String text){
         try {
             Document doc = getData(text);
+            String message = getData1(text);
             if (doc != null) {
                 if (doc.text() != null) {
                     JSONObject jsonObject = new JSONObject(doc.text());
@@ -87,4 +108,34 @@ public class WATEntityLinker {
         return doc;
 
     }
+
+    private String getData1(String text){
+        String message = null;
+        URIBuilder builder = new URIBuilder();
+        builder.setScheme("https").setHost("wat.d4science.org").setPath("/wat/tag/tag")
+                .setParameter("gcube-token", TOKEN)
+                .setParameter("text", text)
+                .setParameter("lang", "en")
+                .setParameter("tokenizer", "lucene")
+                .setParameter("debug", "9")
+                .setParameter("method", "spotter:includeUserHint=true:includeNamedEntity=true:includeNounPhrase=true,prior:k=50,filter-valid,centroid:rescore=true,topk:k=5,voting:relatedness=lm,ranker:model=0046.model,confidence:model=pruner-wiki.linear");
+        try {
+            URI uri = builder.build();
+            //HttpClient client = new HttpClient()
+            HttpGet httpGet = new HttpGet(uri);
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpResponse httpResponse = null;
+            httpResponse = httpClient.execute(httpGet);
+            int StatusCode = httpResponse.getStatusLine().getStatusCode();
+            message = httpResponse.getStatusLine().getReasonPhrase();
+            System.out.println("message : "+message);
+            System.out.println("**********"+httpResponse.toString());
+        }catch (URISyntaxException uriSyntaxException){
+            uriSyntaxException.printStackTrace();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        return message;
+    }
 }
+

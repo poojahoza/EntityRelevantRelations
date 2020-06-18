@@ -152,10 +152,10 @@ public class SearchRunner implements ProgramRunner
 
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
-                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                /*JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
-                writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);
+                writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);*/
 
 
                 Entities e = new Entities();
