@@ -231,7 +231,7 @@ public class WATFeatureGenerator {
             for(Map.Entry<String, EntityAnnotation> paras_entities: paras.getValue().entrySet()){
                 wat_entities_ids.add(paras_entities.getValue().getTitle());
             }
-            if(wat_entities_ids.contains(first_entity.replace("enwiki:","").replace("%20"," ")) && wat_entities_ids.contains(second_entity.replace("enwiki:","").replace("%20"," "))){
+            if(wat_entities_ids.contains(first_entity) && wat_entities_ids.contains(second_entity)){
                 rel_score += (double)1 / bm25_ranking.get(paras.getKey()).getRank();
                 //rel_score += c.getValue().getScore();
                 counter += 1;
