@@ -71,22 +71,20 @@ public class WATEntityLinker {
 
     private void setData(String text){
         try {
-            Document doc = getData(text);
+            //Document doc = getData(text);
             String message = getData1(text);
-            if (doc != null) {
-                if (doc.text() != null) {
-                    JSONObject jsonObject = new JSONObject(doc.text());
-                    if (jsonObject.has("annotations")) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("annotations");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonAnnotations = jsonArray.getJSONObject(i);
-                            setEntitiesDetails(jsonAnnotations.has("title") ? jsonAnnotations.getString("title") : "",
-                                    jsonAnnotations.has("id") ? jsonAnnotations.getInt("id") : 0,
-                                    jsonAnnotations.has("start") ? jsonAnnotations.getInt("start") : 0,
-                                    jsonAnnotations.has("end") ? jsonAnnotations.getInt("end") : 0,
-                                    jsonAnnotations.has("rho") ? jsonAnnotations.getDouble("rho") : 0,
-                                    jsonAnnotations.has("spot") ? jsonAnnotations.getString("spot") : "");
-                        }
+            if (message != null) {
+                JSONObject jsonObject = new JSONObject(message);
+                if (jsonObject.has("annotations")) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("annotations");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonAnnotations = jsonArray.getJSONObject(i);
+                        setEntitiesDetails(jsonAnnotations.has("title") ? jsonAnnotations.getString("title") : "",
+                                jsonAnnotations.has("id") ? jsonAnnotations.getInt("id") : 0,
+                                jsonAnnotations.has("start") ? jsonAnnotations.getInt("start") : 0,
+                                jsonAnnotations.has("end") ? jsonAnnotations.getInt("end") : 0,
+                                jsonAnnotations.has("rho") ? jsonAnnotations.getDouble("rho") : 0,
+                                jsonAnnotations.has("spot") ? jsonAnnotations.getString("spot") : "");
                     }
                 }
             }
@@ -135,13 +133,14 @@ public class WATEntityLinker {
             CloseableHttpResponse httpResponse = null;
             httpResponse = httpClient.execute(httpGet);
             int StatusCode = httpResponse.getStatusLine().getStatusCode();
-            message = httpResponse.getStatusLine().getReasonPhrase();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-            String line = bufferedReader.readLine();
-            JsonReader json = new JsonReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-            JSONTokener jsonTokener = new JSONTokener(bufferedReader);
-            JSONObject jsonObject = new JSONObject(jsonTokener);
-            System.out.println(jsonObject);
+            if(StatusCode == 200){
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+                message = bufferedReader.readLine();
+            }
+            //JsonReader json = new JsonReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+            //JSONTokener jsonTokener = new JSONTokener(bufferedReader);
+            //JSONObject jsonObject = new JSONObject(line);
+            //System.out.println(jsonObject);
             //Map<String, String> output_map = new Gson().fromJson(line, new TypeToken<Map<String, String>>(){}.getType());
             //System.out.println("message : "+message);
             //System.out.println("**********"+httpResponse.toString());
@@ -152,8 +151,6 @@ public class WATEntityLinker {
             uriSyntaxException.printStackTrace();
         }catch(IOException ioe){
             ioe.printStackTrace();
-        }catch (JSONException jsonException){
-            jsonException.printStackTrace();
         }
         return message;
     }
