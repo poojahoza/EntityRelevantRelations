@@ -1,5 +1,6 @@
 package main.java.entitylinker.wat;
 
+import com.google.gson.stream.JsonReader;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -15,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
+import org.json.JSONTokener;
 import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
 import org.json.JSONArray;
@@ -136,17 +138,22 @@ public class WATEntityLinker {
             message = httpResponse.getStatusLine().getReasonPhrase();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
             String line = bufferedReader.readLine();
-            //JSONObject json = (JSONObject) new JSONParser().parse(line);
-            Map<String, String> output_map = new Gson().fromJson(line, new TypeToken<Map<String, String>>(){}.getType());
+            JsonReader json = new JsonReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+            JSONTokener jsonTokener = new JSONTokener(bufferedReader);
+            JSONObject jsonObject = new JSONObject(jsonTokener);
+            System.out.println(jsonObject);
+            //Map<String, String> output_map = new Gson().fromJson(line, new TypeToken<Map<String, String>>(){}.getType());
             //System.out.println("message : "+message);
             //System.out.println("**********"+httpResponse.toString());
-            for (Map.Entry<String, String> iter: output_map.entrySet()){
-                System.out.println("key: "+iter.getKey()+" -- "+iter.getValue());
-            }
+//            for (Map.Entry<String, String> iter: output_map.entrySet()){
+//                System.out.println("key: "+iter.getKey()+" -- "+iter.getValue());
+//            }
         }catch (URISyntaxException uriSyntaxException){
             uriSyntaxException.printStackTrace();
         }catch(IOException ioe){
             ioe.printStackTrace();
+        }catch (JSONException jsonException){
+            jsonException.printStackTrace();
         }
         return message;
     }
