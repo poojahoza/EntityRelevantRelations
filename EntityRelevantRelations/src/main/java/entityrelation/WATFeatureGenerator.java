@@ -549,7 +549,8 @@ public class WATFeatureGenerator {
 
         query_entity_list.entrySet().parallelStream().forEach(m ->
         {
-            if(m.getKey().equals("enwiki:Antibiotics/Resistance/Misuse")){
+            if(m.getKey().equals("enwiki:Antibiotics/Research")){
+
                 query_entity_feature_vec.put(m.getKey(), generateFeatureVectors(m.getValue(), m.getKey(), bm25_ranking, entity_ranking, indexLocation));
             } });
 

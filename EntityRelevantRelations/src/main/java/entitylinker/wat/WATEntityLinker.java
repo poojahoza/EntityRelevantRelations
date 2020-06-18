@@ -19,13 +19,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.client.utils.URIBuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import main.java.containers.EntityAnnotation;
 
 import javax.print.URIException;
@@ -123,13 +128,21 @@ public class WATEntityLinker {
             URI uri = builder.build();
             //HttpClient client = new HttpClient()
             HttpGet httpGet = new HttpGet(uri);
+            httpGet.setHeader("Content-type","application/json");
             CloseableHttpClient httpClient = HttpClients.createDefault();
             CloseableHttpResponse httpResponse = null;
             httpResponse = httpClient.execute(httpGet);
             int StatusCode = httpResponse.getStatusLine().getStatusCode();
             message = httpResponse.getStatusLine().getReasonPhrase();
-            System.out.println("message : "+message);
-            System.out.println("**********"+httpResponse.toString());
+            //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+            //String line = bufferedReader.readLine();
+            //JSONObject json = (JSONObject) new JSONParser().parse(line);
+            Map<String, String> output_map = new Gson().fromJson(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"), new TypeToken<Map<String, String>>(){}.getType());
+            //System.out.println("message : "+message);
+            //System.out.println("**********"+httpResponse.toString());
+            for (Map.Entry<String, String> iter: output_map.entrySet()){
+                System.out.println("key: "+iter.getKey()+" -- "+iter.getValue());
+            }
         }catch (URISyntaxException uriSyntaxException){
             uriSyntaxException.printStackTrace();
         }catch(IOException ioe){
