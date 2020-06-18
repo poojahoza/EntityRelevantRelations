@@ -537,9 +537,9 @@ public class WATFeatureGenerator {
         int p = 0;
         Map<String, Map<String, Double[]>> query_entity_feature_vec = new ConcurrentHashMap<>();
 
-        /*query_entity_list.entrySet().parallelStream().forEach(m ->
+        query_entity_list.entrySet().parallelStream().forEach(m ->
         { query_entity_feature_vec.put(m.getKey(), generateFeatureVectors(m.getValue(), m.getKey(), bm25_ranking, entity_ranking, indexLocation));});
-        */
+
 
         /*query_entity_list.entrySet().parallelStream().forEach(m ->
         {
@@ -547,12 +547,12 @@ public class WATFeatureGenerator {
                 query_entity_feature_vec.put(m.getKey(), generateFeatureVectors(m.getValue(), m.getKey(), bm25_ranking, entity_ranking));
             } });*/
 
-        query_entity_list.entrySet().parallelStream().forEach(m ->
+        /*query_entity_list.entrySet().parallelStream().forEach(m ->
         {
             if(m.getKey().equals("enwiki:Antibiotics/Research")){
 
                 query_entity_feature_vec.put(m.getKey(), generateFeatureVectors(m.getValue(), m.getKey(), bm25_ranking, entity_ranking, indexLocation));
-            } });
+            } });*/
 
         /*query_entity_list.entrySet().parallelStream().forEach(m ->
         {
