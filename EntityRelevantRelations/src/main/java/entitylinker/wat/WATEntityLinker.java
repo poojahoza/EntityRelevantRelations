@@ -134,10 +134,10 @@ public class WATEntityLinker {
             httpResponse = httpClient.execute(httpGet);
             int StatusCode = httpResponse.getStatusLine().getStatusCode();
             message = httpResponse.getStatusLine().getReasonPhrase();
-            //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-            //String line = bufferedReader.readLine();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+            String line = bufferedReader.readLine();
             //JSONObject json = (JSONObject) new JSONParser().parse(line);
-            Map<String, String> output_map = new Gson().fromJson(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"), new TypeToken<Map<String, String>>(){}.getType());
+            Map<String, String> output_map = new Gson().fromJson(line, new TypeToken<Map<String, String>>(){}.getType());
             //System.out.println("message : "+message);
             //System.out.println("**********"+httpResponse.toString());
             for (Map.Entry<String, String> iter: output_map.entrySet()){
