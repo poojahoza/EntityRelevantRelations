@@ -355,7 +355,7 @@ public class WATFeatureGenerator {
 
         for(Map.Entry<String, Map<String, EntityAnnotation>> queryid: wat_entity_annotations.entrySet()){
             for(Map.Entry<String, EntityAnnotation> ranking: queryid.getValue().entrySet()){
-                wat_entity_ids.add(ranking.getValue().getTitle());
+                wat_entity_ids.add("enwiki:"+ranking.getValue().getTitle().replace("_","%20"));
             }
         }
         List<String> entities_array = wat_entity_ids.stream().collect(Collectors.toList());
