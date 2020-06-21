@@ -83,7 +83,7 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
-                writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);
+                writeJSONFile.writeMultipleFiles("output_query_json_file", rankingJSONTemplate);
 
                 Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);

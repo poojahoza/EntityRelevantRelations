@@ -3,6 +3,7 @@ package main.java.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import main.java.containers.RankingJSONTemplate;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +11,8 @@ import java.io.Writer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.*;
+import java.lang.Math;
 
 public class WriteJSONFile {
 
@@ -39,6 +41,22 @@ public class WriteJSONFile {
             gson.toJson(rankingJSON, writer);
         }catch (IOException ioe){
             ioe.printStackTrace();
+        }
+    }
+
+    public void writeMultipleFiles(String output_file_name, List<RankingJSONTemplate> rankingJSON){
+        int total_num_files = (int)Math.ceil(rankingJSON.size()/500);
+        List<RankingJSONTemplate> tempJSONList = new ArrayList<>();
+        int counter = -1;
+        for(int i = 1; i <= total_num_files; i++) {
+            tempJSONList.clear();
+            for (int y = (counter + 1); y < (50000 * i); y++) {
+                counter++;
+                if(rankingJSON.size() >= y) {
+                    tempJSONList.add(rankingJSON.get(i));
+                }
+            }
+            writeFile(output_file_name + "_" + String.valueOf(i) + ".json", tempJSONList);
         }
     }
 }
