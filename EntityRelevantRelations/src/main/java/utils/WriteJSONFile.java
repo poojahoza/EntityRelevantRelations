@@ -56,7 +56,9 @@ public class WriteJSONFile {
                     tempJSONList.add(rankingJSON.get(i));
                 }
             }
-            writeFile(output_file_name + "_" + String.valueOf(i) + ".json", tempJSONList);
+            if(tempJSONList.size()>0) {
+                writeFile(output_file_name + "_" + String.valueOf(i) + ".json", tempJSONList);
+            }
         }
     }
 }
