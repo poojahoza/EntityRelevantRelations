@@ -8,6 +8,7 @@ import org.apache.lucene.document.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -43,11 +44,12 @@ public class JSONConversion {
         public List<RankingJSONTemplate> convertBM25RankingToWATEntityJSON(Map<String, Map<String, Container>> BM25Ranking,
                                                                            String WATEntityIndexLoc){
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            Map<String, List<String>> para_entities = new LinkedHashMap<>();
             try {
                 WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc);
                 for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
                     for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
-                        List<String> wat_entiites = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                        List<String> wat_entities;
                         RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
                         jsonTemplate.setQueryid(queryid.getKey());
                         jsonTemplate.setContextid(para.getKey());
@@ -55,7 +57,13 @@ public class JSONConversion {
                         jsonTemplate.setContexttext(doc.get("Text"));
                         jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
                         jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
-                        jsonTemplate.setWATEntitiesTitle(wat_entiites);
+                        if(para_entities.containsKey(para.getKey())){
+                            wat_entities = para_entities.get(para.getKey());
+                        }else{
+                            wat_entities = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                            para_entities.put(para.getKey(), wat_entities);
+                        }
+                        jsonTemplate.setWATEntitiesTitle(wat_entities);
                         rankingJSONTemplateList.add(jsonTemplate);
                     }
                 }
