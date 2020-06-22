@@ -85,6 +85,10 @@ public class SearchRunner implements ProgramRunner
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
                 writeJSONFile.writeMultipleFiles("output_query_json_file", rankingJSONTemplate);
 
+                List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
+                        searchParser.getEntitylinker());
+                writeJSONFile.writeMultipleFiles("output_query_wat_json_file", watJSONTemplate);
+
                 Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQueryMentionFreq(bm25_ranking);

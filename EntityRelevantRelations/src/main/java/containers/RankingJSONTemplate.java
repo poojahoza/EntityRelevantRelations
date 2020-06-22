@@ -60,9 +60,7 @@ public class RankingJSONTemplate {
         this.contextscore = contextscore;
     }
 
-    public void setWATEntitiesTitle(List<String> WATEntitiesTitle){
-        this.WATEntitiesTitle = WATEntitiesTitle;
-    }
+    public void setWATEntitiesTitle(List<String> WATEntitiesTitle){this.WATEntitiesTitle = WATEntitiesTitle;}
 
     public void setWikiEntitiesId(List<String> WikiEntitiesId){
         this.WikiEntitiesId = WikiEntitiesId;

@@ -3,6 +3,7 @@ package main.java.utils;
 import main.java.containers.Container;
 import main.java.containers.RankingJSONTemplate;
 import main.java.searcher.BaseSearcher;
+import main.java.searcher.WATEntityIndexSearcher;
 import org.apache.lucene.document.Document;
 
 import java.io.IOException;
@@ -30,6 +31,31 @@ public class JSONConversion {
                         jsonTemplate.setContexttext(doc.get("Text"));
                         jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
                         jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
+                        rankingJSONTemplateList.add(jsonTemplate);
+                    }
+                }
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
+            return rankingJSONTemplateList;
+        }
+
+        public List<RankingJSONTemplate> convertBM25RankingToWATEntityJSON(Map<String, Map<String, Container>> BM25Ranking,
+                                                                           String WATEntityIndexLoc){
+            List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            try {
+                WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc);
+                for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
+                    for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
+                        List<String> wat_entiites = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                        RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
+                        jsonTemplate.setQueryid(queryid.getKey());
+                        jsonTemplate.setContextid(para.getKey());
+                        Document doc = searcher.doc(para.getValue().getDocID());
+                        jsonTemplate.setContexttext(doc.get("Text"));
+                        jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
+                        jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
+                        jsonTemplate.setWATEntitiesTitle(wat_entiites);
                         rankingJSONTemplateList.add(jsonTemplate);
                     }
                 }

@@ -87,8 +87,8 @@ public class RegisterCommands
          @Parameter(names = {"-qrel", "--entity-qrel"}, description = "Entity qrel file")
          private String qrelfile = null;
 
-         @Parameter(names = {"-mongodbstore", "--mongodb-store"}, description = "Store the results of BM25 Relevance Feedback in Mongodb")
-         private boolean mongodbstore = false;
+         @Parameter(names = {"-ent-link", "--entity-linker"}, description = "Entity Linker Index Location")
+         private String entitylinker = null;
 
         @Parameter(names = "--help", help = true)
         private boolean help;
@@ -342,7 +342,7 @@ public class RegisterCommands
          public boolean isExistinDBpedia(){return isExistDBpedia;}
          public boolean isDBpediaContain() {return isDBpediaContain;}
          public boolean isQEEnabled(){return isQE;}
-         public boolean isMongodbstoreEnabled(){return mongodbstore;}
+         public String getEntitylinker(){return entitylinker;}
          public qeType getQEType () {return qeTypeValue;}
          public int getNumberOfReturnedEntity() {return numberOfReturnedEntity;}
 
