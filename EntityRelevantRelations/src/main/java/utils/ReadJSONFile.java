@@ -33,13 +33,13 @@ public class ReadJSONFile {
         List<RankingJSONTemplate> finalRankedParas = new ArrayList<>();
         File folder = new File(JSONlocation);
         File[] listOfFiles = folder.listFiles();
-        System.out.println(listOfFiles.length);
+        //System.out.println(listOfFiles.length);
 
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                System.out.println(JSONlocation+file.getName());
-                System.out.println(file.getAbsolutePath());
-                List<RankingJSONTemplate> answer= readRankingJSONTemplate(JSONlocation+file.getName());
+                //System.out.println(JSONlocation+file.getName());
+                //System.out.println(file.getAbsolutePath());
+                List<RankingJSONTemplate> answer= readRankingJSONTemplate(file.getAbsolutePath());
                 System.out.println(answer.size());
                 finalRankedParas.addAll(answer);
             }
