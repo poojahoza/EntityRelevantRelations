@@ -17,8 +17,12 @@ public class WATFeatureBuilder {
                         if(entityCoOcc.containsKey(ent_list.get(i))){
                             Map<String, Double> temp = entityCoOcc.get(ent_list.get(i));
                             double val = (1/entities.getKey());
-                            if(temp.containsKey(ent_list.get(j))){
-                                val += temp.get(ent_list.get(j));
+                            try {
+                                if (temp.containsKey(ent_list.get(j))) {
+                                    val += temp.get(ent_list.get(j));
+                                }
+                            }catch(IndexOutOfBoundsException ioe){
+                                System.out.println("j : "+j);
                             }
                             temp.put(ent_list.get(j), val);
                         }else{
