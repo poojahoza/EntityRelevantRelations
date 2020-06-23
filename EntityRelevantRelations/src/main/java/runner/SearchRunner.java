@@ -178,8 +178,11 @@ public class SearchRunner implements ProgramRunner
 
                 WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
                 FeatureGenerator featuregenerator = new FeatureGenerator();
-                Map<String, Map<String, Double>> relComentionfeatureVectors = watFeatureBuilder.getFeatures(rankingMap);
-                Map<String, Map<String, Double>> sortedrelComentionFeatureVectors = featuregenerator.sortFeatureVectors(relComentionfeatureVectors);
+                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);
+                Map<String, Map<String, Double>> coOccRelFeatureVectors = featuregenerator.extractFeatures(featureVectors, 0);
+                Map<String, Map<String, Double>> coOccCountFeatureVectors = featuregenerator.extractFeatures(featureVectors, 1);
+                Map<String, Map<String, Double>> sortedCoOccRelFeatureVectors = featuregenerator.sortFeatureVectors(coOccRelFeatureVectors);
+                Map<String, Map<String, Double>> sortedCoOccCountFeatureVectors = featuregenerator.sortFeatureVectors(coOccCountFeatureVectors);
 
                 WriteFile write_file = new WriteFile();
                 String level = searchParser.isArticleEnabled()? "_article": "_section";
@@ -192,8 +195,8 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
-                write_file.generateEntityRunFile(sortedrelComentionFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
-
+                write_file.generateEntityRunFile(sortedCoOccRelFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
+                write_file.generateEntityRunFile(sortedCoOccCountFeatureVectors, "wat_count_comention_feature_vector"+level+datafile);
 
                 /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
