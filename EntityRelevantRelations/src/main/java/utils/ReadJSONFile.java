@@ -18,16 +18,17 @@ public class ReadJSONFile {
         JSONFilelocation = JSONFileloc;
     }
 
-    public void readRankingJSONTemplate(){
+    public List<RankingJSONTemplate> readRankingJSONTemplate(){
+        List<RankingJSONTemplate> rankedParas = null;
         try {
-            Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get(JSONFilelocation));
-            List<RankingJSONTemplate> rankedParas = new Gson().fromJson(reader, new TypeToken<List<RankingJSONTemplate>>() {
+            rankedParas = new Gson().fromJson(reader, new TypeToken<List<RankingJSONTemplate>>() {
             }.getType());
-            rankedParas.forEach(System.out::println);
+            //rankedParas.forEach(System.out::println);
             reader.close();
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
+        return rankedParas;
     }
 }

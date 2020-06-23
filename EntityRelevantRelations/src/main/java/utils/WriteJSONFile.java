@@ -27,14 +27,16 @@ public class WriteJSONFile {
         }
     }
 
-    public void writeFile(String output_file_name, List<RankingJSONTemplate> rankingJSON){
-        String result_dir = "JSON";
-        File directory = new File(result_dir);
+    public void writeFile(String output_file_name,
+                          List<RankingJSONTemplate> rankingJSON,
+                          String folder_name){
+        //String result_dir = "JSON";
+        File directory = new File(folder_name);
         if (! directory.exists()){
             directory.mkdir();
         }
-        Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file_name);
-        checkFileExistence(System.getProperty("user.dir")+"/"+result_dir+"/"+output_file_name);
+        Path file = Paths.get(System.getProperty("user.dir")+"/"+folder_name, output_file_name);
+        checkFileExistence(System.getProperty("user.dir")+"/"+folder_name+"/"+output_file_name);
 
         try(Writer writer = new FileWriter(file.toFile())){
             Gson gson = new GsonBuilder().create();
@@ -44,7 +46,9 @@ public class WriteJSONFile {
         }
     }
 
-    public void writeMultipleFiles(String output_file_name, List<RankingJSONTemplate> rankingJSON){
+    public void writeMultipleFiles(String output_file_name,
+                                   List<RankingJSONTemplate> rankingJSON,
+                                   String folder_name){
         int total_num_files = (int)Math.ceil(rankingJSON.size()/500);
         List<RankingJSONTemplate> tempJSONList = new ArrayList<>();
         int counter = -1;
@@ -57,7 +61,9 @@ public class WriteJSONFile {
                 }
             }
             if(tempJSONList.size()>0) {
-                writeFile(output_file_name + "_" + String.valueOf(i) + ".json", tempJSONList);
+                writeFile(output_file_name + "_" + String.valueOf(i) + ".json",
+                        tempJSONList,
+                        folder_name);
             }
         }
     }

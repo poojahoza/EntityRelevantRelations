@@ -88,11 +88,15 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
-                writeJSONFile.writeMultipleFiles("output_query_json_file", rankingJSONTemplate);
+                writeJSONFile.writeMultipleFiles("output_query_json_file",
+                        rankingJSONTemplate,
+                        "JSON");
 
                 List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
                         searchParser.getEntitylinker());
-                writeJSONFile.writeMultipleFiles("output_query_wat_json_file", watJSONTemplate);
+                writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
+                        watJSONTemplate,
+                        "WAT_JSON");
 
                 Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
@@ -166,7 +170,9 @@ public class SearchRunner implements ProgramRunner
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
                 writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);*/
                 ReadJSONFile readJSONFile = new ReadJSONFile(searchParser.getJsonfile());
-                readJSONFile.readRankingJSONTemplate();
+                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.readRankingJSONTemplate();
+                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
                 /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);

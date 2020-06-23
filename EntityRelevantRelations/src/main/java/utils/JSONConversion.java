@@ -7,10 +7,7 @@ import main.java.searcher.WATEntityIndexSearcher;
 import org.apache.lucene.document.Document;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 public class JSONConversion {
 
@@ -82,6 +79,27 @@ public class JSONConversion {
         }
     }
 
+    public static class RankingJSONTemplateConversion{
 
-
+        public Map<String, Map<String, Map<Integer, List<String>>>> ConvertRankingJSONtoMap(List<RankingJSONTemplate> rankingJSONTemplate){
+            Map<String, Map<String, Map<Integer, List<String>>>> convertedMap = new HashMap<>();
+            rankingJSONTemplate.forEach((jsonTemplate)->{
+                //System.out.println(jsonTemplate);
+                if(convertedMap.containsKey(jsonTemplate.getQueryid())){
+                    Map<Integer, List<String>> temp = new HashMap<>();
+                    temp.put(Integer.valueOf(jsonTemplate.getContextrank()), jsonTemplate.getWATEntitiesTitle());
+                    Map<String, Map<Integer, List<String>>> para_temp = convertedMap.get(jsonTemplate.getQueryid());
+                    para_temp.put(jsonTemplate.getContextid(), temp);
+                }else{
+                    Map<Integer, List<String>> temp = new HashMap<>();
+                    temp.put(Integer.valueOf(jsonTemplate.getContextrank()), jsonTemplate.getWATEntitiesTitle());
+                    Map<String, Map<Integer, List<String>>> para_temp = new HashMap<>();
+                    para_temp.put(jsonTemplate.getContextid(), temp);
+                    convertedMap.put(jsonTemplate.getQueryid(),para_temp);
+                }
+            });
+            System.out.println(convertedMap.size());
+            return convertedMap;
+        }
+    }
 }
