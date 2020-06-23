@@ -57,7 +57,7 @@ public class WriteJSONFile {
             for (int y = (counter + 1); y < (50000 * i); y++) {
                 counter++;
                 if(rankingJSON.size() >= y) {
-                    tempJSONList.add(rankingJSON.get(i));
+                    tempJSONList.add(rankingJSON.get(y));
                 }
             }
             if(tempJSONList.size()>0) {
