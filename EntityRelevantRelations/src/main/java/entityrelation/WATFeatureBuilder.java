@@ -11,7 +11,7 @@ public class WATFeatureBuilder {
         for(Map.Entry<String, Map<Integer, List<String>>> para: paraRanking.entrySet()){
             for(Map.Entry<Integer, List<String>> entities: para.getValue().entrySet()){
                 List<String> ent_list = entities.getValue();
-                for(int i = 0; i < ent_list.size()-2; i++){
+                for(int i = 0; i <= ent_list.size()-2; i++){
                     for(int j = i+1; j <= ent_list.size()-1; j++){
 
                         if(entityCoOcc.containsKey(ent_list.get(i))){
