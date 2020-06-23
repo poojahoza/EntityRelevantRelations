@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReadJSONFile {
@@ -29,7 +30,7 @@ public class ReadJSONFile {
     }
 
     public  List<RankingJSONTemplate> getRankingJSONfromFolder(String JSONlocation){
-        List<RankingJSONTemplate> finalRankedParas = null;
+        List<RankingJSONTemplate> finalRankedParas = new ArrayList<>();
         File folder = new File(JSONlocation);
         File[] listOfFiles = folder.listFiles();
         System.out.println(listOfFiles.length);
