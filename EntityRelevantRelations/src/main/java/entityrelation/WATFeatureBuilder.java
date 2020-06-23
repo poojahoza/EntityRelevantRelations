@@ -17,7 +17,7 @@ public class WATFeatureBuilder {
                 score += (double)pairs.getValue()[0];
                 count_score += (double)pairs.getValue()[1];
             }
-            entityscores.put(entities.getKey(), new Double[]{score/length, count_score/length});
+            entityscores.put(entities.getKey(), new Double[]{score, count_score});
         }
         return entityscores;
     }

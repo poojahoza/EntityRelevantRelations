@@ -7,10 +7,7 @@ import main.java.commandparser.CommandParser;
 import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
-import main.java.entityrelation.FeatureGenerator;
-import main.java.entityrelation.QueryExapansion;
-import main.java.entityrelation.WATFeatureBuilder;
-import main.java.entityrelation.WATFeatureGenerator;
+import main.java.entityrelation.*;
 import main.java.searcher.BaseBM25;
 import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
@@ -98,11 +95,16 @@ public class SearchRunner implements ProgramRunner
                 writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
                         watJSONTemplate,
                         "WAT_JSON");
+                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
-                Entities e = new Entities();
+                WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
+                Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
+
+                //Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQueryMentionFreq(bm25_ranking);
-                Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionReciprocalRank(bm25_ranking);
+                //Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionReciprocalRank(bm25_ranking);
                 //Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionScore(bm25_ranking);
 
                 WriteFile write_file = new WriteFile();
@@ -116,7 +118,7 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
-                write_file.generateEntityRunFile(query_ent_list, "entityBM25Freq"+level+datafile);
+                write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+level+datafile);
 
 
             }catch (IOException ioe){
