@@ -9,6 +9,7 @@ import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
 import main.java.entityrelation.FeatureGenerator;
 import main.java.entityrelation.QueryExapansion;
+import main.java.entityrelation.WATFeatureBuilder;
 import main.java.entityrelation.WATFeatureGenerator;
 import main.java.searcher.BaseBM25;
 import main.java.utils.*;
@@ -173,6 +174,9 @@ public class SearchRunner implements ProgramRunner
                 List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.readRankingJSONTemplate();
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
+
+                WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                watFeatureBuilder.getFeatures(rankingMap);
 
                 /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
