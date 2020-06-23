@@ -96,7 +96,7 @@ public class SearchRunner implements ProgramRunner
                         watJSONTemplate,
                         "WAT_JSON");
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
-                Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
+                Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);
 
                 WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
                 Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
