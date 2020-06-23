@@ -170,9 +170,10 @@ public class SearchRunner implements ProgramRunner
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
                 writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);*/
-                ReadJSONFile readJSONFile = new ReadJSONFile(searchParser.getJsonfile());
-                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.readRankingJSONTemplate();
-                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                ReadJSONFile readJSONFile = new ReadJSONFile();
+                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.getRankingJSONfromFolder(searchParser.getJsonfile());
+                System.out.println(rankingJSONTemplate.size());
+                /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
                 WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
@@ -193,6 +194,7 @@ public class SearchRunner implements ProgramRunner
                 }
                 write_file.generateEntityRunFile(sortedrelComentionFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
 
+                 */
                 /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 Map<String, Map<String, Double[]>> entity_ranking_list = e.readEntityRunFileDetails(searchParser.getEcmentityfile());
