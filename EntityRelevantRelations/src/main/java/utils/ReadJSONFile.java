@@ -21,6 +21,7 @@ public class ReadJSONFile {
             }.getType());
             //rankedParas.forEach(System.out::println);
             reader.close();
+            System.out.println("in reading ranking json template : "+rankedParas.size());
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
@@ -31,10 +32,15 @@ public class ReadJSONFile {
         List<RankingJSONTemplate> finalRankedParas = null;
         File folder = new File(JSONlocation);
         File[] listOfFiles = folder.listFiles();
+        System.out.println(listOfFiles.length);
 
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                finalRankedParas.addAll(readRankingJSONTemplate(file.getName()));
+                System.out.println(JSONlocation+file.getName());
+                System.out.println(file.getAbsolutePath());
+                List<RankingJSONTemplate> answer= readRankingJSONTemplate(JSONlocation+file.getName());
+                System.out.println(answer.size());
+                finalRankedParas.addAll(answer);
             }
         }
         return finalRankedParas;
