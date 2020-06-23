@@ -90,6 +90,9 @@ public class RegisterCommands
          @Parameter(names = {"-ent-link", "--entity-linker"}, description = "Entity Linker Index Location")
          private String entitylinker = null;
 
+         @Parameter(names = {"-json-f", "--json-file"}, description = "JSON File Location")
+         private String jsonfile = null;
+
         @Parameter(names = "--help", help = true)
         private boolean help;
          @Parameter(names = {"-entity-run", "--entity-run"}, description = "Entity run file")
@@ -343,6 +346,7 @@ public class RegisterCommands
          public boolean isDBpediaContain() {return isDBpediaContain;}
          public boolean isQEEnabled(){return isQE;}
          public String getEntitylinker(){return entitylinker;}
+         public String getJsonfile(){return jsonfile;}
          public qeType getQEType () {return qeTypeValue;}
          public int getNumberOfReturnedEntity() {return numberOfReturnedEntity;}
 

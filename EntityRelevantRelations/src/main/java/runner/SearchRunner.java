@@ -1,6 +1,8 @@
 package main.java.runner;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import main.java.commandparser.CommandParser;
 import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
@@ -13,6 +15,9 @@ import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.List;
 
@@ -160,9 +165,10 @@ public class SearchRunner implements ProgramRunner
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
                 writeJSONFile.writeFile("output_query_json_file.json", rankingJSONTemplate);*/
+                ReadJSONFile readJSONFile = new ReadJSONFile(searchParser.getJsonfile());
+                readJSONFile.readRankingJSONTemplate();
 
-
-                Entities e = new Entities();
+                /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 Map<String, Map<String, Double[]>> entity_ranking_list = e.readEntityRunFileDetails(searchParser.getEcmentityfile());
 
@@ -240,7 +246,7 @@ public class SearchRunner implements ProgramRunner
                 biblo_co_coupling_entities_score = e.getRerankedParas(biblo_co_coupling_entities_score);
 
                 write_file.generateEntityRunFile(biblo_co_coupling_entities_score, "paragraph_biblo_co_coupling_feature"+level+datafile);
-
+                */
 
             }catch (Exception ioe){
                 ioe.printStackTrace();
