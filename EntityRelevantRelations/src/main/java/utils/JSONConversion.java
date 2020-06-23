@@ -61,6 +61,14 @@ public class JSONConversion {
                             wat_entities = para_entities.get(para.getKey());
                         }else{
                             wat_entities = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                            if(wat_entities.size()>0){
+                                System.out.println(wat_entities.get(0));
+                                String[] temp = wat_entities.get(0).split("\n");
+                                wat_entities.clear();
+                                for(String t:temp){
+                                    wat_entities.add(t.split("_")[0]);
+                                }
+                            }
                             para_entities.put(para.getKey(), wat_entities);
                         }
                         jsonTemplate.setWATEntitiesTitle(wat_entities);
