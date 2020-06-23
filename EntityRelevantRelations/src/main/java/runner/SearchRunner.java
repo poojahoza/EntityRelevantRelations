@@ -176,7 +176,22 @@ public class SearchRunner implements ProgramRunner
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
                 WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
-                watFeatureBuilder.getFeatures(rankingMap);
+                FeatureGenerator featuregenerator = new FeatureGenerator();
+                Map<String, Map<String, Double>> relComentionfeatureVectors = watFeatureBuilder.getFeatures(rankingMap);
+                Map<String, Map<String, Double>> sortedrelComentionFeatureVectors = featuregenerator.sortFeatureVectors(relComentionfeatureVectors);
+
+                WriteFile write_file = new WriteFile();
+                String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String datafile ="";
+                if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
+                {
+                    datafile = "_test";
+                }
+                else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
+                {
+                    datafile = "_train";
+                }
+                write_file.generateEntityRunFile(sortedrelComentionFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
 
                 /*Entities e = new Entities();
                 Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
