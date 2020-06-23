@@ -57,7 +57,7 @@ public class WATFeatureBuilder {
                             double count = 1;
                             if(temp.containsKey(ent_list.get(i))){
                                 val += temp.get(ent_list.get(i))[0];
-                                count += temp.get(ent_list.get(j))[1];
+                                count += temp.get(ent_list.get(i))[1];
                             }
                             temp.put(ent_list.get(i), new Double[]{val, count});
                         }else{
