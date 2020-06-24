@@ -77,8 +77,7 @@ public class SearchRunner implements ProgramRunner
             RunWriter.writeRunFile(mname,res);
         }
 
-
-        if(searchParser.isEntityFreqEnabled()){
+        if(searchParser.isCreateEntityJSON()){
             validate.ValidateEntityDegree();
             try{
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
@@ -95,7 +94,14 @@ public class SearchRunner implements ProgramRunner
                 writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
                         watJSONTemplate,
                         "WAT_JSON");
-                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+
+                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
+                        searchParser.getWikientitylinker());
+                writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
+                        watJSONTemplate,
+                        "Wiki_JSON");
+
+                /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);
 
                 WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
@@ -120,8 +126,69 @@ public class SearchRunner implements ProgramRunner
                 }
                 write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+level+datafile);
 
+                 */
+
 
             }catch (IOException ioe){
+                System.out.println(ioe.getMessage());
+            }
+        }
+
+        if(searchParser.isEntityFreqEnabled()){
+            validate.ValidateEntityDegree();
+            try{
+                /*BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
+                Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
+                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+                WriteJSONFile writeJSONFile = new WriteJSONFile();
+                writeJSONFile.writeMultipleFiles("output_query_json_file",
+                        rankingJSONTemplate,
+                        "JSON");
+
+                List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
+                        searchParser.getEntitylinker());
+                writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
+                        watJSONTemplate,
+                        "WAT_JSON");
+
+                List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
+                        searchParser.getEntitylinker());
+                writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
+                        watJSONTemplate,
+                        "Wiki_JSON");*/
+
+                ReadJSONFile readJSONFile = new ReadJSONFile();
+                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.getRankingJSONfromFolder(searchParser.getJsonfile());
+                System.out.println(rankingJSONTemplate.size());
+
+                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
+
+                WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
+                Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
+
+                //Entities e = new Entities();
+                //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
+                //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQueryMentionFreq(bm25_ranking);
+                //Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionReciprocalRank(bm25_ranking);
+                //Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionScore(bm25_ranking);
+
+                WriteFile write_file = new WriteFile();
+                String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String datafile ="";
+                if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
+                {
+                    datafile = "_test";
+                }
+                else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
+                {
+                    datafile = "_train";
+                }
+                write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+level+datafile);
+
+
+            }catch (Exception ioe){
                 System.out.println(ioe.getMessage());
             }
 

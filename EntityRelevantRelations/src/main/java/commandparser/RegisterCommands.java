@@ -90,6 +90,9 @@ public class RegisterCommands
          @Parameter(names = {"-ent-link", "--entity-linker"}, description = "Entity Linker Index Location")
          private String entitylinker = null;
 
+         @Parameter(names = {"-wiki-ent-link", "--wiki-entity-linker"}, description = "Wiki Entity Linker Index Location")
+         private String wikientitylinker = null;
+
          @Parameter(names = {"-json-f", "--json-file"}, description = "JSON File Location")
          private String jsonfile = null;
 
@@ -172,6 +175,9 @@ public class RegisterCommands
 
          @Parameter(names = "--entity-default-freq",description ="Rerank the initial retrieved document using entity frequency")
          private boolean isEntityFreq =false;
+
+         @Parameter(names = "--create-entity-JSON",description ="Create JSON files from the index")
+         private boolean isCreateEntityJSON =false;
 
          @Parameter(names = "--entity-degree",description ="Rerank the initial retrieved document using entity degree")
          private boolean isEntityDegree =false;
@@ -346,6 +352,7 @@ public class RegisterCommands
          public boolean isDBpediaContain() {return isDBpediaContain;}
          public boolean isQEEnabled(){return isQE;}
          public String getEntitylinker(){return entitylinker;}
+         public String getWikientitylinker(){return wikientitylinker;}
          public String getJsonfile(){return jsonfile;}
          public qeType getQEType () {return qeTypeValue;}
          public int getNumberOfReturnedEntity() {return numberOfReturnedEntity;}
@@ -431,6 +438,8 @@ public class RegisterCommands
          }
 
          public boolean isEntityFreqEnabled() { return isEntityFreq;}
+
+         public boolean isCreateEntityJSON(){return isCreateEntityJSON;}
 
          public Integer getEcmqenum() { return  ecmqenum; }
 
