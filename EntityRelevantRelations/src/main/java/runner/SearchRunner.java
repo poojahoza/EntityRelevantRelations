@@ -168,6 +168,7 @@ public class SearchRunner implements ProgramRunner
                 WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
                 Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
 
+
                 //Entities e = new Entities();
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQueryMentionFreq(bm25_ranking);
@@ -245,9 +246,16 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
-                WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                /*WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);*/
+
+
                 FeatureGenerator featuregenerator = new FeatureGenerator();
-                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);
+
+                WATFeatureBuilderTrial watFeatureBuilderTrial = new WATFeatureBuilderTrial();
+                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilderTrial.getFeatures(rankingMap);
+
+
                 Map<String, Map<String, Double>> coOccRelFeatureVectors = featuregenerator.extractFeatures(featureVectors, 0);
                 Map<String, Map<String, Double>> coOccCountFeatureVectors = featuregenerator.extractFeatures(featureVectors, 1);
                 Map<String, Map<String, Double>> sortedCoOccRelFeatureVectors = featuregenerator.sortFeatureVectors(coOccRelFeatureVectors);
