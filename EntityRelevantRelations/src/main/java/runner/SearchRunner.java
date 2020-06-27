@@ -8,6 +8,7 @@ import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
 import main.java.entityrelation.*;
+import main.java.indexer.IndexCompare;
 import main.java.searcher.BaseBM25;
 import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
@@ -75,6 +76,17 @@ public class SearchRunner implements ProgramRunner
             String mname= "BM_25"+level+datafile;
 
             RunWriter.writeRunFile(mname,res);
+        }
+
+        if(searchParser.isCompareIndex()){
+            validate.ValidateEntityDegree();
+            try{
+                IndexCompare indexCompare = new IndexCompare(searchParser.getIndexlocation(),
+                        searchParser.getEntitylinker());
+                indexCompare.compareIndexes();
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
         }
 
         if(searchParser.isCreateEntityJSON()){

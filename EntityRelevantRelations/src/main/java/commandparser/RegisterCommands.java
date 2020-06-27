@@ -179,6 +179,9 @@ public class RegisterCommands
          @Parameter(names = "--create-entity-JSON",description ="Create JSON files from the index")
          private boolean isCreateEntityJSON =false;
 
+         @Parameter(names = "--compare-index",description ="Compare two indexes")
+         private boolean compareIndex =false;
+
          @Parameter(names = "--entity-degree",description ="Rerank the initial retrieved document using entity degree")
          private boolean isEntityDegree =false;
 
@@ -440,6 +443,8 @@ public class RegisterCommands
          public boolean isEntityFreqEnabled() { return isEntityFreq;}
 
          public boolean isCreateEntityJSON(){return isCreateEntityJSON;}
+
+         public boolean isCompareIndex(){return compareIndex;}
 
          public Integer getEcmqenum() { return  ecmqenum; }
 
