@@ -60,7 +60,7 @@ public class IndexCompare {
                             }
                             Set<String> doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
                             Set<String> doc2_set = new HashSet<String>(Arrays.asList(doc2_ent_2));
-                            Set<String> doc1_set_dup = new HashSet<String>(doc1_set);
+                            /*Set<String> doc1_set_dup = new HashSet<String>(doc1_set);
                             Set<String> doc2_set_dup = new HashSet<String>(doc2_set);
                             doc1_set_dup.removeAll(doc2_set);
                             doc2_set_dup.removeAll(doc1_set);
@@ -71,7 +71,10 @@ public class IndexCompare {
                             }
                             if(!doc2_set.containsAll(doc1_set)){
                                 System.out.println("WAT entities does not contain all the entities of Wiki");
-                            }
+                            }*/
+                            System.out.println(doc1_set);
+                            System.out.println(doc2_set);
+                            System.out.println("============================================");
                             break;
                         }
                     }
