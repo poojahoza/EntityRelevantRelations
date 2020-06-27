@@ -41,5 +41,11 @@ public class IndexCompare {
         if(oneIndexNumDocs==twoIndexNumDocs){
             System.out.println("both indexes have equal number of docs");
         }
+        try {
+            oneIndex.close();
+            twoIndex.close();
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }
     }
 }
