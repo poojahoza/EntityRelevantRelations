@@ -1,6 +1,7 @@
 package main.java.indexer;
 
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -10,6 +11,9 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class IndexCompare {
 
@@ -40,12 +44,35 @@ public class IndexCompare {
 
         if(oneIndexNumDocs==twoIndexNumDocs){
             System.out.println("both indexes have equal number of docs");
+            try {
+                for(int i=0; i < oneIndexNumDocs; i++){
+                    if(i==50){break;}
+                    Document doc1 = oneIndex.document(i);
+                    Document doc2 = twoIndex.document(i);
+                    if(doc1.getField("Id").stringValue().equals(doc2.getField("Id").stringValue())){
+                        System.out.println(doc1.getField("Id").stringValue());
+                        String[] doc1_ent = doc1.getField("EntityLinks").stringValue().split("\n");
+                        String[] doc2_ent = doc2.getField("OutlinkIds").stringValue().split("\n");
+                        String[] doc2_ent_2 = new String[doc2_ent.length];
+                        for(int j = 0; j < doc2_ent.length; j++){
+                            doc2_ent_2[j]=doc2_ent[j].split("_")[0];
+                        }
+                        Set<String> doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
+                        Set<String> doc2_set = new HashSet<String>(Arrays.asList(doc2_ent_2));
+                        if(!doc1_set.containsAll(doc2_set)) {
+                            System.out.println("Wiki entities does not contain all the entities of WAT");
+                        }
+                        if(!doc2_set.containsAll(doc1_set)){
+                            System.out.println("WAT entities does not contain all the entities of Wiki");
+                        }
+                    }
+                }
+                oneIndex.close();
+                twoIndex.close();
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
         }
-        try {
-            oneIndex.close();
-            twoIndex.close();
-        }catch (IOException ioe){
-            ioe.printStackTrace();
-        }
+
     }
 }
