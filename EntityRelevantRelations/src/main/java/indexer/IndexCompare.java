@@ -46,13 +46,13 @@ public class IndexCompare {
             System.out.println("both indexes have equal number of docs");
             try {
                 for(int i=0; i < oneIndexNumDocs; i++){
-                    if(i==10){break;}
+                    if(i==5){break;}
                     Document doc1 = oneIndex.document(i);
                     for(int x = 0; x < twoIndexNumDocs; x++){
                         Document doc2 = twoIndex.document(x);
                         if(doc1.getField("Id").stringValue().equals(doc2.getField("Id").stringValue())){
                             System.out.println(doc1.getField("Id").stringValue());
-                            String[] doc1_ent = doc1.getField("EntityLinks").stringValue().split("\n");
+                            String[] doc1_ent = doc1.getField("OutlinkIds").stringValue().split("\n");
                             String[] doc2_ent = doc2.getField("OutlinkIds").stringValue().split("\n");
                             String[] doc2_ent_2 = new String[doc2_ent.length];
                             for(int j = 0; j < doc2_ent.length; j++){
