@@ -257,14 +257,14 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
-                /*WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
-                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);*/
+                WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);
 
 
                 FeatureGenerator featuregenerator = new FeatureGenerator();
 
-                WATFeatureBuilderTrial watFeatureBuilderTrial = new WATFeatureBuilderTrial();
-                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilderTrial.getFeatures(rankingMap);
+                /*WATFeatureBuilderTrial watFeatureBuilderTrial = new WATFeatureBuilderTrial();
+                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilderTrial.getFeatures(rankingMap);*/
 
 
                 Map<String, Map<String, Double>> coOccRelFeatureVectors = featuregenerator.extractFeatures(featureVectors, 0);
