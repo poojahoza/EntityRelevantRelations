@@ -50,7 +50,7 @@ public class JSONConversion {
                         jsonTemplate.setContexttext(doc.get("Text"));
                         jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
                         jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
-                        jsonTemplate.setWikiEntitiesId(Arrays.asList(para.getValue().getEntity().getEntityId().split("[\r\n]+")));
+                        jsonTemplate.setWATEntitiesTitle(Arrays.asList(para.getValue().getEntity().getEntityId().split("[\r\n]+")));
                         rankingJSONTemplateList.add(jsonTemplate);
                     }
                 }
