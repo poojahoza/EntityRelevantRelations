@@ -45,40 +45,66 @@ public class IndexCompare {
         if(oneIndexNumDocs==twoIndexNumDocs){
             System.out.println("both indexes have equal number of docs");
             try {
-                for(int i=0; i < oneIndexNumDocs; i++){
-                    if(i==5){break;}
-                    Document doc1 = oneIndex.document(i);
-                    for(int x = 0; x < twoIndexNumDocs; x++){
-                        Document doc2 = twoIndex.document(x);
-                        if(doc1.getField("Id").stringValue().equals(doc2.getField("Id").stringValue())){
-                            System.out.println(doc1.getField("Id").stringValue());
+                String[] para_ids = new String[]{"232f55315d6a5c26ffc91083240e1a449d808a46",
+                "b88776b46cdcf3cc3ca524893360d44ff71d4d49",
+                "76dbb24b39fac12a7be9486164f45f9a12fc8993",
+                "edc624f6c22ed13953b4ad63e14ed16df5b63eff",
+                "4d2e3dcd4804221bbfc61a4ce9e790d99b53da2f"};
+                Document doc1 = null;
+                Document doc2 = null;
+                Set<String> doc1_set = null;
+                Set<String> doc2_set = null;
+                //String[] doc1_ent;
+                //String[] doc2_ent;
+                //String[] doc2_ent_2;
+                for(int z = 0; z < para_ids.length; z++){
+                    for(int i=0; i < oneIndexNumDocs; i++){
+                        doc1 = oneIndex.document(i);
+                        if(doc1.getField("Id").stringValue().equals(para_ids[z])){
                             String[] doc1_ent = doc1.getField("OutlinkIds").stringValue().split("\n");
+                            doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
+                            break;
+                        }
+                    }
+                    for(int x=0; x < twoIndexNumDocs; x++){
+                        doc2 = twoIndex.document(x);
+                        if(doc2.getField("Id").stringValue().equals(para_ids[z])){
                             String[] doc2_ent = doc2.getField("OutlinkIds").stringValue().split("\n");
                             String[] doc2_ent_2 = new String[doc2_ent.length];
                             for(int j = 0; j < doc2_ent.length; j++){
                                 doc2_ent_2[j]=doc2_ent[j].split("_")[0];
                             }
-                            Set<String> doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
-                            Set<String> doc2_set = new HashSet<String>(Arrays.asList(doc2_ent_2));
-                            /*Set<String> doc1_set_dup = new HashSet<String>(doc1_set);
-                            Set<String> doc2_set_dup = new HashSet<String>(doc2_set);
-                            doc1_set_dup.removeAll(doc2_set);
-                            doc2_set_dup.removeAll(doc1_set);
-                            System.out.println(doc1_set_dup);
-                            System.out.println(doc2_set_dup);
-                            if(!doc1_set.containsAll(doc2_set)) {
-                                System.out.println("Wiki entities does not contain all the entities of WAT");
-                            }
-                            if(!doc2_set.containsAll(doc1_set)){
-                                System.out.println("WAT entities does not contain all the entities of Wiki");
-                            }*/
-                            System.out.println(doc1_set);
-                            System.out.println(doc2_set);
-                            System.out.println("============================================");
+                            doc2_set = new HashSet<String>(Arrays.asList(doc2_ent_2));
                             break;
                         }
                     }
+                    System.out.println(doc1_set);
+                    System.out.println(doc2_set);
+                    System.out.println("============================================");
+                    /*for(int i=0; i < oneIndexNumDocs; i++){
+                        if(i==5){break;}
+                        Document doc1 = oneIndex.document(i);
+                        for(int x = 0; x < twoIndexNumDocs; x++){
+                            Document doc2 = twoIndex.document(x);
+                            if(doc1.getField("Id").stringValue().equals(doc2.getField("Id").stringValue())){
+                                System.out.println(doc1.getField("Id").stringValue());
+                                String[] doc1_ent = doc1.getField("OutlinkIds").stringValue().split("\n");
+                                String[] doc2_ent = doc2.getField("OutlinkIds").stringValue().split("\n");
+                                String[] doc2_ent_2 = new String[doc2_ent.length];
+                                for(int j = 0; j < doc2_ent.length; j++){
+                                    doc2_ent_2[j]=doc2_ent[j].split("_")[0];
+                                }
+                                Set<String> doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
+                                Set<String> doc2_set = new HashSet<String>(Arrays.asList(doc2_ent_2));
+                                System.out.println(doc1_set);
+                                System.out.println(doc2_set);
+                                System.out.println("============================================");
+                                break;
+                            }
+                        }
+                    }*/
                 }
+
                 oneIndex.close();
                 twoIndex.close();
             }catch (IOException ioe){
