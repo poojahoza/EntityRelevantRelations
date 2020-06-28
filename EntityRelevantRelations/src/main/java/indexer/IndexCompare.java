@@ -64,7 +64,7 @@ public class IndexCompare {
                         doc1 = oneIndex.document(i);
                         if(doc1.getField("Id").stringValue().equals(para_ids[z])){
                             String[] doc1_ent = doc1.getField("OutlinkIds").stringValue().split("\n");
-                            String[] doc1_ent_in = doc1.getField("InlinkIds").stringValue().split("\n");
+                            String[] doc1_ent_in = doc1.getField("EntityLinks").stringValue().split("\n");
                             doc1_set_out = new HashSet<String>(Arrays.asList(doc1_ent));
                             doc1_set_in = new HashSet<String>(Arrays.asList(doc1_ent_in));
                             break;
