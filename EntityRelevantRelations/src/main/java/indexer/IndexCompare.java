@@ -58,6 +58,7 @@ public class IndexCompare {
                 //String[] doc2_ent;
                 //String[] doc2_ent_2;
                 for(int z = 0; z < para_ids.length; z++){
+                    System.out.println("Processing doc : "+para_ids[z]);
                     for(int i=0; i < oneIndexNumDocs; i++){
                         doc1 = oneIndex.document(i);
                         if(doc1.getField("Id").stringValue().equals(para_ids[z])){
