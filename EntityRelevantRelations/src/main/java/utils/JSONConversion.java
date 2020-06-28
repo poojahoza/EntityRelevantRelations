@@ -38,6 +38,28 @@ public class JSONConversion {
             return rankingJSONTemplateList;
         }
 
+        public List<RankingJSONTemplate> convertBM25RankingToWikiEntityJSON(Map<String, Map<String, Container>> BM25Ranking){
+            List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            try {
+                for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
+                    for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
+                        RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
+                        jsonTemplate.setQueryid(queryid.getKey());
+                        jsonTemplate.setContextid(para.getKey());
+                        Document doc = searcher.doc(para.getValue().getDocID());
+                        jsonTemplate.setContexttext(doc.get("Text"));
+                        jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
+                        jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
+                        jsonTemplate.setWikiEntitiesId(Arrays.asList(para.getValue().getEntity().getEntityId().split("[\r\n]+")));
+                        rankingJSONTemplateList.add(jsonTemplate);
+                    }
+                }
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
+            return rankingJSONTemplateList;
+        }
+
         public List<RankingJSONTemplate> convertBM25RankingToWATEntityJSON(Map<String, Map<String, Container>> BM25Ranking,
                                                                            String WATEntityIndexLoc){
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;

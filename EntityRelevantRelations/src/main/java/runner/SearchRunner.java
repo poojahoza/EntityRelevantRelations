@@ -107,10 +107,9 @@ public class SearchRunner implements ProgramRunner
                         watJSONTemplate,
                         "WAT_JSON");
 
-                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
-                        searchParser.getWikientitylinker());
+                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
                 writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
-                        watJSONTemplate,
+                        wikiJSONTemplate,
                         "Wiki_JSON");
 
                 /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
