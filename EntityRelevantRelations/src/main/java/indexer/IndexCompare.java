@@ -52,7 +52,8 @@ public class IndexCompare {
                 "4d2e3dcd4804221bbfc61a4ce9e790d99b53da2f"};
                 Document doc1 = null;
                 Document doc2 = null;
-                Set<String> doc1_set = null;
+                Set<String> doc1_set_out = null;
+                Set<String> doc1_set_in = null;
                 Set<String> doc2_set = null;
                 //String[] doc1_ent;
                 //String[] doc2_ent;
@@ -63,7 +64,9 @@ public class IndexCompare {
                         doc1 = oneIndex.document(i);
                         if(doc1.getField("Id").stringValue().equals(para_ids[z])){
                             String[] doc1_ent = doc1.getField("OutlinkIds").stringValue().split("\n");
-                            doc1_set = new HashSet<String>(Arrays.asList(doc1_ent));
+                            String[] doc1_ent_in = doc1.getField("InlinkIds").stringValue().split("\n");
+                            doc1_set_out = new HashSet<String>(Arrays.asList(doc1_ent));
+                            doc1_set_in = new HashSet<String>(Arrays.asList(doc1_ent_in));
                             break;
                         }
                     }
@@ -79,7 +82,8 @@ public class IndexCompare {
                             break;
                         }
                     }
-                    System.out.println(doc1_set);
+                    System.out.println(doc1_set_out);
+                    System.out.println(doc1_set_in);
                     System.out.println(doc2_set);
                     System.out.println("============================================");
                     /*for(int i=0; i < oneIndexNumDocs; i++){
