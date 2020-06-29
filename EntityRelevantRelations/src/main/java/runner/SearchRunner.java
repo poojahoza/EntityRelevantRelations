@@ -9,6 +9,7 @@ import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
 import main.java.entityrelation.*;
 import main.java.indexer.IndexCompare;
+import main.java.indexer.ParagraphIndexReaderJSON;
 import main.java.searcher.BaseBM25;
 import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
@@ -76,6 +77,23 @@ public class SearchRunner implements ProgramRunner
             String mname= "BM_25"+level+datafile;
 
             RunWriter.writeRunFile(mname,res);
+        }
+
+        if(searchParser.isCreateIndexJSON()){
+            validate.ValidateEntityDegree();
+            try{
+                ParagraphIndexReaderJSON paragraphIndexReaderJSON = new ParagraphIndexReaderJSON(searchParser.getIndexlocation());
+                Map<String, String> paragraphIndexReaderJSONContent = paragraphIndexReaderJSON.getContent("EntityLinks");
+                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertParaIndexToRankingJSON(paragraphIndexReaderJSONContent);
+                WriteJSONFile writeJSONFile = new WriteJSONFile();
+                writeJSONFile.writeMultipleFiles("output_para_index_json_file",
+                        rankingJSONTemplate,
+                        "Para_Index_JSON");
+
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
         }
 
         if(searchParser.isCompareIndex()){
@@ -257,14 +275,14 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
-                WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                /*WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
                 Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);
 
 
                 FeatureGenerator featuregenerator = new FeatureGenerator();
 
-                /*WATFeatureBuilderTrial watFeatureBuilderTrial = new WATFeatureBuilderTrial();
-                Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilderTrial.getFeatures(rankingMap);*/
+                //WATFeatureBuilderTrial watFeatureBuilderTrial = new WATFeatureBuilderTrial();
+                //Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilderTrial.getFeatures(rankingMap);
 
 
                 Map<String, Map<String, Double>> coOccRelFeatureVectors = featuregenerator.extractFeatures(featureVectors, 0);
@@ -284,14 +302,17 @@ public class SearchRunner implements ProgramRunner
                     datafile = "_train";
                 }
                 write_file.generateEntityRunFile(sortedCoOccRelFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedCoOccCountFeatureVectors, "wat_count_comention_feature_vector"+level+datafile);
+                write_file.generateEntityRunFile(sortedCoOccCountFeatureVectors, "wat_count_comention_feature_vector"+level+datafile);*/
 
-                /*Entities e = new Entities();
-                Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
+                WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
+                Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
+
+                Entities e = new Entities();
+                //Map<String, Map<String, Integer>> query_ent_list = e.getSortedEntitiesPerQuery(bm25_ranking);
                 Map<String, Map<String, Double[]>> entity_ranking_list = e.readEntityRunFileDetails(searchParser.getEcmentityfile());
 
-                //FeatureGenerator featuregenerator = new FeatureGenerator();
-                WATFeatureGenerator featuregenerator = new WATFeatureGenerator();
+                FeatureGenerator featuregenerator = new FeatureGenerator();
+                //WATFeatureGenerator featuregenerator = new WATFeatureGenerator();
                 Map<String, Map<String, Double[]>> featureVectors = featuregenerator.getFeatureVectors(query_ent_list, bm25_ranking, entity_ranking_list, searchParser.getIndexlocation());
                 //Map<String, Map<String, Double[]>> featureVectors = featuregenerator.getNormalizedFeatureVectors(query_ent_list, bm25_ranking, entity_ranking_list);
                 Map<String, Map<String, Double>> hopRelationfeatureVectors = featuregenerator.extractFeatures(featureVectors, 0);
@@ -364,7 +385,7 @@ public class SearchRunner implements ProgramRunner
                 biblo_co_coupling_entities_score = e.getRerankedParas(biblo_co_coupling_entities_score);
 
                 write_file.generateEntityRunFile(biblo_co_coupling_entities_score, "paragraph_biblo_co_coupling_feature"+level+datafile);
-                */
+
 
             }catch (Exception ioe){
                 ioe.printStackTrace();

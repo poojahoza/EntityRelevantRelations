@@ -176,8 +176,11 @@ public class RegisterCommands
          @Parameter(names = "--entity-default-freq",description ="Rerank the initial retrieved document using entity frequency")
          private boolean isEntityFreq =false;
 
-         @Parameter(names = "--create-entity-JSON",description ="Create JSON files from the index")
+         @Parameter(names = "--create-entity-JSON",description ="Create JSON files of BM25 from index")
          private boolean isCreateEntityJSON =false;
+
+         @Parameter(names = "--create-index-JSON",description ="Create JSON files from index")
+         private boolean iscreateIndexJSON =false;
 
          @Parameter(names = "--compare-index",description ="Compare two indexes")
          private boolean compareIndex =false;
@@ -445,6 +448,8 @@ public class RegisterCommands
          public boolean isCreateEntityJSON(){return isCreateEntityJSON;}
 
          public boolean isCompareIndex(){return compareIndex;}
+
+         public boolean isCreateIndexJSON(){return iscreateIndexJSON;}
 
          public Integer getEcmqenum() { return  ecmqenum; }
 

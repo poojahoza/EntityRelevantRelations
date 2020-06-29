@@ -1,5 +1,7 @@
 package main.java.entityrelation;
 
+import main.java.utils.SortUtils;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +9,7 @@ import java.util.Map;
 public class WATBM25FeatureBuilder {
 
     private Map<String, Integer> iterateParas(Map<String, Map<Integer, List<String>>> paraRanking){
-        HashMap<String, Integer> entityfreq = new HashMap<>();
+        Map<String, Integer> entityfreq = new HashMap<>();
         for(Map.Entry<String, Map<Integer, List<String>>> para: paraRanking.entrySet()){
             for(Map.Entry<Integer, List<String>> entities: para.getValue().entrySet()){
                 List<String> ent_list = entities.getValue();
@@ -21,6 +23,7 @@ public class WATBM25FeatureBuilder {
             }
         }
         System.out.println("query entities : "+entityfreq.size());
+        entityfreq = SortUtils.sortByValue(entityfreq);
         return entityfreq;
     }
 

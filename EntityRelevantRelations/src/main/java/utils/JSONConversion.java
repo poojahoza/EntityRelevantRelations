@@ -17,6 +17,21 @@ public class JSONConversion {
             super(indexLoc);
         }
 
+        public List<RankingJSONTemplate> convertParaIndexToRankingJSON(Map<String, String> paraIndex){
+            List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            try {
+                for (Map.Entry<String, String> paraid : paraIndex.entrySet()) {
+                    RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
+                    jsonTemplate.setContextid(paraid.getKey());
+                    jsonTemplate.setContexttext(paraid.getValue());
+                    rankingJSONTemplateList.add(jsonTemplate);
+                }
+            }catch (Exception ioe){
+                ioe.printStackTrace();
+            }
+            return rankingJSONTemplateList;
+        }
+
         public List<RankingJSONTemplate> convertBM25RankingToRankingJSON(Map<String, Map<String, Container>> BM25Ranking){
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
             try {
