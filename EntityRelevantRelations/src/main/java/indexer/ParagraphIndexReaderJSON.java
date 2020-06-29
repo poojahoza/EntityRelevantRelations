@@ -32,6 +32,8 @@ public class ParagraphIndexReaderJSON {
         Map<String, String> paradata = new LinkedHashMap<>();
         try {
             for(int i = 0; i < numDocs; i++){
+                if(i%10000==0){
+                System.out.print(".");}
                 Document doc = indexReader.document(i);
                 paradata.put(doc.getField("Id").stringValue(),
                         doc.getField(fieldname).stringValue());

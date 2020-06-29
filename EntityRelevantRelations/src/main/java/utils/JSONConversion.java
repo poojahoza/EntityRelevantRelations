@@ -138,5 +138,17 @@ public class JSONConversion {
             System.out.println(convertedMap.size());
             return convertedMap;
         }
+
+        public HashSet<String> ConvertRankingJSONtoWATEntitiesSet(List<RankingJSONTemplate> rankingJSONTemplate){
+            HashSet<String> WATEntitiesSet = new HashSet<>();
+            rankingJSONTemplate.forEach((jsonTemplate)->{
+                //System.out.println(jsonTemplate);
+                List<String> Entities = jsonTemplate.getWATEntitiesTitle();
+                WATEntitiesSet.addAll(Entities);
+
+            });
+            System.out.println(WATEntitiesSet.size());
+            return WATEntitiesSet;
+        }
     }
 }
