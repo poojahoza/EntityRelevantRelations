@@ -311,12 +311,8 @@ public class WriteFile {
                 counter++;
                 if(results.size() >= y) {
                     try {
-                        if(results_list.get(y).equals("How's It Going%3F")) {
-                            String urlDecoder = URLDecoder.decode(results_list.get(y), StandardCharsets.UTF_8.toString());
-                            System.out.println(urlDecoder);
-                        }
-                        mybytes = results_list.get(y).getBytes("UTF-8");
-                        rankings.add(results_list.get(y));
+                        String urlDecoder = URLDecoder.decode(results_list.get(y), StandardCharsets.UTF_8.toString());
+                        rankings.add(urlDecoder);
                     }catch (IndexOutOfBoundsException outOfBoundsException){
                         System.out.println(String.valueOf(y)+"----"+rankings.size());
                     }catch(UnsupportedEncodingException unsupportedEncodingException){
