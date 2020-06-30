@@ -118,6 +118,25 @@ public class SearchRunner implements ProgramRunner
             }
         }
 
+
+        if(searchParser.isPerformEntityIdConversion()){
+            validate.ValidateEntityDegree();
+            try{
+                ReadJSONFile readJSONFile = new ReadJSONFile();
+                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.getRankingJSONfromFolder(searchParser.getJsonfile());
+                System.out.println(rankingJSONTemplate.size());
+
+                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                HashSet<String> titles = rankingJSONTemplateConversion.ConvertRankingJSONtoTitleSet(rankingJSONTemplate);
+
+                WriteFile writeFile = new WriteFile();
+                writeFile.generateTitleFile(titles, "titles");
+
+            }catch (Exception ioe){
+                ioe.printStackTrace();
+            }
+        }
+
         if(searchParser.isCompareIndex()){
             validate.ValidateEntityDegree();
             try{

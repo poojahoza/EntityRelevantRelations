@@ -16,6 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -238,6 +239,34 @@ public class WriteFile {
 
             index ++ ;
             rankings.add( index + "\t" + m.getKey() + "\tCount\t" + m.getValue() + "\tMethodName:\t" + methodname);
+
+        }
+        try {
+            Files.write(file, rankings, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+        }
+        catch (IOException io)
+        {
+            System.out.println("Error writing in file");
+        }
+    }
+
+    public void generateTitleFile(HashSet<String> results, String methodname)
+    {
+        String output_file = "output_"+methodname+".txt";
+        List<String> rankings = new ArrayList<String>();
+        String result_dir = "result";
+        Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);
+        checkFileExistence(output_file);
+        try {
+            Files.createFile(file);
+        }catch(IOException ioe)
+        {
+            System.out.println(ioe.getMessage());
+        }
+        rankings.clear();
+        for(String r:results)
+        {
+            rankings.add(r);
 
         }
         try {

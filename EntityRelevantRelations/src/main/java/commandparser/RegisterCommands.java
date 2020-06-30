@@ -185,6 +185,9 @@ public class RegisterCommands
          @Parameter(names = "--check-index-exist",description ="Check existence of entities in entity index")
          private boolean checkIndexExist =false;
 
+         @Parameter(names = "--convert-entity-id",description ="Generate file for conversion from title to entity id")
+         private boolean performEntityIdConversion =false;
+
          @Parameter(names = "--compare-index",description ="Compare two indexes")
          private boolean compareIndex =false;
 
@@ -455,6 +458,8 @@ public class RegisterCommands
          public boolean isCreateIndexJSON(){return iscreateIndexJSON;}
 
          public boolean isCheckIndexExist(){return checkIndexExist;}
+
+         public boolean isPerformEntityIdConversion(){return performEntityIdConversion;}
 
          public Integer getEcmqenum() { return  ecmqenum; }
 

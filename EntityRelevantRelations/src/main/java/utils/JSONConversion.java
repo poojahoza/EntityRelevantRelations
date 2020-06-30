@@ -118,6 +118,20 @@ public class JSONConversion {
 
     public static class RankingJSONTemplateConversion{
 
+        public HashSet<String> ConvertRankingJSONtoTitleSet(List<RankingJSONTemplate> rankingJSONTemplate){
+            HashSet<String> titleSet = new HashSet<>();
+            rankingJSONTemplate.forEach((jsonTemplate)->{
+                //System.out.println(jsonTemplate);
+                String text = jsonTemplate.getContexttext();
+                String[] entities = text.split("\n");
+                for(String e:entities){
+                    titleSet.add(e.split("_")[0]);
+                }
+            });
+            System.out.println(titleSet.size());
+            return titleSet;
+        }
+
         public Map<String, Map<String, Map<Integer, List<String>>>> ConvertRankingJSONtoMap(List<RankingJSONTemplate> rankingJSONTemplate){
             Map<String, Map<String, Map<Integer, List<String>>>> convertedMap = new HashMap<>();
             rankingJSONTemplate.forEach((jsonTemplate)->{
