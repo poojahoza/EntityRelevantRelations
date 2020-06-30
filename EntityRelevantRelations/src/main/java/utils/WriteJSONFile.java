@@ -5,10 +5,8 @@ import com.google.gson.GsonBuilder;
 import main.java.containers.RankingJSONTemplate;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -38,7 +36,7 @@ public class WriteJSONFile {
         Path file = Paths.get(System.getProperty("user.dir")+"/"+folder_name, output_file_name);
         checkFileExistence(System.getProperty("user.dir")+"/"+folder_name+"/"+output_file_name);
 
-        try(Writer writer = new FileWriter(file.toFile())){
+        try(Writer writer = new OutputStreamWriter(new FileOutputStream(file.toFile()), StandardCharsets.UTF_8)){
             Gson gson = new GsonBuilder().create();
             gson.toJson(rankingJSON, writer);
         }catch (IOException ioe){
@@ -49,7 +47,7 @@ public class WriteJSONFile {
     public void writeMultipleFiles(String output_file_name,
                                    List<RankingJSONTemplate> rankingJSON,
                                    String folder_name){
-        int total_num_files = (int)Math.ceil(rankingJSON.size()/500);
+        int total_num_files = (int)Math.ceil(rankingJSON.size()/50000);
         List<RankingJSONTemplate> tempJSONList = new ArrayList<>();
         int counter = -1;
         for(int i = 1; i <= total_num_files; i++) {
