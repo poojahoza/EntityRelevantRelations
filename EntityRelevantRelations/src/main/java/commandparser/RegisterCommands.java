@@ -182,6 +182,9 @@ public class RegisterCommands
          @Parameter(names = "--create-index-JSON",description ="Create JSON files from index")
          private boolean iscreateIndexJSON =false;
 
+         @Parameter(names = "--check-index-exist",description ="Check existence of entities in entity index")
+         private boolean checkIndexExist =false;
+
          @Parameter(names = "--compare-index",description ="Compare two indexes")
          private boolean compareIndex =false;
 
@@ -450,6 +453,8 @@ public class RegisterCommands
          public boolean isCompareIndex(){return compareIndex;}
 
          public boolean isCreateIndexJSON(){return iscreateIndexJSON;}
+
+         public boolean isCheckIndexExist(){return checkIndexExist;}
 
          public Integer getEcmqenum() { return  ecmqenum; }
 

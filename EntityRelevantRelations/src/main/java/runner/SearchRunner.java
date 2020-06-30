@@ -11,6 +11,7 @@ import main.java.entityrelation.*;
 import main.java.indexer.IndexCompare;
 import main.java.indexer.ParagraphIndexReaderJSON;
 import main.java.searcher.BaseBM25;
+import main.java.searcher.ParagraphIndexSearcher;
 import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
 
@@ -77,6 +79,26 @@ public class SearchRunner implements ProgramRunner
             String mname= "BM_25"+level+datafile;
 
             RunWriter.writeRunFile(mname,res);
+        }
+
+        if(searchParser.isCheckIndexExist()){
+            validate.ValidateEntityDegree();
+            try{
+                ReadJSONFile readJSONFile = new ReadJSONFile();
+                List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.getRankingJSONfromFolder(searchParser.getJsonfile());
+
+                JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+                HashSet<String> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoWATEntitiesSet(rankingJSONTemplate);
+                System.out.println(rankingMap.size());
+
+                ParagraphIndexSearcher paragraphIndexSearcher = new ParagraphIndexSearcher(searchParser.getEntityIndLoc());
+                Map<String, Boolean> exists = paragraphIndexSearcher.checkExistenceOfIdinIndexWrapper(rankingMap);
+                for(Map.Entry<String, Boolean> c: exists.entrySet()){
+                    System.out.println(c.getKey()+"===="+c.getValue());
+                }
+            }catch (Exception ioe){
+                ioe.printStackTrace();
+            }
         }
 
         if(searchParser.isCreateIndexJSON()){
