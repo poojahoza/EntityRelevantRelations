@@ -126,6 +126,9 @@ public class JSONConversion {
                 String[] entities = text.split("\n");
                 for(String e:entities){
                     titleSet.add(e.split("_")[0]);
+                    if(e.split("_")[0].equals("How's It Going%3F")){
+                        System.out.println("How's It going is present in the read json file");
+                    }
                 }
             });
             System.out.println(titleSet.size());
