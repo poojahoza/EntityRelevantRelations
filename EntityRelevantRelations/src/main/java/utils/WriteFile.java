@@ -8,6 +8,7 @@ import main.java.containers.Container;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -292,7 +293,7 @@ public class WriteFile {
         if (! directory.exists()){
             directory.mkdir();
         }
-
+        byte[] mybytes = null;
         for(int i = 1; i <= total_num_files; i++) {
             String output_file = "output_"+methodname+"_"+i+".txt";
             Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);
@@ -308,9 +309,12 @@ public class WriteFile {
                 counter++;
                 if(results.size() >= y) {
                     try {
+                        mybytes = results_list.get(y).getBytes("UTF-8");
                         rankings.add(results_list.get(y));
                     }catch (IndexOutOfBoundsException outOfBoundsException){
                         System.out.println(String.valueOf(y)+"----"+rankings.size());
+                    }catch(UnsupportedEncodingException unsupportedEncodingException){
+                        System.out.println(results_list.get(y)+"====unsupportedEncodingException");
                     }
                 }
             }

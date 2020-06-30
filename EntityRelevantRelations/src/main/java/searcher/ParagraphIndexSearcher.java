@@ -45,6 +45,7 @@ public class ParagraphIndexSearcher{
             Document rankedDoc = searcher.doc(scoringDoc.doc);
 
             //Print out the results from the rank document
+            //System.out.println(rankedDoc.getFields());
             String paraId = rankedDoc.getField("Id").stringValue();
             if(paraId.equals(entityid)){
                 exists = Boolean.TRUE;
