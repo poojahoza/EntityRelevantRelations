@@ -250,6 +250,36 @@ public class WriteFile {
         }
     }
 
+    public void generateCheckIndexExistence(Map<String, Boolean> results, String methodname){
+        String output_file = "output_ranking_"+methodname+".txt";
+        List<String> rankings = new ArrayList<String>();
+        String result_dir = "result";
+        Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);
+        checkFileExistence(output_file);
+        try {
+            Files.createFile(file);
+        }catch(IOException ioe)
+        {
+            System.out.println(ioe.getMessage());
+        }
+        rankings.clear();
+        int index = 0;
+        for(Map.Entry<String,Boolean> m: results.entrySet())
+        {
+
+            index ++ ;
+            rankings.add( index + "\t" + m.getKey() + "\tCount\t" + String.valueOf(m.getValue()) + "\tMethodName:\t" + methodname);
+
+        }
+        try {
+            Files.write(file, rankings, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+        }
+        catch (IOException io)
+        {
+            System.out.println("Error writing in file");
+        }
+    }
+
     public void generateTitleFile(HashSet<String> results, String methodname)
     {
         int total_num_files = (int)Math.ceil(results.size()/100000);

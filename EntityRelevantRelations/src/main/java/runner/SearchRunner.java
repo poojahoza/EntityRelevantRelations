@@ -93,9 +93,8 @@ public class SearchRunner implements ProgramRunner
 
                 ParagraphIndexSearcher paragraphIndexSearcher = new ParagraphIndexSearcher(searchParser.getEntityIndLoc());
                 Map<String, Boolean> exists = paragraphIndexSearcher.checkExistenceOfIdinIndexWrapper(rankingMap);
-                for(Map.Entry<String, Boolean> c: exists.entrySet()){
-                    System.out.println(c.getKey()+"===="+c.getValue());
-                }
+                WriteFile writeFile = new WriteFile();
+                writeFile.generateCheckIndexExistence(exists, "check_index_exists");
             }catch (Exception ioe){
                 ioe.printStackTrace();
             }
