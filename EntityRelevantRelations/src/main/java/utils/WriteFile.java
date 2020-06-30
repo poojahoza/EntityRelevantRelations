@@ -252,29 +252,47 @@ public class WriteFile {
 
     public void generateTitleFile(HashSet<String> results, String methodname)
     {
-        String output_file = "output_"+methodname+".txt";
+        int total_num_files = (int)Math.ceil(results.size()/100000);
         List<String> rankings = new ArrayList<String>();
-        String result_dir = "result";
-        Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);
-        checkFileExistence(output_file);
-        try {
-            Files.createFile(file);
-        }catch(IOException ioe)
-        {
-            System.out.println(ioe.getMessage());
-        }
-        rankings.clear();
-        for(String r:results)
-        {
-            rankings.add(r);
+        String result_dir = "entity_id_convert";
+        int counter = -1;
+        ArrayList<String> results_list = new ArrayList<>(results);
 
+        File directory = new File(result_dir);
+        if (! directory.exists()){
+            directory.mkdir();
         }
-        try {
-            Files.write(file, rankings, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
-        }
-        catch (IOException io)
-        {
-            System.out.println("Error writing in file");
+
+        for(int i = 1; i <= total_num_files; i++) {
+            String output_file = "output_"+methodname+"_"+i+".txt";
+            Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);
+            checkFileExistence(output_file);
+            try {
+                Files.createFile(file);
+            }catch(IOException ioe)
+            {
+                System.out.println(ioe.getMessage());
+            }
+            rankings.clear();
+            for (int y = (counter + 1); y < (100000 * i); y++) {
+                counter++;
+                if(results.size() >= y) {
+                    try {
+                        rankings.add(results_list.get(y));
+                    }catch (IndexOutOfBoundsException outOfBoundsException){
+                        System.out.println(String.valueOf(y)+"----"+rankings.size());
+                    }
+                }
+            }
+            if(rankings.size()>0) {
+                try {
+                    Files.write(file, rankings, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+                }
+                catch (IOException io)
+                {
+                    System.out.println("Error writing in file");
+                }
+            }
         }
     }
 
