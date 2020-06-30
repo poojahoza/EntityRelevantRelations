@@ -70,6 +70,9 @@ public class ParagraphIndexSearcher{
         {
             e.printStackTrace();
         }
+        catch (NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
         return formattedRankings;
     }
 
