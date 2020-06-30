@@ -29,11 +29,7 @@ public class ParagraphIndexSearcher{
     private TopDocs performSearch(String paraid, int n)
             throws IOException, ParseException, NullPointerException {
 
-        try {
-            queryObj = parser.parse(QueryParser.escape(paraid));
-        }catch (ParseException parseException){
-            parseException.printStackTrace();
-        }
+        queryObj = parser.parse(QueryParser.escape(paraid));
         return searcher.search(queryObj, n);
     }
 
