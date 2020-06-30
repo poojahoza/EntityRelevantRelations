@@ -9,7 +9,9 @@ import main.java.containers.Container;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -285,7 +287,7 @@ public class WriteFile {
     {
         int total_num_files = (int)Math.ceil(results.size()/100000);
         List<String> rankings = new ArrayList<String>();
-        String result_dir = "entity_id_convert";
+        String result_dir = "entity_id_convert_trial_v0.1";
         int counter = -1;
         ArrayList<String> results_list = new ArrayList<>(results);
 
@@ -309,6 +311,10 @@ public class WriteFile {
                 counter++;
                 if(results.size() >= y) {
                     try {
+                        if(results_list.get(y).equals("How's It Going%3F")) {
+                            String urlDecoder = URLDecoder.decode(results_list.get(y), StandardCharsets.UTF_8.toString());
+                            System.out.println(urlDecoder);
+                        }
                         mybytes = results_list.get(y).getBytes("UTF-8");
                         rankings.add(results_list.get(y));
                     }catch (IndexOutOfBoundsException outOfBoundsException){
