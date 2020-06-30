@@ -79,7 +79,9 @@ public class ParagraphIndexSearcher{
     public Map<String, Boolean> checkExistenceOfIdinIndexWrapper(HashSet<String> entities){
         Map<String, Boolean> checkExistence = new HashMap<>();
         for(String id:entities){
-            checkExistence.put(id, checkExistenceOfIdinIndex(id));
+            if(!id.equals("")) {
+                checkExistence.put(id, checkExistenceOfIdinIndex(id));
+            }
         }
         return checkExistence;
     }
