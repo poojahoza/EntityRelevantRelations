@@ -64,14 +64,14 @@ public class ParagraphIndexSearcher{
         }
         catch (ParseException e)
         {
-            e.printStackTrace();
+            System.out.println(entityid+"====ParseException");
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println(entityid+"====IOException");
         }
         catch (NullPointerException nullPointerException){
-            nullPointerException.printStackTrace();
+            System.out.println(entityid+"==== NullPointerException");
         }
         return formattedRankings;
     }
