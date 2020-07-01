@@ -318,6 +318,7 @@ public class WriteFile {
                     }catch(UnsupportedEncodingException unsupportedEncodingException){
                         System.out.println(results_list.get(y)+"====unsupportedEncodingException");
                     }catch(IllegalArgumentException illegalArgumentException){
+                        rankings.add(results_list.get(y));
                         System.out.println(results_list.get(y)+"====illegalArgumentException");
                     }
                 }
