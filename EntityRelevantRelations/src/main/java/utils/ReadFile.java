@@ -24,8 +24,8 @@ public class ReadFile {
         return lines;
     }
 
-    public Map<String, String[]> getFilesfromFolder(String Folderlocation){
-        Map<String, String[]> converted_entity_ids = new HashMap<>();
+    public Map<String, List<String>> getFilesfromFolder(String Folderlocation){
+        Map<String, List<String>> converted_entity_ids = new HashMap<>();
         File folder = new File(Folderlocation);
         File[] listOfFiles = folder.listFiles();
         //System.out.println(listOfFiles.length);
@@ -37,8 +37,18 @@ public class ReadFile {
                 List<String> answer= readFile(file.getAbsolutePath());
                 System.out.println(answer.size());
                 for(String s:answer){
-                    System.out.println(s);
+                    String[] splited_text = s.split("\t");
+                    System.out.println(s.split("\t")[1]);
                     System.out.println("******************");
+                    if(converted_entity_ids.containsKey(splited_text[1])){
+                        List<String> entity_ids = converted_entity_ids.get(splited_text[1]);
+                        entity_ids.add(splited_text[0]);
+                        converted_entity_ids.put(splited_text[1], entity_ids);
+                    }else{
+                        List<String> entity_ids = new ArrayList<>();
+                        entity_ids.add(splited_text[0]);
+                        converted_entity_ids.put(splited_text[1], entity_ids);
+                    }
                 }
 
             }

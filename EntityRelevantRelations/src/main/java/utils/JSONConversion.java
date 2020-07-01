@@ -76,7 +76,8 @@ public class JSONConversion {
         }
 
         public List<RankingJSONTemplate> convertBM25RankingToWATEntityJSON(Map<String, Map<String, Container>> BM25Ranking,
-                                                                           String WATEntityIndexLoc){
+                                                                           String WATEntityIndexLoc,
+                                                                           Map<String, List<String>> converted_entity_ids){
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
             Map<String, List<String>> para_entities = new LinkedHashMap<>();
             try {
@@ -94,13 +95,19 @@ public class JSONConversion {
                         if(para_entities.containsKey(para.getKey())){
                             wat_entities = para_entities.get(para.getKey());
                         }else{
-                            wat_entities = watEntityIndexSearcher.createWATAnnotations(para.getKey());
-                            if(wat_entities.size()>0){
-                                System.out.println(wat_entities.get(0));
-                                String[] temp = wat_entities.get(0).split("\n");
-                                wat_entities.clear();
+                            wat_entities = new ArrayList<>();
+                            List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                            if(wat_mentions.size()>0){
+                                System.out.println(wat_mentions.get(0));
+                                String[] temp = wat_mentions.get(0).split("\n");
+                                wat_mentions.clear();
                                 for(String t:temp){
-                                    wat_entities.add(t.split("_")[0]);
+                                    wat_mentions.add(t.split("_")[0]);
+                                }
+                                for(String m:wat_mentions){
+                                    if(converted_entity_ids.containsKey(m)){
+                                        wat_entities.addAll(converted_entity_ids.get(m));
+                                    }
                                 }
                             }
                             para_entities.put(para.getKey(), wat_entities);

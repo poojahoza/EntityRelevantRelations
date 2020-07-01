@@ -47,7 +47,7 @@ public class WATEntityIndexSearcher extends BaseSearcher  {
             //Print out the results from the rank document
             String paraId = rankedDoc.getField("Id").stringValue();
             if(paraId.equals(paraid)){
-                String entity_links = rankedDoc.getField("OutlinkIds").stringValue();
+                String entity_links = rankedDoc.getField("EntityLinks").stringValue();
                 rankings.add(entity_links);
                 System.out.println("processing query : "+paraid);
                 break;

@@ -151,23 +151,26 @@ public class SearchRunner implements ProgramRunner
             validate.ValidateEntityDegree();
             try{
                 ReadFile readFile = new ReadFile();
-                readFile.getFilesfromFolder(searchParser.getJsonfile());
-                /*BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
+                Map<String, List<String>> converted_entity_ids = readFile.getFilesfromFolder(searchParser.getJsonfile());
+                WriteJSONFile writeJSONFile = new WriteJSONFile();
+
+                BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
-                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
-                WriteJSONFile writeJSONFile = new WriteJSONFile();
+                /*List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+
                 writeJSONFile.writeMultipleFiles("output_query_json_file",
                         rankingJSONTemplate,
-                        "JSON");
+                        "JSON");*/
 
                 List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
-                        searchParser.getEntitylinker());
+                        searchParser.getEntitylinker(),
+                        converted_entity_ids);
                 writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
                         watJSONTemplate,
                         "WAT_JSON");
 
-                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
+                /*List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
                 writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
                         wikiJSONTemplate,
                         "Wiki_JSON");*/
