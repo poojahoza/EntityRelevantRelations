@@ -35,6 +35,12 @@ public class ParagraphIndexReaderJSON {
                 if(i%10000==0){
                 System.out.print(".");}
                 Document doc = indexReader.document(i);
+                Boolean ent_links = doc.getField(fieldname).stringValue().contains("75% Less Fat");
+                if(ent_links){
+                    System.out.println("**********************************");
+                    System.out.println(doc.getField(fieldname).stringValue());
+                    System.out.println("**********************************");
+                }
                 paradata.put(doc.getField("Id").stringValue(),
                         doc.getField(fieldname).stringValue());
             }
