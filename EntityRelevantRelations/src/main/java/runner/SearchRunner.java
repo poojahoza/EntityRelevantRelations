@@ -150,7 +150,9 @@ public class SearchRunner implements ProgramRunner
         if(searchParser.isCreateEntityJSON()){
             validate.ValidateEntityDegree();
             try{
-                BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
+                ReadFile readFile = new ReadFile();
+                readFile.getFilesfromFolder(searchParser.getJsonfile());
+                /*BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
@@ -168,7 +170,7 @@ public class SearchRunner implements ProgramRunner
                 List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
                 writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
                         wikiJSONTemplate,
-                        "Wiki_JSON");
+                        "Wiki_JSON");*/
 
                 /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);
@@ -198,7 +200,7 @@ public class SearchRunner implements ProgramRunner
                  */
 
 
-            }catch (IOException ioe){
+            }catch (Exception ioe){
                 System.out.println(ioe.getMessage());
             }
         }
