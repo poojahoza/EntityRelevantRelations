@@ -38,8 +38,8 @@ public class ReadFile {
                 System.out.println(answer.size());
                 for(String s:answer){
                     String[] splited_text = s.split("\t");
-                    System.out.println(s.split("\t")[1]);
-                    System.out.println("******************");
+                    //System.out.println(s.split("\t")[1]);
+                    //System.out.println("******************");
                     if(converted_entity_ids.containsKey(splited_text[1])){
                         List<String> entity_ids = converted_entity_ids.get(splited_text[1]);
                         entity_ids.add(splited_text[0]);
