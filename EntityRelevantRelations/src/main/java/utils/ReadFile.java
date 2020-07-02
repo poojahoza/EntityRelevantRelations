@@ -40,14 +40,16 @@ public class ReadFile {
                     String[] splited_text = s.split("\t");
                     //System.out.println(s.split("\t")[1]);
                     //System.out.println("******************");
-                    if(converted_entity_ids.containsKey(splited_text[1])){
-                        List<String> entity_ids = converted_entity_ids.get(splited_text[1]);
-                        entity_ids.add(splited_text[0]);
-                        converted_entity_ids.put(splited_text[1], entity_ids);
-                    }else{
-                        List<String> entity_ids = new ArrayList<>();
-                        entity_ids.add(splited_text[0]);
-                        converted_entity_ids.put(splited_text[1], entity_ids);
+                    if(!(splited_text[0].trim().equals("enwiki:"))) {
+                        if (converted_entity_ids.containsKey(splited_text[1])) {
+                            List<String> entity_ids = converted_entity_ids.get(splited_text[1]);
+                            entity_ids.add(splited_text[0]);
+                            converted_entity_ids.put(splited_text[1], entity_ids);
+                        } else {
+                            List<String> entity_ids = new ArrayList<>();
+                            entity_ids.add(splited_text[0]);
+                            converted_entity_ids.put(splited_text[1], entity_ids);
+                        }
                     }
                 }
 
