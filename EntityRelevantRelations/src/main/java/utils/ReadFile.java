@@ -35,21 +35,20 @@ public class ReadFile {
                 //System.out.println(JSONlocation+file.getName());
                 //System.out.println(file.getAbsolutePath());
                 List<String> answer= readFile(file.getAbsolutePath());
-                System.out.println(answer.size());
+                //System.out.println(answer.size());
                 for(String s:answer){
                     String[] splited_text = s.split("\t");
                     //System.out.println(s.split("\t")[1]);
                     //System.out.println("******************");
+                    List<String> entity_ids;
                     if(!(splited_text[0].trim().equals("enwiki:"))) {
                         if (converted_entity_ids.containsKey(splited_text[1])) {
-                            List<String> entity_ids = converted_entity_ids.get(splited_text[1]);
-                            entity_ids.add(splited_text[0]);
-                            converted_entity_ids.put(splited_text[1], entity_ids);
+                            entity_ids = converted_entity_ids.get(splited_text[1]);
                         } else {
-                            List<String> entity_ids = new ArrayList<>();
-                            entity_ids.add(splited_text[0]);
-                            converted_entity_ids.put(splited_text[1], entity_ids);
+                            entity_ids = new ArrayList<>();
                         }
+                        entity_ids.add(splited_text[0]);
+                        converted_entity_ids.put(splited_text[1], entity_ids);
                     }
                 }
 

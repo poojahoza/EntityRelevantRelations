@@ -320,7 +320,7 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(rankingJSONTemplate);
 
-                /*WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
+                WATFeatureBuilder watFeatureBuilder = new WATFeatureBuilder();
                 Map<String, Map<String, Double[]>> featureVectors = watFeatureBuilder.getFeatures(rankingMap);
 
 
@@ -347,9 +347,9 @@ public class SearchRunner implements ProgramRunner
                     datafile = "_train";
                 }
                 write_file.generateEntityRunFile(sortedCoOccRelFeatureVectors, "wat_rel_comention_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedCoOccCountFeatureVectors, "wat_count_comention_feature_vector"+level+datafile);*/
+                write_file.generateEntityRunFile(sortedCoOccCountFeatureVectors, "wat_count_comention_feature_vector"+level+datafile);
 
-                WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
+                /*WATBM25FeatureBuilder watbm25FeatureBuilder = new WATBM25FeatureBuilder();
                 Map<String, Map<String, Integer>> query_ent_list = watbm25FeatureBuilder.getFeatures(rankingMap);
 
                 Entities e = new Entities();
@@ -430,7 +430,7 @@ public class SearchRunner implements ProgramRunner
                 biblo_co_coupling_entities_score = e.getRerankedParas(biblo_co_coupling_entities_score);
 
                 write_file.generateEntityRunFile(biblo_co_coupling_entities_score, "paragraph_biblo_co_coupling_feature"+level+datafile);
-
+                */
 
             }catch (Exception ioe){
                 ioe.printStackTrace();
