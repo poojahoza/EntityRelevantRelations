@@ -222,6 +222,12 @@ public class RegisterCommands
          @Parameter(names = "section",description ="Section level retrieval")
          private boolean isSectionEnabled =false;
 
+         @Parameter(names = "wiki",description ="Wiki JSON file input")
+         private boolean isWikiEnabled =false;
+
+         @Parameter(names = "wat",description ="WAT JSON file input")
+         private boolean isWatEnabled =false;
+
          @Parameter(names = "--entity-doc-sim",description ="Rerank the initial retrieved document using entity abstract similarity")
          private boolean isEntityDocSimEnabled = false;
 
@@ -356,6 +362,8 @@ public class RegisterCommands
          {
              return isArticleEnabled;
          }
+         public boolean isWikiEnabled(){return isWikiEnabled;}
+         public boolean isWatEnabled() {return isWatEnabled;}
          public boolean isSectionEnabled()
          {
              return isSectionEnabled;

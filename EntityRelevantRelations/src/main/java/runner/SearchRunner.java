@@ -251,6 +251,7 @@ public class SearchRunner implements ProgramRunner
 
                 WriteFile write_file = new WriteFile();
                 String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String input_json_file = searchParser.isWikiEnabled()? "_wiki": "_wat";
                 String datafile ="";
                 if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
                 {
@@ -260,7 +261,7 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
-                write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+level+datafile);
+                write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+input_json_file+level+datafile);
 
 
             }catch (Exception ioe){
@@ -387,6 +388,7 @@ public class SearchRunner implements ProgramRunner
 
                 WriteFile write_file = new WriteFile();
                 String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String input_json_file = searchParser.isWikiEnabled()? "_wiki": "_wat";
                 String datafile ="";
                 if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
                 {
@@ -396,44 +398,44 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
-                write_file.generateEntityRunFile(sortedhopRelationFeatureVectors, "1hoprelation_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedrelComentionFeatureVectors, "rel_comention_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedcomentionFeatureVectors, "count_comention_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedcocouplingCountFeatureVectors, "co_coupling_count_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedcocouplingRelFeatureVectors, "co_coupling_relevance_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedbiblorelcouplingFeatureVectors, "biblo_relevance_coupling_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedbiblocountcouplingFeatureVectors, "biblo_count_coupling_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedoutlinksDirectlinksFeatureVectors, "outlinks_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedinlinksDirectlinksFeatureVectors, "inlinks_feature_vector"+level+datafile);
-                write_file.generateEntityRunFile(sortedbidirlinksDirectlinksFeatureVectors, "bidirectional_feature_vector"+level+datafile);
-                write_file.generateFeatureVectorRunFile(featureVectors, "feature_vectors"+level+datafile);
-                write_file.generateEntityRankLibRunFile(featureVectors, searchParser.getQrelfile(), "rank_lib"+level+datafile);
+                write_file.generateEntityRunFile(sortedhopRelationFeatureVectors, "1hoprelation_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedrelComentionFeatureVectors, "rel_comention_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedcomentionFeatureVectors, "count_comention_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedcocouplingCountFeatureVectors, "co_coupling_count_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedcocouplingRelFeatureVectors, "co_coupling_relevance_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedbiblorelcouplingFeatureVectors, "biblo_relevance_coupling_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedbiblocountcouplingFeatureVectors, "biblo_count_coupling_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedoutlinksDirectlinksFeatureVectors, "outlinks_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedinlinksDirectlinksFeatureVectors, "inlinks_feature_vector"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(sortedbidirlinksDirectlinksFeatureVectors, "bidirectional_feature_vector"+input_json_file+level+datafile);
+                write_file.generateFeatureVectorRunFile(featureVectors, "feature_vectors"+input_json_file+level+datafile);
+                write_file.generateEntityRankLibRunFile(featureVectors, searchParser.getQrelfile(), "rank_lib"+input_json_file+level+datafile);
 
                 Map<String, Map<String, Double>> hop_entities_score = e.getParagraphsScoreDouble(bm25_ranking, sortedhopRelationFeatureVectors);
                 hop_entities_score = e.getRerankedParas(hop_entities_score);
 
-                write_file.generateEntityRunFile(hop_entities_score, "paragraph_1hoprelation_feature"+level+datafile);
+                write_file.generateEntityRunFile(hop_entities_score, "paragraph_1hoprelation_feature"+input_json_file+level+datafile);
 
                 Map<String, Map<String, Double>> rel_comention_entities_score = e.getParagraphsScoreDouble(bm25_ranking, sortedrelComentionFeatureVectors);
                 rel_comention_entities_score = e.getRerankedParas(rel_comention_entities_score);
 
-                write_file.generateEntityRunFile(rel_comention_entities_score, "paragraph_rel_comention_feature"+level+datafile);
+                write_file.generateEntityRunFile(rel_comention_entities_score, "paragraph_rel_comention_feature"+input_json_file+level+datafile);
 
 
                 Map<String, Map<String, Double>> comention_entities_score = e.getParagraphsScoreDouble(bm25_ranking, sortedcomentionFeatureVectors);
                 comention_entities_score = e.getRerankedParas(comention_entities_score);
 
-                write_file.generateEntityRunFile(comention_entities_score, "paragraph_count_comention_feature"+level+datafile);
+                write_file.generateEntityRunFile(comention_entities_score, "paragraph_count_comention_feature"+input_json_file+level+datafile);
 
                 Map<String, Map<String, Double>> co_coupling_entities_score = e.getParagraphsScoreDouble(bm25_ranking, sortedcocouplingCountFeatureVectors);
                 co_coupling_entities_score = e.getRerankedParas(co_coupling_entities_score);
 
-                write_file.generateEntityRunFile(co_coupling_entities_score, "paragraph_co_coupling_feature"+level+datafile);
+                write_file.generateEntityRunFile(co_coupling_entities_score, "paragraph_co_coupling_feature"+input_json_file+level+datafile);
 
                 Map<String, Map<String, Double>> biblo_co_coupling_entities_score = e.getParagraphsScoreDouble(bm25_ranking, sortedbiblorelcouplingFeatureVectors);
                 biblo_co_coupling_entities_score = e.getRerankedParas(biblo_co_coupling_entities_score);
 
-                write_file.generateEntityRunFile(biblo_co_coupling_entities_score, "paragraph_biblo_co_coupling_feature"+level+datafile);
+                write_file.generateEntityRunFile(biblo_co_coupling_entities_score, "paragraph_biblo_co_coupling_feature"+input_json_file+level+datafile);
 
 
             }catch (Exception ioe){
