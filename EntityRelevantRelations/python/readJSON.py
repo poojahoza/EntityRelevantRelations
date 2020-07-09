@@ -7,7 +7,7 @@ from collections import Counter
 
 def process_json_file(input, output):
     input_file = open(input, 'r', encoding='utf-8')
-    output_file = open(output, 'w', encoding='utf-8')
+    #output_file = open(output, 'w', encoding='utf-8')
 
     json_decode = json.load(input_file)
     item_list = []
@@ -25,10 +25,12 @@ def process_json_file(input, output):
             for ent in item.get('WATEntitiesTitle'):
                 wat_items[ent] += 1
             item_list.append(items)
-    main_json = json.dumps(item_list, output_file)
+    with open(output, 'w', encoding='utf-8') as f:
+        json.dump(item_list, output_file)
+    #main_json = json.dump(item_list, output_file)
     print(wat_items)
-    output_file.write(main_json)
-    output_file.close()
+    #output_file.write(main_json)
+    #output_file.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file")
