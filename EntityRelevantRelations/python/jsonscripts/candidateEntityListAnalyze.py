@@ -4,8 +4,20 @@ import json
 
 def process_json_files(input_json_dir):
     files = os.listdir(input_json_dir)
+    query_list = dict()
     for file in files:
-        print(file)
+        if os.path.isfile(file):
+            with open(os.path.abspath(file),'r',encoding='utf-8') as f:
+                json_decode = json.load(f)
+                for query in json_decode:
+                    query_id = query.get("queryid")
+                    val = set()
+                    if query_id in query_list:
+                        val = query_list[query_id]
+                    for ent in query.get('WATEntitiesTitle'):
+                        val.add(ent)
+                        query_list[query_id] = val
+    print(len(query_list))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
