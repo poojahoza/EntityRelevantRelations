@@ -1,4 +1,6 @@
 import os
+import argparse
+import json
 
 def process_json_files(input_json_dir):
     files = os.listdir(input_json_dir)
