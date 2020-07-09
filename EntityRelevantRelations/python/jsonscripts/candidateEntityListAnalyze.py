@@ -9,6 +9,7 @@ def process_json_files(input_json_dir):
         if os.path.isfile(file):
             with open(os.path.abspath(file),'r',encoding='utf-8') as f:
                 json_decode = json.load(f)
+                print(len(json_decode))
                 for query in json_decode:
                     query_id = query.get("queryid")
                     val = set()
