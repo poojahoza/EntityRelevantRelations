@@ -5,7 +5,7 @@ import os
 
 from collections import Counter
 
-def process_json_file(input, output):
+def process_json_file(input, output, entitycounter):
     input_file = open(input, 'r', encoding='utf-8')
     #output_file = open(output, 'w', encoding='utf-8')
 
@@ -27,6 +27,8 @@ def process_json_file(input, output):
             item_list.append(items)
     with open(output, 'w', encoding='utf-8') as f:
         json.dump(item_list, f)
+    with open(entitycounter, 'w', encoding='utf-8') as f1:
+            json.dump(wat_items, f1)
     #main_json = json.dump(item_list, output_file)
     print(wat_items)
     #output_file.write(main_json)
@@ -36,5 +38,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file")
     parser.add_argument("--i",help="Input JSON file location")
     parser.add_argument("--o",help="Output JSON file location")
+    parser.add_argument("--entitycounter",help="Output Entity Counter file location")
     args = parser.parse_args()
-    process_json_file(args.i, args.o)
+    process_json_file(args.i, args.o, args.entitycounter)
