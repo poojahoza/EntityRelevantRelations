@@ -5,9 +5,11 @@ import json
 def process_json_files(input_json_dir):
     files = os.listdir(input_json_dir)
     query_list = dict()
+    print(len(files))
     for file in files:
         if os.path.isfile(file):
             with open(os.path.abspath(file),'r',encoding='utf-8') as f:
+                print(os.path.abspath(file))
                 json_decode = json.load(f)
                 print(len(json_decode))
                 for query in json_decode:
