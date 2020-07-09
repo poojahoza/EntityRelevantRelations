@@ -1,72 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="767e559f-1561-46d2-8083-16f1a493fe3e" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="767e559f-1561-46d2-8083-16f1a493fe3e" name="Default Changelist" comment="Python script to extract a part of json from the JSON file. Write output file change - 1">
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1344">
-              <caret line="224" column="12" selection-start-line="224" selection-start-column="12" selection-end-line="224" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="134" />
-    <option name="y" value="39" />
-    <option name="width" value="1523" />
-    <option name="height" value="921" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="EntityRelevantRelations" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EntityRelevantRelations" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+  <component name="ProjectId" id="1dBlrWYxbhDVKXz9iD8uIUXwTkR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="main.java.entityrelation" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.WATEntityLinkerTrial">
+    <configuration name="StanfordRelationExtractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.relationextractor.stanfordcorenlp.StanfordRelationExtractor" />
+      <module name="EntityRelevantRelations" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.relationextractor.stanfordcorenlp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WATEntityLinkerTrial" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.entitylinker.wat.WATEntityLinkerTrial" />
+      <module name="EntityRelevantRelations" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.entitylinker.wat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <item itemvalue="Application.WATEntityLinkerTrial" />
+        <item itemvalue="Application.StanfordRelationExtractor" />
       </list>
-    </option>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -79,46 +97,428 @@
       <option name="presentableId" value="Default" />
       <updated>1590090070803</updated>
     </task>
+    <task id="LOCAL-00032" summary="Added co-occ count feature vector">
+      <created>1592941459697</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1592941459697</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Resolved WATFeatureBuilder.java issue - 1 (NullPointerException at line 60)">
+      <created>1592941956243</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1592941956243</updated>
+    </task>
+    <task id="LOCAL-00034" summary="WAT BM25 Feature implementation">
+      <created>1592948339700</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1592948339700</updated>
+    </task>
+    <task id="LOCAL-00035" summary="WAT BM25 Feature implementation - resolve issue 1">
+      <created>1592950797482</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1592950797482</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Created a new method for generating JSON files">
+      <created>1593022008335</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1593022008335</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Trying new entity pairs generation for co-occ based approach">
+      <created>1593030937114</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1593030937114</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Added example code">
+      <created>1593126745771</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1593126745771</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Index Comparison">
+      <created>1593272080056</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1593272080056</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Index Comparison - close indexes">
+      <created>1593272949354</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1593272949354</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Index Comparison - added comparison between the indexes">
+      <created>1593286091949</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1593286091949</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Index Comparison - changed logic of comparison">
+      <created>1593288182194</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1593288182194</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Index Comparison - changed logic of comparison - 1">
+      <created>1593288650722</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1593288650722</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Index Comparison - changed logic of comparison - 2">
+      <created>1593289808600</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1593289808600</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Index Comparison - changed logic of comparison - 3">
+      <created>1593290595216</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1593290595216</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Index Comparison - changed logic of comparison - 4">
+      <created>1593355445175</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1593355445175</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Index Comparison - changed logic of comparison - 5">
+      <created>1593355643100</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1593355643100</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Index Comparison - changed logic of comparison - 6">
+      <created>1593359167062</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1593359167062</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Index Comparison - changed logic of comparison - 7">
+      <created>1593360086938</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1593360086938</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Create JSON Files - Added method to create wiki json">
+      <created>1593371181911</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1593371181916</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Uncommented in SearchRunner.java">
+      <created>1593376161630</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1593376161630</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Changed in convertBM25RankingToWikiEntityJSON in JSONConversion.java">
+      <created>1593378103639</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1593378103639</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Changes for reading paragraph index and storing in JSON and changed feature builder to read from JSON file.">
+      <created>1593448381111</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1593448381113</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Added print for the getContent in ParagraphIndexReaderJSON.java and added conversion method in JSONConversion.java">
+      <created>1593460357366</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1593460357366</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Added ParagraphIndexSearcher.java to check existence of entities in index">
+      <created>1593478189196</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1593478189196</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Title to Entity ID conversion methods">
+      <created>1593522190554</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1593522190559</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Title to Entity ID conversion methods - WriteFile.java changed to write to multiple files">
+      <created>1593524142501</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1593524142501</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Check entity existence in unprocessed benchmark entity index">
+      <created>1593532029585</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1593532029585</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Check entity existence in unprocessed benchmark entity index - 1">
+      <created>1593534932752</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1593534932752</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Check entity existence in unprocessed benchmark entity index - 2">
+      <created>1593535387508</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1593535387508</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Check entity existence in unprocessed benchmark entity index - 3">
+      <created>1593535454609</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1593535454609</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Check entity existence in unprocessed benchmark entity index - 4">
+      <created>1593535573314</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1593535573314</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Check entity existence in unprocessed benchmark entity index - 5">
+      <created>1593535865500</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1593535865500</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Handling utf-8 encoding issue for entity id conversion">
+      <created>1593542073232</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1593542073232</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Handling utf-8 encoding issue for entity id conversion - 1">
+      <created>1593545865316</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1593545865316</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Handling utf-8 encoding issue for entity id conversion - 2">
+      <created>1593548539233</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1593548539233</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Handling utf-8 encoding issue for entity id conversion - changed in the writing to JSON with utf-8 encoding">
+      <created>1593550418837</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1593550418837</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java">
+      <created>1593559302032</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1593559302032</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 1">
+      <created>1593610521919</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1593610521919</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 2">
+      <created>1593612092693</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1593612092694</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 3">
+      <created>1593613269512</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1593613269512</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Read converted entity id file - experiment 1">
+      <created>1593619274933</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1593619274933</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Read converted entity id file and generated WAT JSON - 1">
+      <created>1593645078749</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1593645078749</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Read converted entity id file and generated WAT JSON - commented print statements in ReadFile.java">
+      <created>1593645199650</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1593645199650</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Read converted entity id file and generated WAT JSON - if condition for null entity">
+      <created>1593702747459</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1593702747459</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Read converted entity id file and generated WAT JSON - if condition for null entity and changed SearchRunner.java">
+      <created>1593714469464</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1593714469464</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Try ReadJSONFeatureGenerator.java from SearchRunner.java">
+      <created>1593734026840</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1593734026840</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Added wiki,wat flag in command parser">
+      <created>1594151065740</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1594151065743</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Python script to extract a part of json from the JSON file.">
+      <created>1594310615552</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1594310615557</updated>
+    </task>
+    <task id="LOCAL-00080" summary="Python script to extract a part of json from the JSON file. Write output file change - 1">
+      <created>1594311407597</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1594311407597</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="134" y="35" width="3066" height="1765" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24983211" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1344">
-          <caret line="224" column="12" selection-start-line="224" selection-start-column="12" selection-end-line="224" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Title to Entity ID conversion methods" />
+    <MESSAGE value="Title to Entity ID conversion methods - WriteFile.java changed to write to multiple files" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index - 1" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index - 2" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index - 3" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index - 4" />
+    <MESSAGE value="Check entity existence in unprocessed benchmark entity index - 5" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - 1" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - 2" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - changed in the writing to JSON with utf-8 encoding" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 1" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 2" />
+    <MESSAGE value="Handling utf-8 encoding issue for entity id conversion - added url decoder in WriteFile.java - 3" />
+    <MESSAGE value="Read converted entity id file - experiment 1" />
+    <MESSAGE value="Read converted entity id file and generated WAT JSON - 1" />
+    <MESSAGE value="Read converted entity id file and generated WAT JSON - commented print statements in ReadFile.java" />
+    <MESSAGE value="Read converted entity id file and generated WAT JSON - if condition for null entity" />
+    <MESSAGE value="Read converted entity id file and generated WAT JSON - if condition for null entity and changed SearchRunner.java" />
+    <MESSAGE value="Try ReadJSONFeatureGenerator.java from SearchRunner.java" />
+    <MESSAGE value="Added wiki,wat flag in command parser" />
+    <MESSAGE value="Python script to extract a part of json from the JSON file." />
+    <MESSAGE value="Python script to extract a part of json from the JSON file. Write output file change - 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Python script to extract a part of json from the JSON file. Write output file change - 1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593128343467">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1593128343467" />
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1593315203863">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1593315203863" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1593315203863">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1593315203863" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1593315203858">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1593315203858" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1593315203863">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1593315203863" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1594310663372">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1594310663372" />
+    <state x="390" y="0" width="585" height="728" key="find.popup" timestamp="1593644950749">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="390" y="0" width="585" height="728" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1593644950749" />
+    <state x="368" y="152" key="git4idea.merge.GitPullDialog" timestamp="1594311415997">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="368" y="152" key="git4idea.merge.GitPullDialog/0.0.1366.728@0.0.1366.728" timestamp="1594311415997" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1593274063123">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1593274063123" />
   </component>
 </project>

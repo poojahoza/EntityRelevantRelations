@@ -26,7 +26,7 @@ def process_json_file(input, output):
                 wat_items[ent] += 1
             item_list.append(items)
     with open(output, 'w', encoding='utf-8') as f:
-        json.dump(item_list, output_file)
+        json.dump(item_list, f)
     #main_json = json.dump(item_list, output_file)
     print(wat_items)
     #output_file.write(main_json)
