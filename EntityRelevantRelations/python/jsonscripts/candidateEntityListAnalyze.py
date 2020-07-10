@@ -7,7 +7,7 @@ def process_json_files(input_json_dir):
     query_list = dict()
     print(len(files))
     for file in files:
-        with open(os.path.abspath(file),'r',encoding='utf-8') as f:
+        with open(file,'r',encoding='utf-8') as f:
             print(os.path.abspath(file))
             json_decode = json.load(f)
             print(len(json_decode))
