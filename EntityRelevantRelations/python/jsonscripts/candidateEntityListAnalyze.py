@@ -2,6 +2,11 @@ import os
 import argparse
 import json
 
+def set_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
+
 def process_json_files(input_json_dir, output):
     files = os.listdir(input_json_dir)
     query_list = dict()
@@ -23,7 +28,7 @@ def process_json_files(input_json_dir, output):
     print(len(query_list))
     item_list.append(query_list)
     with open(output, 'w', encoding='utf-8') as f:
-            json.dump(item_list, f)
+            json.dump(item_list, f, default=set_default)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
