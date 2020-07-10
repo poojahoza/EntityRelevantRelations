@@ -1,15 +1,25 @@
 import os
 import argparse
 import json
+import pandas as pd
 
 def set_default(obj):
     if isinstance(obj, set):
         return list(obj)
     raise TypeError
 
-def write_file(output_file, output_dict):
+def write_json_file(output_file, output_dict):
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output_dict, f)
+
+def write_csv_file(output_file, output_dict):
+    l = []
+    for item in output_dict:
+        l.append(pd.DataFrame(item).transpose())
+    tmp = pd.concat(l)
+    tmp.index.name = 'Queries'
+    tmp = tmp.rename(columns={0:'Total',1:'Common',2:'Difference'})
+    tmp.to_csv(output_file)
 
 def find_common_entities(json_dict, qrel_dict):
     common_entities_list = []
@@ -71,4 +81,4 @@ if __name__ == "__main__":
     json_dict = process_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
     common_entities = find_common_entities(json_dict, qrel_dict)
-    write_file(args.o, common_entities)
+    write_csv_file(args.o, common_entities)
