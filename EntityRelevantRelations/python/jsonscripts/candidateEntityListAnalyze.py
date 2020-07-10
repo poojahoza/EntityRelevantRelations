@@ -2,7 +2,7 @@ import os
 import argparse
 import json
 
-def process_json_files(input_json_dir):
+def process_json_files(input_json_dir, output):
     files = os.listdir(input_json_dir)
     query_list = dict()
     print(len(files))
@@ -20,6 +20,8 @@ def process_json_files(input_json_dir):
                     val.add(ent)
                     query_list[query_id] = val
     print(len(query_list))
+    with open(output, 'w', encoding='utf-8') as f:
+            json.dump(query_list, f)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
@@ -27,4 +29,4 @@ if __name__ == "__main__":
     parser.add_argument("--q",help="Input qrel file location")
     parser.add_argument("--o",help="Output JSON file location")
     args = parser.parse_args()
-    process_json_files(args.i)
+    process_json_files(args.i, args.o)
