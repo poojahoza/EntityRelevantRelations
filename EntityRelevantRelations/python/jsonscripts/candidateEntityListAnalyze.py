@@ -5,6 +5,7 @@ import json
 def process_json_files(input_json_dir, output):
     files = os.listdir(input_json_dir)
     query_list = dict()
+    item_list = []
     print(len(files))
     for file in files:
         with open(input_json_dir+file,'r',encoding='utf-8') as f:
@@ -20,8 +21,9 @@ def process_json_files(input_json_dir, output):
                     val.add(ent)
                     query_list[query_id] = val
     print(len(query_list))
+    item_list.append(query_list)
     with open(output, 'w', encoding='utf-8') as f:
-            json.dump(query_list, f)
+            json.dump(item_list, f)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
