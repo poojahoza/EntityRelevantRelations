@@ -15,7 +15,7 @@ def write_json_file(output_file, output_dict):
 def write_csv_file(output_file, output_dict):
     l = []
     for item in output_dict:
-        l.append(pd.DataFrame(item).transpose())
+        l.append(pd.DataFrame(item,index=[0]).transpose())
     tmp = pd.concat(l)
     tmp.index.name = 'Queries'
     tmp = tmp.rename(columns={0:'Total',1:'Common',2:'Difference'})
