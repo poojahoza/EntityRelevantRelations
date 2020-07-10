@@ -17,6 +17,7 @@ def find_common_entities(json_dict, qrel_dict):
         if query in json_dict:
             common_entities_dict = dict()
             common_entities_dict['queryid'] = query
+            common_entities_dict['total_qrel_entities'] = len(ent)
             common_entities_dict['common_entities'] = len(ent & json_dict[query])
             common_entities_dict['difference_entities'] = len(ent - json_dict[query])
             common_entities_list.append(common_entities_dict)
