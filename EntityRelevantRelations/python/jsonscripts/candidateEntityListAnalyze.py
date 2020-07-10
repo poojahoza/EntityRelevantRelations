@@ -55,7 +55,7 @@ def process_json_files(input_json_dir):
                 for ent in query.get('WATEntitiesTitle'):
                     val.add(ent)
                     query_list[query_id] = val
-    print(query_list)
+    #print(query_list)
     return query_list
     #item_list.append(query_list)
     #with open(output, 'w', encoding='utf-8') as f:
