@@ -7,6 +7,21 @@ def set_default(obj):
         return list(obj)
     raise TypeError
 
+def write_file(output_file, output_dict):
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(output_dict, f)
+
+def find_common_entities(json_dict, qrel_dict):
+    common_entities_list = []
+    for query,ent in qrel_dict.items():
+        if query in json_dict:
+            common_entities_dict = dict()
+            common_entities_dict['queryid'] = query
+            common_entities_dict['common_entities'] = len(ent & json_dict[query])
+            common_entities_dict['difference_entities'] = len(ent - json_dict[query])
+            common_entities_list.append(common_entities_dict)
+    return common_entities_list
+
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
     with open(input_qrel_file,'r', encoding='utf-8') as f:
@@ -19,12 +34,13 @@ def process_qrel_files(input_qrel_file):
                 val = qrel_list[query_id]
             val.add(ent)
             qrel_list[query_id] = val
-    print(qrel_list)
+    #print(qrel_list)
+    return qrel_list
 
 def process_json_files(input_json_dir):
     files = os.listdir(input_json_dir)
     query_list = dict()
-    item_list = []
+    #item_list = []
     print(len(files))
     for file in files:
         with open(input_json_dir+file,'r',encoding='utf-8') as f:
@@ -39,8 +55,9 @@ def process_json_files(input_json_dir):
                 for ent in query.get('WATEntitiesTitle'):
                     val.add(ent)
                     query_list[query_id] = val
-    print(len(query_list))
-    item_list.append(query_list)
+    print(query_list)
+    return query_list
+    #item_list.append(query_list)
     #with open(output, 'w', encoding='utf-8') as f:
     #        json.dump(item_list, f, default=set_default)
 
@@ -50,5 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("--q",help="Input qrel file location")
     parser.add_argument("--o",help="Output JSON file location")
     args = parser.parse_args()
-    process_json_files(args.i)
-    process_qrel_files(args.q)
+    json_dict = process_json_files(args.i)
+    qrel_dict = process_qrel_files(args.q)
+    common_entities = find_common_entities(json_dict, qrel_dict)
+    write_file(args.o, common_entities)
