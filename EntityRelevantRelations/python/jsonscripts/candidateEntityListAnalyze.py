@@ -8,9 +8,18 @@ def set_default(obj):
     raise TypeError
 
 def process_qrel_files(input_qrel_file):
+    qrel_list = dict()
     with open(input_qrel_file,'r', encoding='utf-8') as f:
         for line in f:
-            print(line)
+            data = line.split(" ")
+            query_id = data[0]
+            ent = data[2]
+            val = set()
+            if query_id in qrel_list:
+                val = qrel_list[query_id]
+            val.add(ent)
+            qrel_list[query_id] = val
+    print(qrel_list)
 
 def process_json_files(input_json_dir):
     files = os.listdir(input_json_dir)
