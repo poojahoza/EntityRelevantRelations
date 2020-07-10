@@ -283,11 +283,11 @@ public class WriteFile {
         }
     }
 
-    public void generateTitleFile(HashSet<String> results, String methodname)
+    public void generateTitleFile(HashSet<String> results, String methodname, String foldername)
     {
         int total_num_files = (int)Math.ceil(results.size()/100000);
         List<String> rankings = new ArrayList<String>();
-        String result_dir = "entity_id_convert_trial_v0.1";
+        String result_dir = "entity_id_convert"+foldername;
         int counter = -1;
         ArrayList<String> results_list = new ArrayList<>(results);
 
@@ -295,7 +295,6 @@ public class WriteFile {
         if (! directory.exists()){
             directory.mkdir();
         }
-        byte[] mybytes = null;
         for(int i = 1; i <= total_num_files; i++) {
             String output_file = "output_"+methodname+"_"+i+".txt";
             Path file = Paths.get(System.getProperty("user.dir")+"/"+result_dir, output_file);

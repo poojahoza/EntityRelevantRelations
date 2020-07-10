@@ -121,6 +121,16 @@ public class SearchRunner implements ProgramRunner
         if(searchParser.isPerformEntityIdConversion()){
             validate.ValidateEntityDegree();
             try{
+                String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String datafile ="";
+                if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
+                {
+                    datafile = "_test";
+                }
+                else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
+                {
+                    datafile = "_train";
+                }
                 ReadJSONFile readJSONFile = new ReadJSONFile();
                 List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.getRankingJSONfromFolder(searchParser.getJsonfile());
                 System.out.println(rankingJSONTemplate.size());
@@ -129,7 +139,7 @@ public class SearchRunner implements ProgramRunner
                 HashSet<String> titles = rankingJSONTemplateConversion.ConvertRankingJSONtoTitleSet(rankingJSONTemplate);
 
                 WriteFile writeFile = new WriteFile();
-                writeFile.generateTitleFile(titles, "titles");
+                writeFile.generateTitleFile(titles, "titles", level+datafile);
 
             }catch (Exception ioe){
                 ioe.printStackTrace();
@@ -154,26 +164,37 @@ public class SearchRunner implements ProgramRunner
                 Map<String, List<String>> converted_entity_ids = readFile.getFilesfromFolder(searchParser.getJsonfile());
                 WriteJSONFile writeJSONFile = new WriteJSONFile();
 
+                String level = searchParser.isArticleEnabled()? "_article": "_section";
+                String datafile ="";
+                if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
+                {
+                    datafile = "_test";
+                }
+                else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
+                {
+                    datafile = "_train";
+                }
+
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
-                /*List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
 
                 writeJSONFile.writeMultipleFiles("output_query_json_file",
                         rankingJSONTemplate,
-                        "JSON");*/
+                        "JSON"+level+datafile);
 
                 List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
                         searchParser.getEntitylinker(),
                         converted_entity_ids);
                 writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
                         watJSONTemplate,
-                        "WAT_JSON");
+                        "WAT_JSON"+level+datafile);
 
-                /*List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
+                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
                 writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
                         wikiJSONTemplate,
-                        "Wiki_JSON");*/
+                        "Wiki_JSON"+level+datafile);
 
                 /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);
@@ -188,16 +209,7 @@ public class SearchRunner implements ProgramRunner
                 //Map<String, Map<String, Double>> query_ent_list = e.getSortedEntitiesPerQueryMentionScore(bm25_ranking);
 
                 WriteFile write_file = new WriteFile();
-                String level = searchParser.isArticleEnabled()? "_article": "_section";
-                String datafile ="";
-                if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
-                {
-                    datafile = "_test";
-                }
-                else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
-                {
-                    datafile = "_train";
-                }
+
                 write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+level+datafile);
 
                  */
@@ -261,7 +273,7 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
-                write_file.generateEntityRunFile(query_ent_list, "wat_entityBM25Freq"+input_json_file+level+datafile);
+                write_file.generateEntityRunFile(query_ent_list, "entityBM25Freq"+input_json_file+level+datafile);
 
 
             }catch (Exception ioe){
