@@ -17,7 +17,7 @@ def write_csv_file(output_file, output_dict):
     for item in output_dict:
         l.append(pd.DataFrame(item,index=[0]))
     tmp = pd.concat(l)
-    #tmp.index.name = 'Queries'
+    tmp.index.name = 'Queries'
     #tmp = tmp.rename(columns={0:'Total',1:'Common',2:'Difference'})
     tmp.to_csv(output_file)
 
