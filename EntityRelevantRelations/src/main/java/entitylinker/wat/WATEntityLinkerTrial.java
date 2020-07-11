@@ -17,7 +17,7 @@ public class WATEntityLinkerTrial {
     public static void main(String[] args) throws Exception {
          //String input_text = null;
          String EURL = "https://wat.d4science.org/wat/tag/tag";
-         String TOKEN = "1d178c55-a94f-4540-87ee-a935b467f154-843339462";
+         String TOKEN = "4f3275bc-555a-4627-99b0-36e1fd7ef45f-843339462";
          String text = "Per the The ICU Book \\\"The first rule of antibiotics is try not to use them, and the second rule is try not to use too many of them.\\\" Inappropriate antibiotic treatment and overuse of antibiotics have contributed to the emergence of antibiotic-resistant bacteria. Self prescription of antibiotics is an example of misuse. Many antibiotics are frequently prescribed to treat symptoms or diseases that do not respond to antibiotics or that are likely to resolve without treatment. Also, incorrect or suboptimal antibiotics are prescribed for certain bacterial infections. The overuse of antibiotics, like penicillin and erythromycin, has been associated with emerging antibiotic resistance since the 1950s. Widespread usage of antibiotics in hospitals has also been associated with increases in bacterial strains and species that no longer respond to treatment with the most common antibiotics.";
         URIBuilder builder = new URIBuilder();
         builder.setScheme("https").setHost("wat.d4science.org").setPath("/wat/tag/tag")
