@@ -1,4 +1,5 @@
 import json
+import argparse
 import WATEntityLinker
 
 def writeToFile(output_file, final_dict):
