@@ -38,7 +38,7 @@ def wat_entity_linking(text):
 
     response = requests.get(wat_url,params=payload)
     print(response)
-    return [WATAnnotation(a) for a in response.json()['annotations'] if a['rho'] >= 0.1]
+    return [WATAnnotation(a) if a['rho'] >= 0.1 for a in response.json()['annotations']]
 
 def print_wat_annotations(wat_annotations):
 
