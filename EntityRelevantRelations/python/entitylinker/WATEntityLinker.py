@@ -28,7 +28,7 @@ class WATAnnotation:
 def wat_entity_linking(text):
 
     wat_url='https://wat.d4science.org/wat/tag/tag'
-    payload=[("gcub_token",MY_GCUBE_TOKEN),
+    payload=[("gcub-token",MY_GCUBE_TOKEN),
              ("text",text),
              ("lang","en"),
              ("tokenizer","nlp4j"),
