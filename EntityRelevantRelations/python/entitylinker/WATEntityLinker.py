@@ -39,7 +39,7 @@ def wat_entity_linking(text):
     response = requests.get(wat_url,params=payload)
     print(response)
     return [WATAnnotation(a) for a in response.json()['annotations'] if a['rho'] >= 0.1]
-
+"""
 def print_wat_annotations(wat_annotations):
 
     json_list = [w.json_dict() for w in wat_annotations]
@@ -47,3 +47,4 @@ def print_wat_annotations(wat_annotations):
 
 wat_annotations = wat_entity_linking("Per the The ICU Book The first rule of antibiotics is try not to use them, and the second rule is try not to use too many of them. Inappropriate antibiotic treatment and overuse of antibiotics have contributed to the emergence of antibiotic-resistant bacteria. Self prescription of antibiotics is an example of misuse. Many antibiotics are frequently prescribed to treat symptoms or diseases that do not respond to antibiotics or that are likely to resolve without treatment. Also, incorrect or suboptimal antibiotics are prescribed for certain bacterial infections. The overuse of antibiotics, like penicillin and erythromycin, has been associated with emerging antibiotic resistance since the 1950s. Widespread usage of antibiotics in hospitals has also been associated with increases in bacterial strains and species that no longer respond to treatment with the most common antibiotics.")
 print_wat_annotations(wat_annotations)
+"""
