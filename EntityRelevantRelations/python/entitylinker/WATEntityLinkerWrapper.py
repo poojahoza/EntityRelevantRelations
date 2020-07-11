@@ -25,5 +25,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file location")
     parser.add_argument("--i",help="Input JSON file location")
     parser.add_argument("--o",help="Output JSON file location")
+    args = parser.parse_args()
     final_json = fetchFilesFromFolder(args.i)
     writeToFile(args.o, final_json)
