@@ -12,6 +12,7 @@ def fetchFilesFromFolder(input_file):
         json_decode = json.load(f)
         for item in json_decode:
             temp_item = dict()
+            print(item['queryid'])
             wat_annotations = WATEntityLinker.wat_entity_linking(item['contexttext'])
             temp_item['queryid'] = item['queryid']
             temp_item['contexttext'] = item['contexttext']
