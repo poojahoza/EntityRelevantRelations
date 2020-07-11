@@ -12,7 +12,7 @@ class WATAnnotation:
         self.prior_prob = d['explanation']['prior_explanation']['entity_mention_probability']
         self.spot = d['spot']
         self.wiki_id = d['id']
-        self.wiki_title = d['title']
+        self.wiki_title = d['title'].replace("_"," ")
 
     def json_dict(self):
 
