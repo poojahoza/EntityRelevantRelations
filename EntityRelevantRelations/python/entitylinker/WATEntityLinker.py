@@ -1,7 +1,7 @@
 import json
 import requests
 
-MY_GCUBE_TOKEN = '1d178c55-a94f-4540-87ee-a935b467f154-843339462'
+MY_GCUBE_TOKEN = '4f3275bc-555a-4627-99b0-36e1fd7ef45f-843339462'
 
 class WATAnnotation:
 
