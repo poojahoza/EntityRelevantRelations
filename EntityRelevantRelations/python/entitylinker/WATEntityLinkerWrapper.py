@@ -8,11 +8,12 @@ def writeToFile(output_file, final_dict):
 
 def fetchFilesFromFolder(input_file):
     final_json = []
+    counter = 1
     with open(input_file,'r',encoding='utf-8') as f:
         json_decode = json.load(f)
         for item in json_decode:
             temp_item = dict()
-            print(item['queryid'])
+            print(counter)
             wat_annotations = WATEntityLinker.wat_entity_linking(item['contexttext'])
             temp_item['queryid'] = item['queryid']
             temp_item['contexttext'] = item['contexttext']
@@ -21,6 +22,7 @@ def fetchFilesFromFolder(input_file):
             temp_item['contextscore'] = item['contextscore']
             temp_item['WATannotations'] = wat_annotations
             final_json.append(temp_item)
+            counter = counter + 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file location")
