@@ -4,7 +4,7 @@ import WATEntityLinker
 
 def writeToFile(output_file, final_dict):
     with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(output_file, final_dict)
+        json.dump(final_dict, f)
 
 def fetchFilesFromFolder(input_file):
     final_json = []
@@ -23,6 +23,7 @@ def fetchFilesFromFolder(input_file):
             temp_item['WATannotations'] = wat_annotations
             final_json.append(temp_item)
             counter = counter + 1
+    return final_json
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file location")
@@ -30,4 +31,5 @@ if __name__ == "__main__":
     parser.add_argument("--o",help="Output JSON file location")
     args = parser.parse_args()
     final_json = fetchFilesFromFolder(args.i)
+    print(len(final_json))
     writeToFile(args.o, final_json)
