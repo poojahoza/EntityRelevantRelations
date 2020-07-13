@@ -23,7 +23,8 @@ def fetchFilesFromFolder(input_file):
             temp_item['WATannotations'] = wat_annotations
             final_json.append(temp_item)
             # temp condition remove it
-            if counter <= 6:
+            print(final_json)
+            if counter >= 6:
                 break
             counter = counter + 1
     return final_json
