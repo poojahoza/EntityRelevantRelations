@@ -23,11 +23,7 @@ def fetchFilesFromFolder(input_file):
             temp_item['contextscore'] = item['contextscore']
             temp_item['WATannotations'] = wat_json_list
             final_json.append(temp_item)
-            # temp condition remove it
-            if counter >= 6:
-                break
             counter = counter + 1
-    print(final_json)
     return final_json
 
 if __name__ == "__main__":
