@@ -464,6 +464,7 @@ public class SearchRunner implements ProgramRunner
                 //System.out.println(query_entity_scores);
                 String level = searchParser.isArticleEnabled()? "_article": "_section";
                 String datafile ="";
+                String input_json_file = searchParser.isWikiEnabled()? "_wiki": "_wat";
                 if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
                 {
                     datafile = "_test";
@@ -473,7 +474,7 @@ public class SearchRunner implements ProgramRunner
                     datafile = "_train";
                 }
                 WriteFile write_file = new WriteFile();
-                write_file.generateEntityRunFile(query_entity_scores, "entity_ranklib"+level+datafile);
+                write_file.generateEntityRunFile(query_entity_scores, "entity_ranklib"+input_json_file+level+datafile);
 
                 BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                 Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
@@ -482,7 +483,7 @@ public class SearchRunner implements ProgramRunner
                 Map<String, Map<String, Double>> ranked_entities_score = e.getParagraphsScoreDouble(bm25_ranking, query_entity_scores);
                 ranked_entities_score = e.getRerankedParas(ranked_entities_score);
 
-                write_file.generateEntityRunFile(ranked_entities_score, "paragraph_ranklib"+level+datafile);
+                write_file.generateEntityRunFile(ranked_entities_score, "paragraph_ranklib"+input_json_file+level+datafile);
 
             }catch (IOException ioe){
                 ioe.printStackTrace();
