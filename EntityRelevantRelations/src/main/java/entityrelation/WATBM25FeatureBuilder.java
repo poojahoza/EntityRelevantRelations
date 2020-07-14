@@ -14,10 +14,12 @@ public class WATBM25FeatureBuilder {
             for(Map.Entry<Integer, List<String>> entities: para.getValue().entrySet()){
                 List<String> ent_list = entities.getValue();
                 for(int i = 0; i < ent_list.size(); i++){
-                    if(entityfreq.containsKey(ent_list.get(i))){
-                        entityfreq.put(ent_list.get(i), entityfreq.get(ent_list.get(i))+1);
-                    }else{
-                        entityfreq.put(ent_list.get(i), 1);
+                    if(!ent_list.get(i).equals("")) {
+                        if (entityfreq.containsKey(ent_list.get(i))) {
+                            entityfreq.put(ent_list.get(i), entityfreq.get(ent_list.get(i)) + 1);
+                        } else {
+                            entityfreq.put(ent_list.get(i), 1);
+                        }
                     }
                 }
             }
