@@ -117,6 +117,9 @@ public class JSONConversion {
                         }
                         jsonTemplate.setWATEntitiesTitle(wat_entities);
                         rankingJSONTemplateList.add(jsonTemplate);
+                        if(queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")){
+                            System.out.println("in json conversion aftertaste query : "+wat_entities.size()+" "+para.getKey());
+                        }
                     }
                 }
             }catch (IOException ioe){
