@@ -5,7 +5,7 @@ import os
 
 from collections import Counter
 
-def process_json_file(input, output, entitycounter):
+def process_json_file(input, output, entitycounter, query):
     input_file = open(input, 'r', encoding='utf-8')
     #output_file = open(output, 'w', encoding='utf-8')
 
@@ -14,7 +14,7 @@ def process_json_file(input, output, entitycounter):
     wat_items = Counter()
     for item in json_decode:
 
-        if item.get('queryid')=="enwiki:World%20Health%20Organization/History/Communicable%20diseases":
+        if item.get('queryid')==query:
             print("in if %s",item.get('queryid'))
             items = dict()
             items['queryid'] = item.get('queryid')
@@ -39,5 +39,6 @@ if __name__ == "__main__":
     parser.add_argument("--i",help="Input JSON file location")
     parser.add_argument("--o",help="Output JSON file location")
     parser.add_argument("--entitycounter",help="Output Entity Counter file location")
+    parser.add_argument("--q",help="query id to be processed")
     args = parser.parse_args()
-    process_json_file(args.i, args.o, args.entitycounter)
+    process_json_file(args.i, args.o, args.entitycounter, args.q)
