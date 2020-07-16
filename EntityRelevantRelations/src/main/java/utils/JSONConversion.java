@@ -83,6 +83,9 @@ public class JSONConversion {
             try {
                 WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc);
                 for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
+                    if(queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")){
+                        System.out.println("in json conversion aftertaste query : "+queryid.getValue().size());
+                    }
                     for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
                         List<String> wat_entities;
                         RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
@@ -98,7 +101,7 @@ public class JSONConversion {
                             wat_entities = new ArrayList<>();
                             List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(para.getKey());
                             if(wat_mentions.size()>0){
-                                System.out.println(wat_mentions.get(0));
+                                //System.out.println(wat_mentions.get(0));
                                 String[] temp = wat_mentions.get(0).split("\n");
                                 wat_mentions.clear();
                                 for(String t:temp){
@@ -114,9 +117,6 @@ public class JSONConversion {
                         }
                         jsonTemplate.setWATEntitiesTitle(wat_entities);
                         rankingJSONTemplateList.add(jsonTemplate);
-                    }
-                    if(queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")){
-                        System.out.println("in json conversion aftertaste query : "+rankingJSONTemplateList.size());
                     }
                 }
             }catch (IOException ioe){

@@ -184,6 +184,12 @@ public class SearchRunner implements ProgramRunner
                         rankingJSONTemplate,
                         "JSON"+level+datafile);*/
 
+                for (Map.Entry<String, Map<String, Container>> queryid : bm25_ranking.entrySet()) {
+                    if (queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")) {
+                        System.out.println("in search runner : " + queryid.getValue().size());
+                    }
+                }
+
                 List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
                         searchParser.getEntitylinker(),
                         converted_entity_ids);
