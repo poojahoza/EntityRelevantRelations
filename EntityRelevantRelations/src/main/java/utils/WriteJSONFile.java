@@ -47,7 +47,7 @@ public class WriteJSONFile {
     public void writeMultipleFiles(String output_file_name,
                                    List<RankingJSONTemplate> rankingJSON,
                                    String folder_name){
-        int total_num_files = (int)Math.ceil(rankingJSON.size()/50000);
+        int total_num_files = (int)Math.ceil((double)rankingJSON.size()/50000);
         List<RankingJSONTemplate> tempJSONList = new ArrayList<>();
         int counter = -1;
         for(int i = 1; i <= total_num_files; i++) {

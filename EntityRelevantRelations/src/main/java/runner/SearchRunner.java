@@ -180,27 +180,21 @@ public class SearchRunner implements ProgramRunner
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
 
-                /*writeJSONFile.writeMultipleFiles("output_query_json_file",
+                writeJSONFile.writeMultipleFiles("output_query_json_file",
                         rankingJSONTemplate,
-                        "JSON"+level+datafile);*/
-
-                for (Map.Entry<String, Map<String, Container>> queryid : bm25_ranking.entrySet()) {
-                    if (queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")) {
-                        System.out.println("in search runner : " + queryid.getValue().size());
-                    }
-                }
+                        "JSON"+level+datafile);
 
                 List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
                         searchParser.getEntitylinker(),
                         converted_entity_ids);
-                /*writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
+                writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
                         watJSONTemplate,
                         "WAT_JSON"+level+datafile);
 
                 List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
                 writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
                         wikiJSONTemplate,
-                        "Wiki_JSON"+level+datafile);*/
+                        "Wiki_JSON"+level+datafile);
 
                 /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);
