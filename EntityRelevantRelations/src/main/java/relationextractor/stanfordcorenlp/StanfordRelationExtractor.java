@@ -17,14 +17,14 @@ public class StanfordRelationExtractor {
     public StanfordRelationExtractor(){
 
         Properties props = new Properties();
-        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,depparse,natlog, coref, openie");
+        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,depparse,natlog, coref, openie");
         pipeline = new StanfordCoreNLP(props);
     }
 
     public static void main(String[] args) throws Exception {
         // Create the Stanford CoreNLP pipeline
         Properties props = new Properties();
-        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,depparse,natlog, coref, openie");
+        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner, depparse,natlog, coref, openie");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
         // Annotate an example document.
