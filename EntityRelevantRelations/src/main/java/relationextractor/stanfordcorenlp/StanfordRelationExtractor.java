@@ -51,7 +51,7 @@ public class StanfordRelationExtractor {
         return relationTripleJSONTemplateList;
     }
 
-    /*public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         // Create the Stanford CoreNLP pipeline
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner, depparse,natlog, coref, openie");
@@ -63,8 +63,11 @@ public class StanfordRelationExtractor {
         pipeline.annotate(doc);
 
         // Loop over sentences in the document
+        int sentNo = 0;
         for (CoreMap sentence : doc.get(CoreAnnotations.SentencesAnnotation.class)) {
             // Get the OpenIE triples for the sentence
+            System.out.println("Sentence #" + ++sentNo + ": " + sentence.get(CoreAnnotations.TextAnnotation.class));
+
             Collection<RelationTriple> triples =
                     sentence.get(NaturalLogicAnnotations.RelationTriplesAnnotation.class);
             // Print the triples
@@ -75,5 +78,5 @@ public class StanfordRelationExtractor {
                         triple.objectLemmaGloss());
             }
         }
-    }*/
+    }
 }
