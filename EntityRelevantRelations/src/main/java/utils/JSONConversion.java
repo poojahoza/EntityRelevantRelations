@@ -204,6 +204,7 @@ public class JSONConversion {
                 relationWrapperJSONTemplate.setContextscore(jsonTemplate.getContextscore());
                 relationWrapperJSONTemplate.setTriples(stanfordRelationExtractor.fetchRelationTriples(jsonTemplate.getContexttext()));
                 relationWrapperJSONTemplateList.add(relationWrapperJSONTemplate);
+                System.out.println(relationWrapperJSONTemplateList.size());
             });
             return relationWrapperJSONTemplateList;
         }
