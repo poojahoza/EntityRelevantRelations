@@ -7,6 +7,7 @@ import main.java.commandparser.CommandParser;
 import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
+import main.java.containers.RelationWrapperJSONTemplate;
 import main.java.entityrelation.*;
 import main.java.indexer.IndexCompare;
 import main.java.indexer.ParagraphIndexReaderJSON;
@@ -218,6 +219,21 @@ public class SearchRunner implements ProgramRunner
             }catch (Exception ioe){
                 System.out.println(ioe.getMessage());
             }
+        }
+
+        if(searchParser.isCreateRelTriple()){
+            ReadJSONFile readJSONFile = new ReadJSONFile();
+            List<RankingJSONTemplate> rankingJSONTemplate = readJSONFile.readRankingJSONTemplate(searchParser.getJsonfile());
+            System.out.println(rankingJSONTemplate.size());
+
+            JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
+            String coref_flag = searchParser.isCorefFlag()? "true": "false";
+            //Map<String, Map<String, String>> contextDetails = rankingJSONTemplateConversion.ConvertRankingJSONtoContextText(rankingJSONTemplate);
+
+            List<RelationWrapperJSONTemplate> relationWrapperJSONTemplateList = rankingJSONTemplateConversion.ConvertRankingJSONtoRelationTriplesWrapper(rankingJSONTemplate,
+                    coref_flag);
+            System.out.println(relationWrapperJSONTemplateList.size());
+
         }
 
         if(searchParser.isEntityFreqEnabled()){

@@ -182,6 +182,9 @@ public class RegisterCommands
          @Parameter(names = "--create-index-JSON",description ="Create JSON files from index")
          private boolean iscreateIndexJSON =false;
 
+         @Parameter(names = "--create-rel-triple",description ="Create Stanford Relation triples JSON files")
+         private boolean createRelTriple =false;
+
          @Parameter(names = "--check-index-exist",description ="Check existence of entities in entity index")
          private boolean checkIndexExist =false;
 
@@ -227,6 +230,9 @@ public class RegisterCommands
 
          @Parameter(names = "wat",description ="WAT JSON file input")
          private boolean isWatEnabled =false;
+
+         @Parameter(names = "coref-flag",description ="flag to indicate stanford coref should be enabled or disabled")
+         private boolean isCorefFlag =false;
 
          @Parameter(names = "--entity-doc-sim",description ="Rerank the initial retrieved document using entity abstract similarity")
          private boolean isEntityDocSimEnabled = false;
@@ -364,6 +370,7 @@ public class RegisterCommands
          }
          public boolean isWikiEnabled(){return isWikiEnabled;}
          public boolean isWatEnabled() {return isWatEnabled;}
+         public boolean isCorefFlag(){return isCorefFlag;}
          public boolean isSectionEnabled()
          {
              return isSectionEnabled;
@@ -464,6 +471,8 @@ public class RegisterCommands
          public boolean isCompareIndex(){return compareIndex;}
 
          public boolean isCreateIndexJSON(){return iscreateIndexJSON;}
+
+         public boolean isCreateRelTriple(){return createRelTriple;}
 
          public boolean isCheckIndexExist(){return checkIndexExist;}
 

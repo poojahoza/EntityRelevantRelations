@@ -2,6 +2,8 @@ package main.java.utils;
 
 import main.java.containers.Container;
 import main.java.containers.RankingJSONTemplate;
+import main.java.containers.RelationWrapperJSONTemplate;
+import main.java.relationextractor.stanfordcorenlp.StanfordRelationExtractor;
 import main.java.searcher.BaseSearcher;
 import main.java.searcher.WATEntityIndexSearcher;
 import org.apache.lucene.document.Document;
@@ -170,6 +172,40 @@ public class JSONConversion {
             });
             System.out.println(WATEntitiesSet.size());
             return WATEntitiesSet;
+        }
+
+        public Map<String, Map<String, String>> ConvertRankingJSONtoContextText(List<RankingJSONTemplate> rankingJSONTemplate){
+            Map<String, Map<String, String>> BM25ContextText = new LinkedHashMap<>();
+            rankingJSONTemplate.forEach((jsonTemplate)->{
+                //System.out.println(jsonTemplate);
+                if(BM25ContextText.containsKey(jsonTemplate.getQueryid())){
+                    Map<String, String> context_details = BM25ContextText.get(jsonTemplate.getQueryid());
+                    context_details.put(jsonTemplate.getContextid(), jsonTemplate.getContexttext());
+                }else{
+                    Map<String, String> context_details = new LinkedHashMap<>();
+                    context_details.put(jsonTemplate.getContextid(), jsonTemplate.getContexttext());
+                    BM25ContextText.put(jsonTemplate.getQueryid(), context_details);
+                }
+
+            });
+            return BM25ContextText;
+        }
+
+        public List<RelationWrapperJSONTemplate> ConvertRankingJSONtoRelationTriplesWrapper(List<RankingJSONTemplate> rankingJSONTemplateList,
+                                                                                            String coref_flag){
+            List<RelationWrapperJSONTemplate> relationWrapperJSONTemplateList = new ArrayList<>();
+            StanfordRelationExtractor stanfordRelationExtractor = new StanfordRelationExtractor(coref_flag);
+            rankingJSONTemplateList.forEach((jsonTemplate)->{
+                RelationWrapperJSONTemplate relationWrapperJSONTemplate = new RelationWrapperJSONTemplate();
+                relationWrapperJSONTemplate.setQueryid(jsonTemplate.getQueryid());
+                relationWrapperJSONTemplate.setContextid(jsonTemplate.getContextid());
+                relationWrapperJSONTemplate.setContexttext(jsonTemplate.getContexttext());
+                relationWrapperJSONTemplate.setContextrank(jsonTemplate.getContextrank());
+                relationWrapperJSONTemplate.setContextscore(jsonTemplate.getContextscore());
+                relationWrapperJSONTemplate.setTriples(stanfordRelationExtractor.fetchRelationTriples(jsonTemplate.getContexttext()));
+                relationWrapperJSONTemplateList.add(relationWrapperJSONTemplate);
+            });
+            return relationWrapperJSONTemplateList;
         }
     }
 }
