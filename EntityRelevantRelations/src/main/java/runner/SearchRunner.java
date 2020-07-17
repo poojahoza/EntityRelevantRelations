@@ -233,6 +233,21 @@ public class SearchRunner implements ProgramRunner
             List<RelationWrapperJSONTemplate> relationWrapperJSONTemplateList = rankingJSONTemplateConversion.ConvertRankingJSONtoRelationTriplesWrapper(rankingJSONTemplate,
                     coref_flag);
             System.out.println(relationWrapperJSONTemplateList.size());
+            String level = searchParser.isArticleEnabled()? "_article": "_section";
+            String datafile ="";
+            if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
+            {
+                datafile = "_test";
+            }
+            else if(searchParser.getQueryfile().toLowerCase().contains("train".toLowerCase()))
+            {
+                datafile = "_train";
+            }
+            WriteJSONFile writeJSONFile = new WriteJSONFile();
+            String[] file_name = searchParser.getJsonfile().split("/");
+            writeJSONFile.writeRelationTripleFile(file_name[file_name.length-1],
+                    relationWrapperJSONTemplateList,
+                    "Stanford_relation_triple"+level+datafile);
 
         }
 

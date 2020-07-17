@@ -3,6 +3,7 @@ package main.java.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import main.java.containers.RankingJSONTemplate;
+import main.java.containers.RelationWrapperJSONTemplate;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -27,6 +28,25 @@ public class WriteJSONFile {
 
     public void writeFile(String output_file_name,
                           List<RankingJSONTemplate> rankingJSON,
+                          String folder_name){
+        //String result_dir = "JSON";
+        File directory = new File(folder_name);
+        if (! directory.exists()){
+            directory.mkdir();
+        }
+        Path file = Paths.get(System.getProperty("user.dir")+"/"+folder_name, output_file_name);
+        checkFileExistence(System.getProperty("user.dir")+"/"+folder_name+"/"+output_file_name);
+
+        try(Writer writer = new OutputStreamWriter(new FileOutputStream(file.toFile()), StandardCharsets.UTF_8)){
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(rankingJSON, writer);
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    public void writeRelationTripleFile(String output_file_name,
+                          List<RelationWrapperJSONTemplate> rankingJSON,
                           String folder_name){
         //String result_dir = "JSON";
         File directory = new File(folder_name);
