@@ -25,6 +25,7 @@ public class StanfordRelationExtractor {
         // Create the Stanford CoreNLP pipeline
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner, depparse,natlog, coref, openie");
+        props.setProperty("openie.resolve_coref","true");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
         // Annotate an example document.
