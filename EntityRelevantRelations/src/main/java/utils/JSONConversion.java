@@ -83,9 +83,6 @@ public class JSONConversion {
             try {
                 WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc);
                 for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
-                    if(queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")){
-                        System.out.println("in json conversion aftertaste query : "+queryid.getValue().size());
-                    }
                     for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
                         List<String> wat_entities;
                         RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
@@ -117,9 +114,6 @@ public class JSONConversion {
                         }
                         jsonTemplate.setWATEntitiesTitle(wat_entities);
                         rankingJSONTemplateList.add(jsonTemplate);
-                        if(queryid.getKey().equals("enwiki:Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex")){
-                            System.out.println("in json conversion aftertaste query : "+wat_entities.size()+" "+para.getKey());
-                        }
                     }
                 }
             }catch (IOException ioe){
@@ -139,9 +133,6 @@ public class JSONConversion {
                 String[] entities = text.split("\n");
                 for(String e:entities){
                     titleSet.add(e.split("_")[0]);
-                    if(e.split("_")[0].equals("How's It Going%3F")){
-                        System.out.println("How's It going is present in the read json file");
-                    }
                 }
             });
             System.out.println(titleSet.size());
