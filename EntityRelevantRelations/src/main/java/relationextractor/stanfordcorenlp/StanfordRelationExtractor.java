@@ -2,6 +2,7 @@ package main.java.relationextractor.stanfordcorenlp;
 
 import edu.stanford.nlp.ie.util.RelationTriple;
 import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.naturalli.NaturalLogicAnnotations;
@@ -9,6 +10,7 @@ import edu.stanford.nlp.util.CoreMap;
 
 import java.util.*;
 
+import main.java.containers.RelationTokenJSONTemplate;
 import main.java.containers.RelationTripleJSONTemplate;
 
 public class StanfordRelationExtractor {
@@ -23,18 +25,24 @@ public class StanfordRelationExtractor {
         pipeline = new StanfordCoreNLP(props);
     }
 
+    private Annotation annotateDoc(String text){
+        Annotation doc = new Annotation(text);
+        pipeline.annotate(doc);
+        return doc;
+    }
+
     public List<RelationTripleJSONTemplate> fetchRelationTriples(String text){
         List<RelationTripleJSONTemplate> relationTripleJSONTemplateList = new ArrayList<>();
 
-        Annotation doc = new Annotation(text);
-        pipeline.annotate(doc);
+        Annotation doc = annotateDoc(text);
 
         // Loop over sentences in the document
         for (CoreMap sentence : doc.get(CoreAnnotations.SentencesAnnotation.class)) {
             // Get the OpenIE triples for the sentence
             Collection<RelationTriple> triples =
                     sentence.get(NaturalLogicAnnotations.RelationTriplesAnnotation.class);
-            // Print the triples
+
+            // Store the triples
             for (RelationTriple triple : triples) {
                 /*System.out.println(triple.confidence + "\t" +
                         triple.subjectLemmaGloss() + "\t" +
@@ -45,13 +53,32 @@ public class StanfordRelationExtractor {
                 relationTriple.setRelation(triple.relationLemmaGloss());
                 relationTriple.setObject(triple.objectLemmaGloss());
                 relationTriple.setConfidence_score(triple.confidence);
+                relationTriple.setSentence(sentence.get(CoreAnnotations.TextAnnotation.class));
                 relationTripleJSONTemplateList.add(relationTriple);
             }
         }
         return relationTripleJSONTemplateList;
     }
 
-    public static void main(String[] args) throws Exception {
+    public List<RelationTokenJSONTemplate> fetchTokens(String text){
+        List<RelationTokenJSONTemplate> relationTokenJSONTemplates = new ArrayList<>();
+        Annotation doc = annotateDoc(text);
+
+        // Loop over sentences in the document
+        for (CoreMap sentence : doc.get(CoreAnnotations.SentencesAnnotation.class)) {
+
+            for(CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)){
+                RelationTokenJSONTemplate temptoken = new RelationTokenJSONTemplate();
+                temptoken.setToken(token.word());
+                temptoken.setBeginPosition(token.beginPosition());
+                temptoken.setEndPosition(token.endPosition());
+                relationTokenJSONTemplates.add(temptoken);
+            }
+        }
+        return relationTokenJSONTemplates;
+    }
+
+    /*public static void main(String[] args) throws Exception {
         // Create the Stanford CoreNLP pipeline
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner, depparse,natlog, coref, openie");
@@ -78,5 +105,5 @@ public class StanfordRelationExtractor {
                         triple.objectLemmaGloss());
             }
         }
-    }
+    }*/
 }

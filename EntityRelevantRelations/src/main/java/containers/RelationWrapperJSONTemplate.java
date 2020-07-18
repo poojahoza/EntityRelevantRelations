@@ -12,6 +12,7 @@ public class RelationWrapperJSONTemplate {
     private String contextrank;
     private String contextscore;
     private List<RelationTripleJSONTemplate> triples;
+    private List<RelationTokenJSONTemplate> tokens;
 
     public String getQueryid(){
         return queryid;
@@ -35,6 +36,8 @@ public class RelationWrapperJSONTemplate {
 
     public List<RelationTripleJSONTemplate> getTriples(){return triples;}
 
+    public List<RelationTokenJSONTemplate> getTokens(){return tokens;}
+
     public void setQueryid(String queryid){
         this.queryid = queryid;
     }
@@ -56,4 +59,6 @@ public class RelationWrapperJSONTemplate {
     }
 
     public void setTriples(List<RelationTripleJSONTemplate> triples){this.triples=triples;}
+
+    public void setTokens(List<RelationTokenJSONTemplate> tokens){this.tokens=tokens;}
 }
