@@ -6,7 +6,6 @@ public class RelationTripleJSONTemplate {
     private String predicate;
     private String object;
     private double confidence_score;
-    private String sentence;
 
     public void setSubject(String subject){this.subject=subject;}
 
@@ -16,7 +15,6 @@ public class RelationTripleJSONTemplate {
 
     public void setConfidence_score(double score){confidence_score=score;}
 
-    public void setSentence(String sentence){this.sentence=sentence;}
 
     public String getSubject(){return subject;}
 
@@ -26,5 +24,4 @@ public class RelationTripleJSONTemplate {
 
     public double getConfidence_score(){return confidence_score;}
 
-    public String getSentence(){return sentence;}
 }

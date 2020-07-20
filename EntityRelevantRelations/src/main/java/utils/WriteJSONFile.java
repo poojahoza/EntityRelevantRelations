@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import main.java.containers.RankingJSONTemplate;
 import main.java.containers.RelationWrapperJSONTemplate;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

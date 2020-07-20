@@ -10,6 +10,7 @@ import edu.stanford.nlp.util.CoreMap;
 
 import java.util.*;
 
+import main.java.containers.RelationSentenceJSONTemplate;
 import main.java.containers.RelationTokenJSONTemplate;
 import main.java.containers.RelationTripleJSONTemplate;
 
@@ -31,8 +32,10 @@ public class StanfordRelationExtractor {
         return doc;
     }
 
-    public List<RelationTripleJSONTemplate> fetchRelationTriples(String text){
+    public List<RelationSentenceJSONTemplate> fetchRelationTriples(String text){
         List<RelationTripleJSONTemplate> relationTripleJSONTemplateList = new ArrayList<>();
+        List<RelationTokenJSONTemplate> relationTokenJSONTemplateList = new ArrayList<>();
+        List<RelationSentenceJSONTemplate> relationSentenceJSONTemplateList = new ArrayList<>();
 
         Annotation doc = annotateDoc(text);
 
@@ -53,11 +56,24 @@ public class StanfordRelationExtractor {
                 relationTriple.setRelation(triple.relationLemmaGloss());
                 relationTriple.setObject(triple.objectLemmaGloss());
                 relationTriple.setConfidence_score(triple.confidence);
-                relationTriple.setSentence(sentence.get(CoreAnnotations.TextAnnotation.class));
+                //relationTriple.setSentence(sentence.get(CoreAnnotations.TextAnnotation.class));
                 relationTripleJSONTemplateList.add(relationTriple);
             }
+            for(CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)){
+                RelationTokenJSONTemplate temptoken = new RelationTokenJSONTemplate();
+                temptoken.setToken(token.word());
+                temptoken.setBeginPosition(token.beginPosition());
+                temptoken.setEndPosition(token.endPosition());
+                relationTokenJSONTemplateList.add(temptoken);
+            }
+
+            RelationSentenceJSONTemplate relationSentenceJSONTemplate = new RelationSentenceJSONTemplate();
+            relationSentenceJSONTemplate.setSentence(sentence.get(CoreAnnotations.TextAnnotation.class));
+            relationSentenceJSONTemplate.setTriples(relationTripleJSONTemplateList);
+            relationSentenceJSONTemplate.setTokens(relationTokenJSONTemplateList);
+            relationSentenceJSONTemplateList.add(relationSentenceJSONTemplate);
         }
-        return relationTripleJSONTemplateList;
+        return relationSentenceJSONTemplateList;
     }
 
     public List<RelationTokenJSONTemplate> fetchTokens(String text){

@@ -2,7 +2,6 @@ package main.java.containers;
 
 import java.util.List;
 
-import main.java.containers.RelationTripleJSONTemplate;
 
 public class RelationWrapperJSONTemplate {
 
@@ -11,8 +10,7 @@ public class RelationWrapperJSONTemplate {
     private String contexttext;
     private String contextrank;
     private String contextscore;
-    private List<RelationTripleJSONTemplate> triples;
-    private List<RelationTokenJSONTemplate> tokens;
+    private List<RelationSentenceJSONTemplate> sentences;
 
     public String getQueryid(){
         return queryid;
@@ -34,9 +32,7 @@ public class RelationWrapperJSONTemplate {
         return contextscore;
     }
 
-    public List<RelationTripleJSONTemplate> getTriples(){return triples;}
-
-    public List<RelationTokenJSONTemplate> getTokens(){return tokens;}
+    public List<RelationSentenceJSONTemplate> getSentences(){return sentences;}
 
     public void setQueryid(String queryid){
         this.queryid = queryid;
@@ -58,7 +54,5 @@ public class RelationWrapperJSONTemplate {
         this.contextscore = contextscore;
     }
 
-    public void setTriples(List<RelationTripleJSONTemplate> triples){this.triples=triples;}
-
-    public void setTokens(List<RelationTokenJSONTemplate> tokens){this.tokens=tokens;}
+    public void setSentences(List<RelationSentenceJSONTemplate> sentences){this.sentences=sentences;}
 }

@@ -202,8 +202,7 @@ public class JSONConversion {
                 relationWrapperJSONTemplate.setContexttext(jsonTemplate.getContexttext());
                 relationWrapperJSONTemplate.setContextrank(jsonTemplate.getContextrank());
                 relationWrapperJSONTemplate.setContextscore(jsonTemplate.getContextscore());
-                relationWrapperJSONTemplate.setTriples(stanfordRelationExtractor.fetchRelationTriples(jsonTemplate.getContexttext()));
-                relationWrapperJSONTemplate.setTokens(stanfordRelationExtractor.fetchTokens(jsonTemplate.getContexttext()));
+                relationWrapperJSONTemplate.setSentences(stanfordRelationExtractor.fetchRelationTriples(jsonTemplate.getContexttext()));
                 relationWrapperJSONTemplateList.add(relationWrapperJSONTemplate);
                 System.out.println(relationWrapperJSONTemplateList.size());
             });
