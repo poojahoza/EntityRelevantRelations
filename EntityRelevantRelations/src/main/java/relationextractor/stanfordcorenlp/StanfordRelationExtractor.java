@@ -6,6 +6,7 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.naturalli.NaturalLogicAnnotations;
+import edu.stanford.nlp.simple.Sentence;
 import edu.stanford.nlp.util.CoreMap;
 
 import java.util.*;
@@ -66,11 +67,13 @@ public class StanfordRelationExtractor {
                 temptoken.setEndPosition(token.endPosition());
                 relationTokenJSONTemplateList.add(temptoken);
             }
-
+            Sentence sentence1 = new Sentence(sentence);
             RelationSentenceJSONTemplate relationSentenceJSONTemplate = new RelationSentenceJSONTemplate();
             relationSentenceJSONTemplate.setSentence(sentence.get(CoreAnnotations.TextAnnotation.class));
             relationSentenceJSONTemplate.setTriples(relationTripleJSONTemplateList);
             relationSentenceJSONTemplate.setTokens(relationTokenJSONTemplateList);
+            relationSentenceJSONTemplate.setSentenceOffsetBegin(sentence1.characterOffsetBegin());
+            relationSentenceJSONTemplate.setSentenceOffsetEnd(sentence1.characterOffsetEnd());
             relationSentenceJSONTemplateList.add(relationSentenceJSONTemplate);
         }
         return relationSentenceJSONTemplateList;
@@ -110,6 +113,9 @@ public class StanfordRelationExtractor {
         for (CoreMap sentence : doc.get(CoreAnnotations.SentencesAnnotation.class)) {
             // Get the OpenIE triples for the sentence
             System.out.println("Sentence #" + ++sentNo + ": " + sentence.get(CoreAnnotations.TextAnnotation.class));
+
+            Sentence sentence1 = new Sentence(sentence);
+            System.out.println("character offset : "+sentence1.characterOffsetBegin()+" : "+sentence1.characterOffsetEnd());
 
             Collection<RelationTriple> triples =
                     sentence.get(NaturalLogicAnnotations.RelationTriplesAnnotation.class);
