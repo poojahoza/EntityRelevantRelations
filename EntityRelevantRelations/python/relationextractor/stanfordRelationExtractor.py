@@ -77,7 +77,7 @@ def extract_relations(input1, coref_flag):
 
 def write_file(output_file, output_dict):
     check_file_existence(output_file)
-    with open(output_file,'w',character_encoding='utf-8') as f1:
+    with open(output_file,'w',encoding='utf-8') as f1:
         json.dump(output_dict,f1)
 
 if __name__ == "__main__":
