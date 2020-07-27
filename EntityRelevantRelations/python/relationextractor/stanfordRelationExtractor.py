@@ -10,7 +10,7 @@ def check_file_existence(output_file_name):
         os.remove(output_file_name)
 
 
-def build_triples_charoffset_list(tokens_dict, sentence_json):
+def build_triples_charoffset_list(tokens_dict, sentence_json, annotated_text):
     relation_tokens=[]
     for subtoken in tokens_dict:
         try:
@@ -64,9 +64,9 @@ def extract_relations(input1, coref_flag):
                     triple_json['subject'] = triple.subject
                     triple_json['relation'] = triple.relation
                     triple_json['object'] = triple.object
-                    triple_json['subjectTokens'] = build_triples_charoffset_list(triple.subjectTokens, sentence_json)
-                    triple_json['relationTokens'] = build_triples_charoffset_list(triple.relationTokens, sentence_json)
-                    triple_json['objectTokens'] = build_triples_charoffset_list(triple.objectTokens, sentence_json)
+                    triple_json['subjectTokens'] = build_triples_charoffset_list(triple.subjectTokens, sentence_json, annotated_text)
+                    triple_json['relationTokens'] = build_triples_charoffset_list(triple.relationTokens, sentence_json, annotated_text)
+                    triple_json['objectTokens'] = build_triples_charoffset_list(triple.objectTokens, sentence_json, annotated_text)
                 query_json['relationTriples'] = triple_json
             output_json.append(query_json)
             print(counter)
