@@ -13,13 +13,13 @@ def check_file_existence(output_file_name):
 def build_triples_charoffset_list(tokens_dict, sentence_json):
     relation_tokens=[]
     for subtoken in tokens_dict:
-        if sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]:
+        try:
             token_details = dict()
             token_details['token'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['token']
             token_details['charOffsetBegin'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['charOffsetBegin']
             token_details['charOffsetEnd'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['charOffsetEnd']
             relation_tokens.append(token_details)
-        else:
+        except KeyError:
             for s1 in annotated_text.sentence:
                 if s1.sentenceIndex == subtoken.sentenceIndex:
                     for t in s1.token:
@@ -71,7 +71,7 @@ def extract_relations(input1, coref_flag):
             output_json.append(query_json)
             print(counter)
             counter = counter + 1
-            if counter == 6:
+            if counter == 2:
                 break
     return output_json
 
