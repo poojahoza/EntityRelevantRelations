@@ -3,77 +3,70 @@ import argparse
 import os
 import sys
 
-from stanford.server import CoreNLPClient
+from stanfordnlp.server import CoreNLPClient
 
 def check_file_existence(output_file_name):
     if os.path.exists(output_file_name):
         os.remove(output_file_name)
 
-def extract_relations(input, coref_flag):
+
+def build_triples_charoffset_list(tokens_dict, sentence_json):
+    relation_tokens=[]
+    for subtoken in tokens_dict:
+        if sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]:
+            token_details = dict()
+            token_details['token'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['token']
+            token_details['charOffsetBegin'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['charOffsetBegin']
+            token_details['charOffsetEnd'] = sentence_json[str(subtoken.sentenceIndex)][str(subtoken.tokenIndex)]['charOffsetEnd']
+            relation_tokens.append(token_details)
+        else:
+            for s1 in annotated_text.sentence:
+                if s1.sentenceIndex == subtoken.sentenceIndex:
+                    for t in s1.token:
+                        if t.tokenBeginIndex == subtoken.tokenIndex:
+                            token_details = dict()
+                            token_details['token'] = t.word
+                            token_details['charOffsetBegin'] = t.beginChar
+                            token_details['charOffsetEnd'] = t.endChar
+                            relation_tokens.append(token_details)
+                            break
+                    break
+    return relation_tokens
+
+def extract_relations(input1, coref_flag):
     input_json = dict()
     output_json = []
-    with open(input,'w') as f:
+    with open(input1,'r') as f:
         input_json=json.load(f)
     with CoreNLPClient(properties={'annotators':'tokenize,ssplit,pos,lemma,ner,depparse,natlog, coref, openie','openie.resolve_coref':coref_flag},timeout=15000,memory='16G') as client:
         counter = 1
         for query in input_json:
             query_json = dict()
+            sentence_json = dict()
             query_json['queryid'] = query['queryid']
             query_json['contextid'] = query['contextid']
             query_json['contexttext'] = query['contexttext']
             query_json['contextrank'] = query['contextrank']
             query_json['contextscore'] = query['contextscore']
             annotated_text = client.annotate(query['contexttext'])
-            for s in annotated_text['sentence']:
-                for triple in annotated_text['sentence'][s]['openieTriple']:
+
+            for s in annotated_text.sentence:
+                token_json = dict()
+                for tk in s.token:
+                    tk_details = dict()
+                    tk_details['token'] = tk.word
+                    tk_details['charOffsetBegin'] = str(tk.beginChar)
+                    tk_details['charOffsetEnd'] = str(tk.endChar)
+                    token_json[tk.tokenBeginIndex] = tk_details
+                sentence_json[str(s.sentenceIndex)] = token_json
+                for triple in s.openieTriple:
                     triple_json = dict()
-                    triple_json['subject'] = annotated_text['sentence'][s]['openieTriple'][triple]['subject']
-                    triple_json['relation'] = annotated_text['sentence'][s]['openieTriple'][triple]['relation']
-                    triple_json['object'] = annotated_text['sentence'][s]['openieTriple'][triple]['object']
-                    relation_tokens=[]
-                    for subtoken in annotated_text['sentence'][s]['openieTriple'][triple]['subjectTokens']:
-                        for s1 in annotated_text['sentence']:
-                            if annotated_text['sentence'][s1]['sentenceIndex'] == annotated_text['sentence'][s]['openieTriple'][triple]['subjectTokens'][subtoken]['sentenceIndex']:
-                                for t in annotated_text['sentence'][s1]['token']:
-                                    if annotated_text['sentence'][s1]['token'][t]['tokenBeginIndex'] == annotated_text['sentence'][s][subtoken]['tokenIndex']:
-                                        token_details = dict()
-                                        token_details['token'] = annotated_text['sentence'][s1]['token'][t]['word']
-                                        token_details['charOffsetBegin'] = annotated_text['sentence'][s1]['token'][t]['beginChar']
-                                        token_details['charOffsetEnd'] = annotated_text['sentence'][s1]['token'][t]['endChar']
-                                        relation_tokens.append(token_details)
-                                        break
-                                break
-                    triple_json['subjectTokens'] = relation_tokens
-
-                    relation_tokens = []
-                    for reltoken in annotated_text['sentence'][s]['openieTriple'][triple]['relationTokens']:
-                        for s1 in annotated_text['sentence']:
-                            if annotated_text['sentence'][s1]['sentenceIndex'] == annotated_text['sentence'][s]['openieTriple'][triple]['relationTokens'][reltoken]['sentenceIndex']:
-                                for t in annotated_text['sentence'][s1]['token']:
-                                    if annotated_text['sentence'][s1]['token'][t]['tokenBeginIndex'] == annotated_text['sentence'][s][reltoken]['tokenIndex']:
-                                        token_details = dict()
-                                        token_details['token'] = annotated_text['sentence'][s1]['token'][t]['word']
-                                        token_details['charOffsetBegin'] = annotated_text['sentence'][s1]['token'][t]['beginChar']
-                                        token_details['charOffsetEnd'] = annotated_text['sentence'][s1]['token'][t]['endChar']
-                                        relation_tokens.append(token_details)
-                                        break
-                                break
-                    triple_json['relationTokens'] = relation_tokens
-
-                    relation_tokens = []
-                    for objtoken in annotated_text['sentence'][s]['openieTriple'][triple]['objectTokens']:
-                        for s1 in annotated_text['sentence']:
-                            if annotated_text['sentence'][s1]['sentenceIndex'] == annotated_text['sentence'][s]['openieTriple'][triple]['objectTokens'][objtoken]['sentenceIndex']:
-                                for t in annotated_text['sentence'][s1]['token']:
-                                    if annotated_text['sentence'][s1]['token'][t]['tokenBeginIndex'] == annotated_text['sentence'][s][objtoken]['tokenIndex']:
-                                        token_details = dict()
-                                        token_details['token'] = annotated_text['sentence'][s1]['token'][t]['word']
-                                        token_details['charOffsetBegin'] = annotated_text['sentence'][s1]['token'][t]['beginChar']
-                                        token_details['charOffsetEnd'] = annotated_text['sentence'][s1]['token'][t]['endChar']
-                                        relation_tokens.append(token_details)
-                                        break
-                                break
-                    triple_json['objectTokens'] = relation_tokens
+                    triple_json['subject'] = triple.subject
+                    triple_json['relation'] = triple.relation
+                    triple_json['object'] = triple.object
+                    triple_json['subjectTokens'] = build_triples_charoffset_list(triple.subjectTokens, sentence_json)
+                    triple_json['relationTokens'] = build_triples_charoffset_list(triple.relationTokens, sentence_json)
+                    triple_json['objectTokens'] = build_triples_charoffset_list(triple.objectTokens, sentence_json)
                 query_json['relationTriples'] = triple_json
             output_json.append(query_json)
             print(counter)
