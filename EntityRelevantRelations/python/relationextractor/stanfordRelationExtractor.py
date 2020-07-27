@@ -50,6 +50,7 @@ def extract_relations(input1, coref_flag):
             query_json['contextscore'] = query['contextscore']
             annotated_text = client.annotate(query['contexttext'])
 
+            relation_triples_list = []
             for s in annotated_text.sentence:
                 token_json = dict()
                 for tk in s.token:
@@ -67,7 +68,8 @@ def extract_relations(input1, coref_flag):
                     triple_json['subjectTokens'] = build_triples_charoffset_list(triple.subjectTokens, sentence_json, annotated_text)
                     triple_json['relationTokens'] = build_triples_charoffset_list(triple.relationTokens, sentence_json, annotated_text)
                     triple_json['objectTokens'] = build_triples_charoffset_list(triple.objectTokens, sentence_json, annotated_text)
-                query_json['relationTriples'] = triple_json
+                    relation_triples_list.append(triple_json)
+                query_json['relationTriples'] = relation_triples_list
             output_json.append(query_json)
             print(counter)
             counter = counter + 1
