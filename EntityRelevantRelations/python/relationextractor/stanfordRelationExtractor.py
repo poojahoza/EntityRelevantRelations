@@ -6,8 +6,6 @@ import sys
 from stanfordnlp.server import CoreNLPClient
 from stanfordnlp.server.client import AnnotationException
 
-from python.utils import readwriteutils
-
 
 def check_file_existence(output_file_name):
     if os.path.exists(output_file_name):
@@ -40,7 +38,8 @@ def build_triples_charoffset_list(tokens_dict, sentence_json, annotated_text):
 
 def extract_relations(input1, coref_flag):
     output_json = []
-    input_json = readwriteutils.read_json_file(input1)
+    with open(input1, 'r', encoding='utf-8') as f:
+        input_json = json.load(f)
     error_log = []
     with CoreNLPClient(properties={'annotators': 'tokenize,ssplit,pos,lemma,ner,depparse,natlog, coref, openie','openie.resolve_coref': coref_flag}, timeout=30000, memory='16G') as client:
         counter = 1
@@ -84,6 +83,12 @@ def extract_relations(input1, coref_flag):
     return output_json, error_log
 
 
+def write_text_file(file_location, output_list):
+    with open(file_location, 'w', encoding='utf-8') as f:
+        for line in output_list:
+            f.write('%s\n' % line)
+
+
 def write_file(output_file, output_dict):
     check_file_existence(output_file)
     with open(output_file, 'w', encoding='utf-8') as f1:
@@ -102,5 +107,5 @@ if __name__ == "__main__":
         parser.print_help(sys.stderr)
         sys.exit(1)
     extracted_relations, error_logs = extract_relations(args.i, args.corefflag)
-    readwriteutils.write_json_file(args.o, extracted_relations)
-    readwriteutils.write_text_file(args.e, error_logs)
+    write_file(args.o, extracted_relations)
+    write_text_file(args.e, error_logs)
