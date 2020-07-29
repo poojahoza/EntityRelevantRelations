@@ -6,7 +6,7 @@ import sys
 from stanfordnlp.server import CoreNLPClient
 from stanfordnlp.server.client import AnnotationException
 
-from utils import readwriteutils
+from python.utils import readwriteutils
 
 
 def check_file_existence(output_file_name):
