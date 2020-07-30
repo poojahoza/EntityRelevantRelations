@@ -15,7 +15,7 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
             subject_tokens_list = []
             for token in triple['subjectTokens']:
                 for ann in ann_dict[query_con]['WATannotations']:
-                    if token['charOffsetBegin'] >= ann['start'] and token['charOffsetEnd'] <= ann['end']:
+                    if int(token['charOffsetBegin']) >= int(ann['start']) and int(token['charOffsetEnd']) <= int(ann['end']):
                         title_exists = False
                         for t in subject_tokens_list:
                             if subject_tokens_list[t]['wiki_title'] == ann['wiki_title']:
@@ -24,7 +24,10 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
                             subject_token_dict = dict()
                             subject_token_dict['wiki_id'] = ann['wiki_id']
                             subject_token_dict['wiki_title'] = ann['wiki_title']
-                            subject_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
+                            if ann['wiki_title'] in ent_dict:
+                                subject_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
+                            else:
+                                subject_token_dict['wiki_converted_id'] = []
                             subject_tokens_list.append(subject_token_dict)
             object_tokens_list = []
             for token in triple['objectTokens']:
@@ -38,7 +41,10 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
                             object_token_dict = dict()
                             object_token_dict['wiki_id'] = ann['wiki_id']
                             object_token_dict['wiki_title'] = ann['wiki_title']
-                            object_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
+                            if ann['wiki_title'] in ent_dict:
+                                object_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
+                            else:
+                                object_token_dict['wiki_converted_id'] = []
                             object_tokens_list.append(object_token_dict)
             rel_ann_dict['subject'] = triple['subject']
             rel_ann_dict['relation'] = triple['relation']
