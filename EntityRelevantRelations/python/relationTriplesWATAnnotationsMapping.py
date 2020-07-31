@@ -16,10 +16,14 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
             for token in triple['subjectTokens']:
                 for ann in ann_dict[query_con]['WATannotations']:
                     if int(token['charOffsetBegin']) >= int(ann['start']) and int(token['charOffsetEnd']) <= int(ann['end']):
+
+                        # if the title already exists in the list then no need to add it again.
+                        # title_exists checks whether it exists in the subjectAnnotations/subjectTokens
                         title_exists = False
                         for t in subject_tokens_list:
-                            if subject_tokens_list[t]['wiki_title'] == ann['wiki_title']:
+                            if t['wiki_title'] == ann['wiki_title']:
                                 title_exists = True
+                                break
                         if not title_exists:
                             subject_token_dict = dict()
                             subject_token_dict['wiki_id'] = ann['wiki_id']
@@ -32,11 +36,15 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
             object_tokens_list = []
             for token in triple['objectTokens']:
                 for ann in ann_dict[query_con]['WATannotations']:
-                    if token['charOffsetBegin'] >= ann['start'] and token['charOffsetEnd'] <= ann['end']:
+                    if int(token['charOffsetBegin']) >= int(ann['start']) and int(token['charOffsetEnd']) <= int(ann['end']):
+
+                        # if the title already exists in the list then no need to add it again.
+                        # title_exists checks whether it exists in the objectAnnotations/objectTokens
                         title_exists = False
                         for t in object_tokens_list:
-                            if object_tokens_list[t]['wiki_title'] == ann['wiki_title']:
+                            if t['wiki_title'] == ann['wiki_title']:
                                 title_exists = True
+                                break
                         if not title_exists:
                             object_token_dict = dict()
                             object_token_dict['wiki_id'] = ann['wiki_id']
@@ -62,8 +70,6 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
         query_rel_ann_list.append(query_con_dict)
         print(counter)
         counter = counter+1
-        if counter == 2:
-            print(query_rel_ann_list)
 
     return query_rel_ann_list
 

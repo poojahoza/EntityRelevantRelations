@@ -33,11 +33,14 @@ def read_converted_entity_ids(folder_location):
                 for line in f:
                     data = line.split('\t')
                     entity_ids_list = []
-                    if data[1] in converted_entiy_ids:
-                        entity_ids_list = converted_entiy_ids[data[1]]
+
+                    # the titles contain \n at the end, hack to resolve that
+                    title = data[1].split('\n')[0]
+                    if title in converted_entiy_ids:
+                        entity_ids_list = converted_entiy_ids[title]
 
                     entity_ids_list.append(data[0])
-                    converted_entiy_ids[data[1]] = entity_ids_list
+                    converted_entiy_ids[title] = entity_ids_list
         return converted_entiy_ids
     except Exception as e:
         print(e)
