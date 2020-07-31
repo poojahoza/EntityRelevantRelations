@@ -79,7 +79,7 @@ def extract_relations(input1, coref_flag):
                         relation_triples_list.append(triple_json)
                     query_json['relationTriples'] = relation_triples_list
             except AnnotationException as ae:
-                error_log.append('%s %s %s %s' % query['queryid'], query['contextid'], 'AnnotationException', str(ae))
+                error_log.append(query['queryid']+" "+query['contextid']+" AnnotationException")
                 query_json['relationTriples'] = []
             output_json.append(query_json)
             print(counter)
