@@ -6,10 +6,10 @@ from utils import readwriteutils
 def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
 
     query_rel_ann_list = []
+    counter = 1
     for query_con in rel_dict:
         query_con_dict = dict()
         rel_ann_list = []
-        counter = 1
         for triple in rel_dict[query_con]['relationTriples']:
             rel_ann_dict = dict()
             subject_tokens_list = []
