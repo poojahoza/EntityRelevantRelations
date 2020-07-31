@@ -1,6 +1,6 @@
 import argparse
 
-from utils import readwriteutils
+import readwriteutils
 
 
 def count_relations(input_file):
