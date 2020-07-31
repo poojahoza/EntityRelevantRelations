@@ -24,14 +24,16 @@ def build_triples_charoffset_list(tokens_dict, sentence_json, annotated_text):
         except KeyError:
             for s1 in annotated_text.sentence:
                 if s1.sentenceIndex == subtoken.sentenceIndex:
+                    token_counter = 0
                     for t in s1.token:
-                        if t.tokenBeginIndex == subtoken.tokenIndex:
+                        if token_counter == subtoken.tokenIndex:
                             token_details = dict()
                             token_details['token'] = t.word
                             token_details['charOffsetBegin'] = t.beginChar
                             token_details['charOffsetEnd'] = t.endChar
                             relation_tokens.append(token_details)
                             break
+                        token_counter = token_counter + 1
                     break
     return relation_tokens
 
@@ -57,12 +59,14 @@ def extract_relations(input1, coref_flag):
                 relation_triples_list = []
                 for s in annotated_text.sentence:
                     token_json = dict()
+                    token_counter = 0
                     for tk in s.token:
                         tk_details = dict()
                         tk_details['token'] = tk.word
                         tk_details['charOffsetBegin'] = str(tk.beginChar)
                         tk_details['charOffsetEnd'] = str(tk.endChar)
-                        token_json[tk.tokenBeginIndex] = tk_details
+                        token_json[str(token_counter)] = tk_details
+                        token_counter = token_counter + 1
                     sentence_json[str(s.sentenceIndex)] = token_json
                     for triple in s.openieTriple:
                         triple_json = dict()

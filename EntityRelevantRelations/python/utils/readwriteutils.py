@@ -29,7 +29,7 @@ def read_converted_entity_ids(folder_location):
     converted_entiy_ids = dict()
     try:
         for file in files:
-            with open(folder_location+file, 'r', encoding='utf-8') as f:
+            with open(folder_location+'/'+file, 'r', encoding='utf-8') as f:
                 for line in f:
                     data = line.split('\t')
                     entity_ids_list = []
