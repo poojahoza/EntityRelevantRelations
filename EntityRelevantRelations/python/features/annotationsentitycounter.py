@@ -23,9 +23,9 @@ def write_json_file(file_location, output_json):
 
 def sort_elements(inputjson, limit):
 
-    for key, val in inputjson.iteritems():
+    for key, val in inputjson.items():
         sorted_dict = heapq.nlargest(limit, val.items(), key=itemgetter(1))
-        inputjson[key] = sorted_dict
+        inputjson[key] = dict(sorted_dict)
     return inputjson
 
 
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please enter relation triples annotations file")
     parser.add_argument('-a', '--annotationsfile', help='relation triple file location')
     parser.add_argument('-f', '--field', help='field subject | object')
-    parser.add_argument('-l', '--limit', help='top k elements limit')
+    parser.add_argument('-l', '--limit', type=int, help='top k elements limit')
     parser.add_argument('-o', '--output', help='json output file location')
     args = parser.parse_args()
     if not (args.field == "subject" or args.field == "object"):
