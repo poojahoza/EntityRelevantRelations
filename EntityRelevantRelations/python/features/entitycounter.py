@@ -1,8 +1,13 @@
+import json
 import argparse
 
 from collections import OrderedDict
 
-from utils import readwriteutils
+
+def read_json_file(input_file):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        json_dict = json.load(f)
+    return json_dict
 
 
 def count_entities(input_json):
@@ -27,6 +32,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please enter relation triples annotations file")
     parser.add_argument('--r', help='relation triple file location')
     args = parser.parse_args()
-    inputjson = readwriteutils.read_json_file(args.i)
+    inputjson = read_json_file(args.i)
     queryjson = count_entities(inputjson)
     print(len(queryjson))
