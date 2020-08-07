@@ -1,7 +1,40 @@
 import json
 import os
+import math
 
 from json.decoder import JSONDecodeError
+
+
+def read_multiple_json_files(folder_location):
+    files = os.listdir(folder_location)
+    content_json = []
+    try:
+        for file in files:
+            with open(folder_location+'/'+file, 'r', encoding='utf-8') as f:
+                content_json.extend(json.load(f))
+        return content_json
+    except Exception as e:
+        print(e)
+        return None
+
+
+def write_multiple_json_files(folder_location, output_json, output_file_name):
+
+    file_limit = 50000
+    num_files = math.ceil(len(output_json)/file_limit)
+    counter = -1
+    temp_json_list = []
+    for i in xrange(1, num_files+1):
+        for y in xrange((counter + 1), (file_limit * i)):
+            counter = counter + 1
+            if len(temp_json_list) >= y:
+                try:
+                    temp_json_list.append(output_json[y])
+                except IndexError:
+                    print(y)
+        if len(temp_json_list) > 0:
+            output_file = folder_location+'/'+output_file_name+'_'+i+'.json'
+            write_json_file(output_file, temp_json_list)
 
 
 def read_json_file(file_location):

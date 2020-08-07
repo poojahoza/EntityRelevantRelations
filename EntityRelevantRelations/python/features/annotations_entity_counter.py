@@ -4,21 +4,7 @@ import heapq
 
 from operator import itemgetter
 
-
-def read_json_file(self, input_file):
-    with open(input_file, 'r', encoding='utf-8') as f:
-        json_dict = json.load(f)
-    return json_dict
-
-
-def write_json_file(self, file_location, output_json):
-    try:
-        with open(file_location, 'w', encoding='utf-8') as f:
-            json.dump(output_json, f)
-            return True
-    except TypeError as t:
-        print(t)
-        return False
+from utils import read_write_utils
 
 
 def sort_elements(self, inputjson, limit):
@@ -55,18 +41,8 @@ def count_entities(self, input_json, field):
     return query_json
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please enter relation triples annotations file")
-    parser.add_argument('-a', '--annotationsfile', help='relation triple file location')
-    parser.add_argument('-f', '--field', help='field subject | object')
-    parser.add_argument('-l', '--limit', type=int, help='top k elements limit')
-    parser.add_argument('-o', '--output', help='json output file location')
-    args = parser.parse_args()
-    if not (args.field == "subject" or args.field == "object"):
-        print("the value of field flag must be subject | object")
-        sys.exit(-1)
-    inputjson = read_json_file(args.annotationsfile)
-    queryjson = count_entities(inputjson, args.field)
-    print(len(queryjson))
-    sorted_queryjson = sort_elements(queryjson, args.limit)
-    write_json_file(args.output, sorted_queryjson)
+def annotations_entity_counter_wrapper(input, field, lim, output):
+    inputjson = read_write_utils.read_multiple_json_files(input)
+    queryjson = count_entities(inputjson, field)
+    sorted_queryjson = sort_elements(queryjson, lim)
+    read_write_utils.write_multiple_json_files(output, sorted_queryjson, 'rel-ann-entity-freq')

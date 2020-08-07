@@ -1,6 +1,6 @@
 import argparse
 
-from utils import readwriteutils
+from utils import read_write_utils
 
 
 def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
@@ -76,9 +76,9 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
 
 def create_relation_triples_wat_ann_dicts(rel_file, ann_file, ent_file):
 
-    relation_triples = readwriteutils.read_json_file(rel_file)
-    annotations = readwriteutils.read_json_file(ann_file)
-    entity_ids = readwriteutils.read_converted_entity_ids(ent_file)
+    relation_triples = read_write_utils.read_json_file(rel_file)
+    annotations = read_write_utils.read_json_file(ann_file)
+    entity_ids = read_write_utils.read_converted_entity_ids(ent_file)
 
     rel_triples_dict = dict()
     ann_dict = dict()
@@ -105,7 +105,7 @@ def create_relation_triples_wat_ann_dicts(rel_file, ann_file, ent_file):
 def relation_triples_wat_annotations(rel_triples, annotations, ent_conv, output_file):
     rel_tri, wat_ann, ent_conv_id = create_relation_triples_wat_ann_dicts(rel_triples, annotations, ent_conv)
     output_json = map_relation_triples_wat_ann(rel_tri, wat_ann, ent_conv_id)
-    readwriteutils.write_json_file(output_file, output_json)
+    read_write_utils.write_json_file(output_file, output_json)
 
 
 if __name__ == "__main__":

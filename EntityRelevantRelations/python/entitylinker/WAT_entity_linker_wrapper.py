@@ -1,20 +1,22 @@
 import json
 import argparse
-import WATEntityLinker
+import WAT_entity_linker
 
-def writeToFile(output_file, final_dict):
+
+def writetofile(output_file, final_dict):
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(final_dict, f)
 
-def fetchFilesFromFolder(input_file):
+
+def fetchfilesfromfolder(input_file):
     final_json = []
     counter = 1
-    with open(input_file,'r',encoding='utf-8') as f:
+    with open(input_file, 'r', encoding='utf-8') as f:
         json_decode = json.load(f)
         for item in json_decode:
             temp_item = dict()
             print(counter)
-            wat_annotations = WATEntityLinker.wat_entity_linking(item['contexttext'])
+            wat_annotations = WAT_entity_linker.wat_entity_linking(item['contexttext'])
             wat_json_list = [w.json_dict() for w in wat_annotations]
             temp_item['queryid'] = item['queryid']
             temp_item['contexttext'] = item['contexttext']
@@ -26,11 +28,12 @@ def fetchFilesFromFolder(input_file):
             counter = counter + 1
     return final_json
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file location")
     parser.add_argument("--i",help="Input JSON file location")
     parser.add_argument("--o",help="Output JSON file location")
     args = parser.parse_args()
-    final_json = fetchFilesFromFolder(args.i)
+    final_json = fetchfilesfromfolder(args.i)
     print(len(final_json))
-    writeToFile(args.o, final_json)
+    writetofile(args.o, final_json)

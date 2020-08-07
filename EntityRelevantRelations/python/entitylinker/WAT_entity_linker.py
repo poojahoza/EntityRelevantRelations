@@ -3,6 +3,7 @@ import requests
 
 MY_GCUBE_TOKEN = '4f3275bc-555a-4627-99b0-36e1fd7ef45f-843339462'
 
+
 class WATAnnotation:
 
     def __init__(self,d):
@@ -17,26 +18,27 @@ class WATAnnotation:
     def json_dict(self):
 
         return{
-            'wiki_title':self.wiki_title,
-            'wiki_id':self.wiki_id,
-            'start':self.start,
-            'end':self.end,
-            'rho':self.rho,
-            'spot':self.spot
+            'wiki_title': self.wiki_title,
+            'wiki_id': self.wiki_id,
+            'start': self.start,
+            'end': self.end,
+            'rho': self.rho,
+            'spot': self.spot
         }
+
 
 def wat_entity_linking(text):
 
     wat_url='https://wat.d4science.org/wat/tag/tag'
-    payload=[("gcube-token",MY_GCUBE_TOKEN),
-             ("text",text),
-             ("lang","en"),
-             ("tokenizer","nlp4j"),
-             ("debug",9),
+    payload=[("gcube-token", MY_GCUBE_TOKEN),
+             ("text", text),
+             ("lang", "en"),
+             ("tokenizer", "nlp4j"),
+             ("debug", 9),
              ("method", "spotter:includeUserHint=true:includeNamedEntity=true:includeNounPhrase=true,prior:k=50,filter-valid,centroid:rescore=true,topk:k=5,voting:relatedness=lm,ranker:model=0046.model,confidence:model=pruner-wiki.linear")
     ]
 
-    response = requests.get(wat_url,params=payload)
+    response = requests.get(wat_url, params=payload)
     #print(response)
     return [WATAnnotation(a) for a in response.json()['annotations'] if a['rho'] >= 0.1]
 """
