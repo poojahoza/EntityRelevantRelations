@@ -5,13 +5,13 @@ import heapq
 from operator import itemgetter
 
 
-def read_json_file(input_file):
+def read_json_file(self, input_file):
     with open(input_file, 'r', encoding='utf-8') as f:
         json_dict = json.load(f)
     return json_dict
 
 
-def write_json_file(file_location, output_json):
+def write_json_file(self, file_location, output_json):
     try:
         with open(file_location, 'w', encoding='utf-8') as f:
             json.dump(output_json, f)
@@ -21,7 +21,7 @@ def write_json_file(file_location, output_json):
         return False
 
 
-def sort_elements(inputjson, limit):
+def sort_elements(self, inputjson, limit):
 
     for key, val in inputjson.items():
         sorted_dict = heapq.nlargest(limit, val.items(), key=itemgetter(1))
@@ -29,7 +29,7 @@ def sort_elements(inputjson, limit):
     return inputjson
 
 
-def count_entities(input_json, field):
+def count_entities(self, input_json, field):
 
     if field == "subject":
         ann_field = "subjectAnnotations"
