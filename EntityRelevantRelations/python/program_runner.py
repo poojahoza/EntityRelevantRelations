@@ -1,7 +1,7 @@
 import argparse
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog='runner')
+    parser = argparse.ArgumentParser()
     sub_parsers = parser.add_subparsers(help='sub-command help')
 
     parser_entitylinker = sub_parsers.add_parser('entitylinker', help='entity linker help')
@@ -25,14 +25,14 @@ if __name__ == "__main__":
     parser_features.add_argument('-o', '--output', help='json output file location')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
-    parser.add_argument('-q', '--qrel', help='qrel file location')
-    parser.add_argument('-f', '--feature', help='run file list', action="append")
-    parser.add_argument(
+    parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
+    parser_ranklib.add_argument('-f', '--feature', help='run file list', action="append")
+    parser_ranklib.add_argument(
         '-z', "--zscore", help='normalize the feature vectors with zscore', action="store_true")
-    parser.add_argument(
+    parser_ranklib.add_argument(
         '-o', '--output', help='output feature vector file path without zscore')
-    parser.add_argument('-zo', '--outputzscore', help='output feature vector file path zscore')
-    parser.add_argument('-ranklibo', '--rankliboutput', help='output ranklib file path zscore')
+    parser_ranklib.add_argument('-zo', '--outputzscore', help='output feature vector file path zscore')
+    parser_ranklib.add_argument('-ranklibo', '--rankliboutput', help='output ranklib file path zscore')
 
     args = parser.parse_args()
 
