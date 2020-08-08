@@ -112,7 +112,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provid input relation triple file, WAT Annotations file, "
                                      "entity conversion folder, output file locations")
     parser.add_argument('--r', help='relation triple file location')
-    parser.add_argument('--w', help='WAT Annptations file location')
+    parser.add_argument('--w', help='WAT Annotations file location')
     parser.add_argument('--e', help='Entity conversions folder location')
     parser.add_argument('--o', help='json output file location')
     args = parser.parse_args()

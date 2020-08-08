@@ -1,21 +1,7 @@
-import json
-import argparse
-import heapq
-
-from operator import itemgetter
-
-from utils import read_write_utils
+from utils import read_write_utils, conversion_utils, sort_utils
 
 
-def sort_elements(self, inputjson, limit):
-
-    for key, val in inputjson.items():
-        sorted_dict = heapq.nlargest(limit, val.items(), key=itemgetter(1))
-        inputjson[key] = dict(sorted_dict)
-    return inputjson
-
-
-def count_entities(self, input_json, field):
+def count_entities(input_json, field):
 
     if field == "subject":
         ann_field = "subjectAnnotations"
@@ -44,5 +30,6 @@ def count_entities(self, input_json, field):
 def annotations_entity_counter_wrapper(input, field, lim, output):
     inputjson = read_write_utils.read_multiple_json_files(input)
     queryjson = count_entities(inputjson, field)
-    sorted_queryjson = sort_elements(queryjson, lim)
-    read_write_utils.write_multiple_json_files(output, sorted_queryjson, 'rel-ann-entity-freq')
+    sorted_queryjson = sort_utils.sort_elements(queryjson, lim)
+    output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'rel_ann_entity_freq')
+    read_write_utils.write_text_file(output, output_list)
