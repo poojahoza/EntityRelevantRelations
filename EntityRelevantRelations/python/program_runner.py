@@ -67,7 +67,7 @@ if __name__ == "__main__":
             parser.print_help(sys.stderr)
             sys.exit(1)
 
-    if 'relfreq' in parser_arguments:
+    if 'relationentityfreq' in parser_arguments:
         if validate_runner_commands.validate_relations_freq(parser_arguments):
             relations_freq.relation_freq_wrapper(parser_arguments['annotations']
                                                  , parser_arguments['limit']
