@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+import validate_runner_commands
+
 from entitylinker import WAT_entity_linker_wrapper
 from features import annotations_entity_counter
 from ranklib import ranklib_file_generator
@@ -26,10 +28,10 @@ if __name__ == "__main__":
 
     parser_features = sub_parsers.add_parser('features', help='features help')
     parser_features.add_argument("-freq", "--entityfreq", action='store_true', help='execute entity freq feature')
-    parser_features.add_argument('-a', '--annotations', help='relation triple folder location', required=True)
-    parser_features.add_argument('-f', '--field', help='field subject | object', required=True, choices=['subject', 'object'])
-    parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit', required=True)
-    parser_features.add_argument('-o', '--output', help='json output file location', required=True)
+    parser_features.add_argument('-a', '--annotations', help='relation triple folder location')
+    parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object'])
+    parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
+    parser_features.add_argument('-o', '--output', help='json output file location')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location', required=True)
@@ -47,21 +49,25 @@ if __name__ == "__main__":
         parser.print_help(sys.stderr)
         sys.exit(1)
 
-    print(args)
+    parser_arguments = vars(args)
 
-    if args.watlinker:
+    if 'watlinker' in parser_arguments:
         pass
 
-    if args.stanford:
+    if 'stanford' in parser_arguments:
         pass
 
-    if args.entityfreq:
-        annotations_entity_counter.annotations_entity_counter_wrapper(args.annotations
-                                                                      , args.field
-                                                                      , args.limit
-                                                                      , args.output)
+    if 'entityfreq' in parser_arguments:
+        if validate_runner_commands.validate_entityfreq(parser_arguments):
+            annotations_entity_counter.annotations_entity_counter_wrapper(parser_arguments['annotations']
+                                                                          , parser_arguments['field']
+                                                                          , parser_arguments['limit']
+                                                                          , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
 
-    if args.ranklib:
+    if 'ranklib' in parser_arguments:
         pass
 
 
