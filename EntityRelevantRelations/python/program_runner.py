@@ -35,10 +35,6 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-relfreq", "--relationentityfreq", action='store_true', help='execute relation'
                                                                                                ' entity freq feature')
-    parser_features.add_argument('-a', '--annotations', help='relation triple folder location')
-    parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
-    parser_features.add_argument('-o', '--output', help='text output file location')
-
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
     parser_ranklib.add_argument('-f', '--feature', help='run file list', action="append")
