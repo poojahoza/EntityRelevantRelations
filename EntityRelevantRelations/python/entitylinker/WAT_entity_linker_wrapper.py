@@ -1,6 +1,6 @@
 import json
 import argparse
-import WAT_entity_linker
+from entitylinker import WAT_entity_linker
 
 
 def writetofile(output_file, final_dict):
