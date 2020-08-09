@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import annotations_entity_counter
+from features import annotations_entity_counter, relations_freq
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -15,33 +15,37 @@ if __name__ == "__main__":
 
     parser_entitylinker = sub_parsers.add_parser('entitylinker', help='entity linker help')
     parser_entitylinker.add_argument("-wat", "--watlinker", action='store_true', help="use wat entity linker")
-    parser_entitylinker.add_argument("-i", "--input", help="use wat entity linker", required=True)
-    parser_entitylinker.add_argument("-o", "--output", help="use wat entity linker", required=True)
+    parser_entitylinker.add_argument("-i", "--input", help="use wat entity linker")
+    parser_entitylinker.add_argument("-o", "--output", help="use wat entity linker")
 
     parser_relation_extractor = sub_parsers.add_parser('relationextractor', help='relation extractor help')
     parser_relation_extractor.add_argument("-stanford", "--stanford", action='store_true', help="use Stanford "
                                                                                                 "relation extractor")
-    parser_relation_extractor.add_argument('-i', '--input', help='input json file location', required=True)
-    parser_relation_extractor.add_argument('-o', '--output', help='output json file location', required=True)
-    parser_relation_extractor.add_argument('-coref', '--corefflag', help='coref flag true | false', required=True, choices=['true', 'false'])
-    parser_relation_extractor.add_argument('-e', '--errorlog', help='error log file', required=True)
+    parser_relation_extractor.add_argument('-i', '--input', help='input json file location')
+    parser_relation_extractor.add_argument('-o', '--output', help='output json file location')
+    parser_relation_extractor.add_argument('-coref', '--corefflag', help='coref flag true | false', choices=['true', 'false'])
+    parser_relation_extractor.add_argument('-e', '--errorlog', help='error log file')
 
     parser_features = sub_parsers.add_parser('features', help='features help')
     parser_features.add_argument("-freq", "--entityfreq", action='store_true', help='execute entity freq feature')
     parser_features.add_argument('-a', '--annotations', help='relation triple folder location')
     parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object'])
     parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
-    parser_features.add_argument('-o', '--output', help='json output file location')
+    parser_features.add_argument('-o', '--output', help='text output file location')
+
+    parser_features.add_argument("-relfreq", "--relationentityfreq", action='store_true', help='execute relation'
+                                                                                               ' entity freq feature')
+    parser_features.add_argument('-a', '--annotations', help='relation triple folder location')
+    parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
+    parser_features.add_argument('-o', '--output', help='text output file location')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
-    parser_ranklib.add_argument('-q', '--qrel', help='qrel file location', required=True)
-    parser_ranklib.add_argument('-f', '--feature', help='run file list', action="append", required=True)
-    parser_ranklib.add_argument(
-        '-z', "--zscore", help='normalize the feature vectors with zscore', action="store_true", required=True)
-    parser_ranklib.add_argument(
-        '-o', '--output', help='output feature vector file path without zscore', required=True)
-    parser_ranklib.add_argument('-zo', '--outputzscore', help='output feature vector file path zscore', required=True)
-    parser_ranklib.add_argument('-ranklibo', '--rankliboutput', help='output ranklib file path zscore', required=True)
+    parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
+    parser_ranklib.add_argument('-f', '--feature', help='run file list', action="append")
+    parser_ranklib.add_argument('-z', "--zscore", help='normalize the feature vectors with zscore', action="store_true")
+    parser_ranklib.add_argument('-o', '--output', help='output feature vector file path without zscore')
+    parser_ranklib.add_argument('-zo', '--outputzscore', help='output feature vector file path zscore')
+    parser_ranklib.add_argument('-ranklibo', '--rankliboutput', help='output ranklib file path zscore')
 
     args = parser.parse_args()
 
@@ -63,6 +67,15 @@ if __name__ == "__main__":
                                                                           , parser_arguments['field']
                                                                           , parser_arguments['limit']
                                                                           , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
+    if 'relfreq' in parser_arguments:
+        if validate_runner_commands.validate_relations_freq(parser_arguments):
+            relations_freq.relation_freq_wrapper(parser_arguments['annotations']
+                                                 , parser_arguments['limit']
+                                                 , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)
             sys.exit(1)

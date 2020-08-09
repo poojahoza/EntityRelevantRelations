@@ -19,6 +19,13 @@ def validate_entityfreq(parser_args):
         return False
 
 
+def validate_relations_freq(parser_args):
+    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None:
+        return True
+    else:
+        return False
+
+
 def validate_ranklib(parser_args):
     if parser_args['qrel'] is not None and parser_args['feature'] is not None and parser_args['zscore'] is not None and parser_args['output'] is not None and parser_args['outputzscore'] is not None and parser_args['rankliboutput'] is not None:
         return True
