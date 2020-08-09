@@ -20,7 +20,7 @@ def validate_entityfreq(parser_args):
 
 
 def validate_relations_freq(parser_args):
-    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None:
+    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['field'] is None:
         return True
     else:
         return False

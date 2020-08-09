@@ -57,7 +57,7 @@ if __name__ == "__main__":
     if 'stanford' in parser_arguments:
         pass
 
-    if 'entityfreq' in parser_arguments:
+    if 'entityfreq' in parser_arguments and parser_arguments['entityfreq']:
         if validate_runner_commands.validate_entityfreq(parser_arguments):
             annotations_entity_counter.annotations_entity_counter_wrapper(parser_arguments['annotations']
                                                                           , parser_arguments['field']
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             parser.print_help(sys.stderr)
             sys.exit(1)
 
-    if 'relationentityfreq' in parser_arguments:
+    if 'relationentityfreq' in parser_arguments and parser_arguments['relationentityfreq']:
         if validate_runner_commands.validate_relations_freq(parser_arguments):
             relations_freq.relation_freq_wrapper(parser_arguments['annotations']
                                                  , parser_arguments['limit']

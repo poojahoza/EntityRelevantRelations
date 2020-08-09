@@ -6,12 +6,13 @@ from utils import read_write_utils, conversion_utils, sort_utils
 def create_relations_graph(input_json):
 
     query_graphobj_mapping = dict()
+    counter = 1
 
     for item in input_json:
         if item['queryid'] not in query_graphobj_mapping:
             G = nx.Graph()
             query_graphobj_mapping[item['queryid']] = G
-        for relation in item['relationTriples']:
+        for relation in item['relAnnotations']:
             sub_ann = []
             obj_ann = []
 
@@ -26,6 +27,8 @@ def create_relations_graph(input_json):
                         query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + 1
                     else:
                         query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=1)
+        print(counter)
+        counter = counter + 1
     return query_graphobj_mapping
 
 
