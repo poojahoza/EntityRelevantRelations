@@ -27,20 +27,22 @@ def write_csv_file(output_file, output_dict):
 
 def find_common_entities(json_dict, qrel_dict):
     common_entities_list = []
-    for query,ent in qrel_dict.items():
+    for query, ent in qrel_dict.items():
         if query in json_dict:
             common_entities_dict = dict()
             common_entities_dict['queryid'] = query
             common_entities_dict['total_qrel_entities'] = len(ent)
-            common_entities_dict['common_entities'] = len(ent & json_dict[query])
-            common_entities_dict['difference_entities'] = len(ent - json_dict[query])
+            common_entities_dict['common_sub_entities'] = len(ent & json_dict[query]['subject_entities'])
+            common_entities_dict['common_obj_entities'] = len(ent & json_dict[query]['object_entities'])
+            common_entities_dict['difference_sub_entities'] = len(ent - json_dict[query]['subject_entities'])
+            common_entities_dict['difference_obj_entities'] = len(ent - json_dict[query]['object_entities'])
             common_entities_list.append(common_entities_dict)
     return common_entities_list
 
 
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
-    with open(input_qrel_file,'r', encoding='utf-8') as f:
+    with open(input_qrel_file, 'r', encoding='utf-8') as f:
         for line in f:
             data = line.split(" ")
             query_id = data[0]
@@ -66,12 +68,22 @@ def process_json_files(input_json_dir):
             print(len(json_decode))
             for query in json_decode:
                 query_id = query.get("queryid")
-                val = set()
+                sub_val = set()
+                obj_val = set()
                 if query_id in query_list:
-                    val = query_list[query_id]
-                for ent in query.get('WATEntitiesTitle'):
-                    val.add(ent)
-                    query_list[query_id] = val
+                    sub_val = query_list[query_id]['subject_entities']
+                    obj_val = query_list[query_id]['object_entities']
+                for relation in query.get('relAnnotations'):
+                    for s_ann in relation['subjectAnnotations']:
+                        for ann in s_ann['wiki_converted_id']:
+                            sub_val.add(ann)
+                    for o_ann in relation['objectAnnotations']:
+                        for o in o_ann['wiki_converted_id']:
+                            obj_val.add(o)
+                entities_dict = dict()
+                entities_dict['subject_entities'] = sub_val
+                entities_dict['object_entities'] = obj_val
+                query_list[query_id] = entities_dict
     #print(query_list)
     return query_list
     #item_list.append(query_list)
@@ -83,7 +95,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
     parser.add_argument("--i", help="Input JSON folder location")
     parser.add_argument("--q", help="Input qrel file location")
-    parser.add_argument("--o", help="Output JSON file location")
+    parser.add_argument("--o", help="Output csv file location")
     args = parser.parse_args()
     json_dict = process_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
