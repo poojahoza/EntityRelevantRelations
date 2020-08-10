@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser_features = sub_parsers.add_parser('features', help='features help')
     parser_features.add_argument("-freq", "--entityfreq", action='store_true', help='execute entity freq feature')
     parser_features.add_argument('-a', '--annotations', help='relation triple folder location')
-    parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object'])
+    parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object', 'both'])
     parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
     parser_features.add_argument('-o', '--output', help='text output file location')
 
