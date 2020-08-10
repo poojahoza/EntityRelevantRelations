@@ -32,10 +32,8 @@ def find_common_entities(json_dict, qrel_dict):
             common_entities_dict = dict()
             common_entities_dict['queryid'] = query
             common_entities_dict['total_qrel_entities'] = len(ent)
-            common_entities_dict['common_sub_entities'] = len(ent & json_dict[query]['subject_entities'])
-            common_entities_dict['common_obj_entities'] = len(ent & json_dict[query]['object_entities'])
-            common_entities_dict['difference_sub_entities'] = len(ent - json_dict[query]['subject_entities'])
-            common_entities_dict['difference_obj_entities'] = len(ent - json_dict[query]['object_entities'])
+            common_entities_dict['common_entities'] = len(ent & json_dict[query])
+            common_entities_dict['difference_entities'] = len(ent - json_dict[query])
             common_entities_list.append(common_entities_dict)
     return common_entities_list
 
@@ -68,22 +66,17 @@ def process_json_files(input_json_dir):
             print(len(json_decode))
             for query in json_decode:
                 query_id = query.get("queryid")
-                sub_val = set()
-                obj_val = set()
+                val = set()
                 if query_id in query_list:
-                    sub_val = query_list[query_id]['subject_entities']
-                    obj_val = query_list[query_id]['object_entities']
+                    val = query_list[query_id]
                 for relation in query.get('relAnnotations'):
                     for s_ann in relation['subjectAnnotations']:
                         for ann in s_ann['wiki_converted_id']:
-                            sub_val.add(ann)
+                            val.add(ann)
                     for o_ann in relation['objectAnnotations']:
                         for o in o_ann['wiki_converted_id']:
-                            obj_val.add(o)
-                entities_dict = dict()
-                entities_dict['subject_entities'] = sub_val
-                entities_dict['object_entities'] = obj_val
-                query_list[query_id] = entities_dict
+                            val.add(o)
+                query_list[query_id] = val
     #print(query_list)
     return query_list
     #item_list.append(query_list)
