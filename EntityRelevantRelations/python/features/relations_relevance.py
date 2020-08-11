@@ -56,5 +56,5 @@ def relation_freq_wrapper(input, lim, output):
     query_map_json = create_relations_graph(inputjson)
     queryjson = convert_map_to_output(query_map_json)
     sorted_queryjson = sort_utils.sort_elements(queryjson, lim)
-    output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'relation_edge_weigjt_freq')
+    output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'relation_edge_weight_relevace')
     read_write_utils.write_text_file(output, output_list)
