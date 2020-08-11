@@ -3,8 +3,6 @@ import argparse
 import json
 import pandas as pd
 
-from utils import read_write_utils
-
 
 def set_default(obj):
     if isinstance(obj, set):
@@ -67,34 +65,17 @@ def process_qrel_files(input_qrel_file):
     return qrel_list
 
 
-def process_json_files(input_json_dir):
-    files = os.listdir(input_json_dir)
-    query_list = dict()
-    #item_list = []
-    print(len(files))
-    for file in files:
-        with open(input_json_dir+'/'+file, 'r', encoding='utf-8') as f:
-            print(os.path.abspath(file))
-            json_decode = json.load(f)
-            print(len(json_decode))
-            for query in json_decode:
-                query_id = query.get("queryid")
-                val = set()
-                if query_id in query_list:
-                    val = query_list[query_id]
-                for relation in query.get('relAnnotations'):
-                    for s_ann in relation['subjectAnnotations']:
-                        for ann in s_ann['wiki_converted_id']:
-                            val.add(ann)
-                    for o_ann in relation['objectAnnotations']:
-                        for o in o_ann['wiki_converted_id']:
-                            val.add(o)
-                query_list[query_id] = val
-    #print(query_list)
-    return query_list
-    #item_list.append(query_list)
-    #with open(output, 'w', encoding='utf-8') as f:
-    #        json.dump(item_list, f, default=set_default)
+def read_multiple_json_files(folder_location):
+    files = os.listdir(folder_location)
+    content_json = []
+    try:
+        for file in files:
+            with open(folder_location+'/'+file, 'r', encoding='utf-8') as f:
+                content_json.extend(json.load(f))
+        return content_json
+    except Exception as e:
+        print(e)
+        return None
 
 
 if __name__ == "__main__":
@@ -104,7 +85,7 @@ if __name__ == "__main__":
     parser.add_argument("--Q", help="Query to search for")
     parser.add_argument("--o", help="Output json file location")
     args = parser.parse_args()
-    json_dict = read_write_utils.read_multiple_json_files(args.i)
+    json_dict = read_multiple_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
     common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.Q)
     write_json_file(args.o, common_entities)
