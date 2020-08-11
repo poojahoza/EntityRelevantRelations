@@ -40,7 +40,7 @@ def find_common_entities(json_dict, qrel_dict):
 
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
-    with open(input_qrel_file,'r', encoding='utf-8') as f:
+    with open(input_qrel_file, 'r', encoding='utf-8') as f:
         for line in f:
             data = line.split(" ")
             query_id = data[0]

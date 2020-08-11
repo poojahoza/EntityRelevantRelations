@@ -30,10 +30,11 @@ def find_relevant_passage_rank(json_dict, qrel_dict, query):
     query_dict = dict()
     for ent in qrel_dict[query]:
         relevant_entities[ent] = []
+    print(len(json_dict))
     for item in json_dict:
         if item['queryid'] == query:
+            entity_set = set()
             for relation in item['relAnnotations']:
-                entity_set = set()
                 for sann in relation["subjectAnnotations"]:
                     for entityid in sann['wiki_converted_id']:
                         entity_set.add(entityid)
@@ -51,7 +52,7 @@ def find_relevant_passage_rank(json_dict, qrel_dict, query):
 
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
-    with open(input_qrel_file,'r', encoding='utf-8') as f:
+    with open(input_qrel_file, 'r', encoding='utf-8') as f:
         for line in f:
             data = line.split(" ")
             query_id = data[0]
