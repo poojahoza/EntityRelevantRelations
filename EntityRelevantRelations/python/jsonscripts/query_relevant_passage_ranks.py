@@ -71,7 +71,7 @@ def process_json_files(input_json_dir):
     #item_list = []
     print(len(files))
     for file in files:
-        with open(input_json_dir+file, 'r', encoding='utf-8') as f:
+        with open(input_json_dir+'/'+file, 'r', encoding='utf-8') as f:
             print(os.path.abspath(file))
             json_decode = json.load(f)
             print(len(json_decode))
@@ -80,9 +80,14 @@ def process_json_files(input_json_dir):
                 val = set()
                 if query_id in query_list:
                     val = query_list[query_id]
-                for ent in query.get('WATEntitiesTitle'):
-                    val.add(ent)
-                    query_list[query_id] = val
+                for relation in query.get('relAnnotations'):
+                    for s_ann in relation['subjectAnnotations']:
+                        for ann in s_ann['wiki_converted_id']:
+                            val.add(ann)
+                    for o_ann in relation['objectAnnotations']:
+                        for o in o_ann['wiki_converted_id']:
+                            val.add(o)
+                query_list[query_id] = val
     #print(query_list)
     return query_list
     #item_list.append(query_list)
