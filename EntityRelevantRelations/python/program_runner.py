@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import annotations_entity_counter, relations_freq
+from features import annotations_entity_counter, relations_freq, relations_relevance
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     if 'relationentityrelevance' in parser_arguments and parser_arguments['relationentityrelevance']:
         if validate_runner_commands.validate_relations_relevance(parser_arguments):
-            relations_freq.relation_freq_wrapper(parser_arguments['annotations']
+            relations_relevance.relation_relevance_wrapper(parser_arguments['annotations']
                                                  , parser_arguments['limit']
                                                  , parser_arguments['output'])
         else:

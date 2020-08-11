@@ -51,7 +51,7 @@ def convert_map_to_output(query_graph_map):
     return output_dict
 
 
-def relation_freq_wrapper(input, lim, output):
+def relation_relevance_wrapper(input, lim, output):
     inputjson = read_write_utils.read_multiple_json_files(input)
     query_map_json = create_relations_graph(inputjson)
     queryjson = convert_map_to_output(query_map_json)
