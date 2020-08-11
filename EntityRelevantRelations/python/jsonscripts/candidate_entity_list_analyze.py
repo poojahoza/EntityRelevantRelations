@@ -60,7 +60,7 @@ def process_json_files(input_json_dir):
     #item_list = []
     print(len(files))
     for file in files:
-        with open(input_json_dir+file, 'r', encoding='utf-8') as f:
+        with open(input_json_dir+'/'+file, 'r', encoding='utf-8') as f:
             print(os.path.abspath(file))
             json_decode = json.load(f)
             print(len(json_decode))
