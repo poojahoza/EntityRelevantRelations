@@ -35,6 +35,13 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-relfreq", "--relationentityfreq", action='store_true', help='execute relation'
                                                                                                ' entity freq feature')
+
+    parser_features.add_argument("-relrelevance", "--relationentityrelevance", action='store_true', help='execute '
+                                                                                                         'relation '
+                                                                                                         'entity relevance '
+                                                                                                         'feature')
+
+
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
     parser_ranklib.add_argument('-f', '--feature', help='run file list', action="append")
@@ -69,6 +76,15 @@ if __name__ == "__main__":
 
     if 'relationentityfreq' in parser_arguments and parser_arguments['relationentityfreq']:
         if validate_runner_commands.validate_relations_freq(parser_arguments):
+            relations_freq.relation_freq_wrapper(parser_arguments['annotations']
+                                                 , parser_arguments['limit']
+                                                 , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
+    if 'relationentityrelevance' in parser_arguments and parser_arguments['relationentityrelevance']:
+        if validate_runner_commands.validate_relations_relevance(parser_arguments):
             relations_freq.relation_freq_wrapper(parser_arguments['annotations']
                                                  , parser_arguments['limit']
                                                  , parser_arguments['output'])
