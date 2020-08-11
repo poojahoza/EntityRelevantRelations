@@ -24,9 +24,9 @@ def create_relations_graph(input_json):
             for s in sub_ann:
                 for o in obj_ann:
                     if query_graphobj_mapping[item['queryid']].has_edge(s, o):
-                        query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + (1/item['contextrank'])
+                        query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + (1/int(item['contextrank']))
                     else:
-                        query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=(1/item['contextrank']))
+                        query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=(1/int(item['contextrank'])))
         print(counter)
         counter = counter + 1
     return query_graphobj_mapping
