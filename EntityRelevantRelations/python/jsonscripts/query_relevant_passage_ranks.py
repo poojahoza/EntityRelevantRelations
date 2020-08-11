@@ -3,6 +3,8 @@ import argparse
 import json
 import pandas as pd
 
+from utils import read_write_utils
+
 
 def set_default(obj):
     if isinstance(obj, set):
@@ -102,7 +104,7 @@ if __name__ == "__main__":
     parser.add_argument("--Q", help="Query to search for")
     parser.add_argument("--o", help="Output json file location")
     args = parser.parse_args()
-    json_dict = process_json_files(args.i)
+    json_dict = read_write_utils.read_multiple_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
     common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.Q)
     write_json_file(args.o, common_entities)
