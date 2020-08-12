@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import annotations_entity_counter, relations_freq, relations_relevance
+from features import annotations_entity_counter, relations_freq, relations_relevance, relations_score
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -41,6 +41,8 @@ if __name__ == "__main__":
                                                                                                          'entity relevance '
                                                                                                          'feature')
 
+    parser_features.add_argument("-relscore", "--relationentityscore", action='store_true', help='execute relation '
+                                                                                                 'entity score feature')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
@@ -88,6 +90,15 @@ if __name__ == "__main__":
             relations_relevance.relation_relevance_wrapper(parser_arguments['annotations']
                                                  , parser_arguments['limit']
                                                  , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
+    if 'relationentityscore' in parser_arguments and parser_arguments['relationentityscore']:
+        if validate_runner_commands.validate_relations_relevance(parser_arguments):
+            relations_score.relation_score_wrapper(parser_arguments['annotations']
+                                                           , parser_arguments['limit']
+                                                           , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)
             sys.exit(1)
