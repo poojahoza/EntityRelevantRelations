@@ -1,5 +1,5 @@
 def validate_watlinker(parser_args):
-    if parser_args['input'] is not None and parser_args['output'] is not None:
+    if parser_args['input'] is not None and parser_args['output'] is not None and parser_args['watlinker'] is not None:
         return True
     else:
         return False

@@ -29,6 +29,12 @@ def fetchfilesfromfolder(input_file):
     return final_json
 
 
+def wat_linker_wrapper(input, output):
+    final_json = fetchfilesfromfolder(input)
+    print(len(final_json))
+    writetofile(output, final_json)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide input file and output file location")
     parser.add_argument("--i",help="Input JSON file location")

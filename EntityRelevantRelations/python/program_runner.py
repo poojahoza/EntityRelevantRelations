@@ -60,8 +60,10 @@ if __name__ == "__main__":
 
     parser_arguments = vars(args)
 
-    if 'watlinker' in parser_arguments:
-        pass
+    if 'watlinker' in parser_arguments and parser_arguments['watlinker']:
+        if validate_runner_commands.validate_watlinker(parser_arguments):
+            WAT_entity_linker_wrapper.wat_linker_wrapper(parser_arguments['input']
+                                                         , parser_arguments['output'])
 
     if 'stanford' in parser_arguments:
         pass
