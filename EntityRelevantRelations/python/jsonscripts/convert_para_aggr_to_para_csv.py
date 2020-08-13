@@ -5,7 +5,7 @@ import argparse
 
 def read_para_aggr_jsonl_file(input_file_location):
     output_list = []
-    with jsonlines.open(input_file_location, 'r', encoding='utf-8') as reader:
+    with jsonlines.open(input_file_location, 'r') as reader:
         for item in reader:
             output_list.append(item['query']+'\t'+item['document']['paragraph'])
     return output_list
