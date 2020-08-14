@@ -34,24 +34,28 @@ public class ReadFile {
 
             for (String s : csv_data) {
                 String[] splited_text = s.split("\t");
-                Container c = new Container(Double.parseDouble(splited_text[3]));
-                c.setRank(Integer.parseInt(splited_text[2]));
+
+                String field_text = null;
                 if (para_details.containsKey(splited_text[1])) {
-                    c.setText(para_details.get(splited_text[1]));
+                    field_text = para_details.get(splited_text[1]);
                 } else {
                     List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(splited_text[1]);
                     if (wat_mentions.size() > 0) {
                         if (wat_mentions.get(0) != null) {
-                            c.setText(wat_mentions.get(0));
-                            para_details.put(splited_text[1], wat_mentions.get(0));
+                            field_text = wat_mentions.get(0);
                         } else {
-                            c.setText("");
-                            para_details.put(splited_text[1], "");
+                            field_text = "";
                         }
                     }
                 }
+                Container c = new Container(Double.parseDouble(splited_text[3]));
+                c.setRank(Integer.parseInt(splited_text[2]));
+                c.setText(field_text);
+                para_details.put(splited_text[1], field_text);
+
                 String outer_key = splited_text[0];
                 String inner_key = splited_text[1];
+
                 if (final_map.containsKey(outer_key)) {
                     Map<String, Container> extract = final_map.get(outer_key);
                     extract.put(inner_key, c);
