@@ -43,8 +43,10 @@ public class ReadFile {
                     if (wat_mentions.size() > 0) {
                         if (wat_mentions.get(0) != null) {
                             c.setText(wat_mentions.get(0));
+                            para_details.put(splited_text[1], wat_mentions.get(0));
                         } else {
                             c.setText("");
+                            para_details.put(splited_text[1], "");
                         }
                     }
                 }
