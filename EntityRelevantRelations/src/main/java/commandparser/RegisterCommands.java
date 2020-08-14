@@ -90,6 +90,9 @@ public class RegisterCommands
          @Parameter(names = {"-ent-link", "--entity-linker"}, description = "Entity Linker Index Location")
          private String entitylinker = null;
 
+         @Parameter(names = {"-para-aggr-csv", "--para-aggr-csv"}, description = "Para aggr csv file location")
+         private String paracsvloc = null;
+
          @Parameter(names = {"-wiki-ent-link", "--wiki-entity-linker"}, description = "Wiki Entity Linker Index Location")
          private String wikientitylinker = null;
 
@@ -193,6 +196,9 @@ public class RegisterCommands
 
          @Parameter(names = "--compare-index",description ="Compare two indexes")
          private boolean compareIndex =false;
+
+         @Parameter(names = "--para-aggr",description ="flag to convert para aggr to BM25 ranking hashmap")
+         private boolean paraAggr =false;
 
          @Parameter(names = "--entity-degree",description ="Rerank the initial retrieved document using entity degree")
          private boolean isEntityDegree =false;
@@ -379,6 +385,7 @@ public class RegisterCommands
          public boolean isDBpediaContain() {return isDBpediaContain;}
          public boolean isQEEnabled(){return isQE;}
          public String getEntitylinker(){return entitylinker;}
+         public String getParacsvloc(){return paracsvloc;}
          public String getWikientitylinker(){return wikientitylinker;}
          public String getJsonfile(){return jsonfile;}
          public qeType getQEType () {return qeTypeValue;}
@@ -469,6 +476,8 @@ public class RegisterCommands
          public boolean isCreateEntityJSON(){return isCreateEntityJSON;}
 
          public boolean isCompareIndex(){return compareIndex;}
+
+         public boolean isParaAggr(){return paraAggr;}
 
          public boolean isCreateIndexJSON(){return iscreateIndexJSON;}
 

@@ -83,7 +83,7 @@ public class JSONConversion {
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
             Map<String, List<String>> para_entities = new LinkedHashMap<>();
             try {
-                WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc);
+                WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc, "EntityLinks");
                 for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
                     for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
                         List<String> wat_entities;

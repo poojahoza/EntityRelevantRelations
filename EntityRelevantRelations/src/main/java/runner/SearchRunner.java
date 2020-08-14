@@ -1,8 +1,6 @@
 package main.java.runner;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import main.java.commandparser.CommandParser;
 import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
@@ -17,9 +15,6 @@ import main.java.utils.*;
 import main.java.containers.RankingJSONTemplate;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
@@ -175,9 +170,19 @@ public class SearchRunner implements ProgramRunner
                 {
                     datafile = "_train";
                 }
+                Map<String, Map<String, Container>> bm25_ranking;
 
-                BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
-                Map<String, Map<String, Container>> bm25_ranking = bm25.getRanking(queryCBOR);
+                if(searchParser.isParaAggr()){
+                    List<String> csv_data = readFile.readFile(searchParser.getParacsvloc());
+                    bm25_ranking = readFile.convertParaAggrCsvtoBM25Ranking(csv_data, searchParser.getEntitylinker());
+
+                }else {
+                    BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
+                    bm25_ranking = bm25.getRanking(queryCBOR);
+                }
+                System.out.println("**************");
+                System.out.println(bm25_ranking.size());
+                System.out.println("**************");
                 JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                 List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
 

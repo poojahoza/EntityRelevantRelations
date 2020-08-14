@@ -2,7 +2,9 @@ package main.java.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import main.java.containers.Container;
 import main.java.containers.RankingJSONTemplate;
+import main.java.searcher.WATEntityIndexSearcher;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,46 @@ public class ReadFile {
             ioe.printStackTrace();
         }
         return lines;
+    }
+
+    public Map<String, Map<String, Container>> convertParaAggrCsvtoBM25Ranking(List<String> csv_data, String entityLinkerLoc){
+        Map<String, Map<String, Container>> final_map = new LinkedHashMap<>();
+        try {
+            WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(entityLinkerLoc, "Text");
+            Map<String, String> para_details = new LinkedHashMap<>();
+
+            for (String s : csv_data) {
+                String[] splited_text = s.split("\t");
+                Container c = new Container(Double.parseDouble(splited_text[3]));
+                c.setRank(Integer.parseInt(splited_text[2]));
+                if (para_details.containsKey(splited_text[1])) {
+                    c.setText(para_details.get(splited_text[1]));
+                } else {
+                    List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(splited_text[1]);
+                    if (wat_mentions.size() > 0) {
+                        if (wat_mentions.get(0) != null) {
+                            c.setText(wat_mentions.get(0));
+                        } else {
+                            c.setText("");
+                        }
+                    }
+                }
+                String outer_key = splited_text[0];
+                String inner_key = splited_text[1];
+                if (final_map.containsKey(outer_key)) {
+                    Map<String, Container> extract = final_map.get(outer_key);
+                    extract.put(inner_key, c);
+                } else {
+                    Map<String, Container> temp = new LinkedHashMap<>();
+                    temp.put(inner_key, c);
+                    final_map.put(outer_key, temp);
+                }
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        return final_map;
     }
 
     public Map<String, List<String>> getFilesfromFolder(String Folderlocation){

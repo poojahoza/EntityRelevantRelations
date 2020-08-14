@@ -17,11 +17,14 @@ import java.util.List;
 
 public class WATEntityIndexSearcher extends BaseSearcher  {
 
-    public WATEntityIndexSearcher(String indexLoc) throws IOException {
+    String field = "EntityLinks";
+
+    public WATEntityIndexSearcher(String indexLoc, String searchField) throws IOException {
 
         super(indexLoc);
         searcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(Paths.get(indexLoc))));
         parser = new QueryParser("Id", new EnglishAnalyzer());
+        field = searchField;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class WATEntityIndexSearcher extends BaseSearcher  {
             //Print out the results from the rank document
             String paraId = rankedDoc.getField("Id").stringValue();
             if(paraId.equals(paraid)){
-                String entity_links = rankedDoc.getField("EntityLinks").stringValue();
+                String entity_links = rankedDoc.getField(field).stringValue();
                 rankings.add(entity_links);
                 //System.out.println("processing query : "+paraid);
                 break;
