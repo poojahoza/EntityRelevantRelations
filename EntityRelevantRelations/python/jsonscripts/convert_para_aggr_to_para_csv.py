@@ -7,7 +7,7 @@ def read_para_aggr_jsonl_file(input_file_location):
     output_list = []
     with jsonlines.open(input_file_location, 'r') as reader:
         for item in reader:
-            output_list.append(item['query']+'\t'+item['document']['paragraph'])
+            output_list.append(item['query']+'\t'+item['document']['paragraph']+'\t'+str(item['rank'])+'\t'+str(item['score']))
     return output_list
 
 
