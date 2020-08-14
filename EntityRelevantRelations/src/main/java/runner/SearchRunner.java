@@ -171,20 +171,24 @@ public class SearchRunner implements ProgramRunner
                     datafile = "_train";
                 }
                 Map<String, Map<String, Container>> bm25_ranking;
+                List<RankingJSONTemplate> rankingJSONTemplate;
+                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
 
                 if(searchParser.isParaAggr()){
                     List<String> csv_data = readFile.readFile(searchParser.getParacsvloc());
                     bm25_ranking = readFile.convertParaAggrCsvtoBM25Ranking(csv_data, searchParser.getEntitylinker());
+                    rankingJSONTemplate = bm25RankingConversion.convertParaAggrBM25RankingToRankingJSON(bm25_ranking);
 
                 }else {
                     BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                     bm25_ranking = bm25.getRanking(queryCBOR);
+                    //JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
+                    rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
                 }
                 System.out.println("**************");
                 System.out.println(bm25_ranking.size());
                 System.out.println("**************");
-                JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
-                List<RankingJSONTemplate> rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+
 
                 writeJSONFile.writeMultipleFiles("output_query_json_file",
                         rankingJSONTemplate,
