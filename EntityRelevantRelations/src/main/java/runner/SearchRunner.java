@@ -179,32 +179,51 @@ public class SearchRunner implements ProgramRunner
                     bm25_ranking = readFile.convertParaAggrCsvtoBM25Ranking(csv_data, searchParser.getEntitylinker());
                     rankingJSONTemplate = bm25RankingConversion.convertParaAggrBM25RankingToRankingJSON(bm25_ranking);
 
+
+                    writeJSONFile.writeMultipleFiles("output_query_json_file",
+                            rankingJSONTemplate,
+                            "JSON"+level+datafile);
+
+                    List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertParaAggrBM25RankingToWATEntityJSON(bm25_ranking,
+                            searchParser.getEntitylinker(),
+                            converted_entity_ids);
+                    writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
+                            watJSONTemplate,
+                            "WAT_JSON"+level+datafile);
+
+                    List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertParaAggrBM25RankingToWikiEntityJSON(bm25_ranking);
+                    writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
+                            wikiJSONTemplate,
+                            "Wiki_JSON"+level+datafile);
+
                 }else {
                     BaseBM25 bm25 = new BaseBM25(searchParser.getkVAL(), searchParser.getIndexlocation());
                     bm25_ranking = bm25.getRanking(queryCBOR);
                     //JSONConversion.BM25RankingConversion bm25RankingConversion = new JSONConversion.BM25RankingConversion(searchParser.getIndexlocation());
                     rankingJSONTemplate = bm25RankingConversion.convertBM25RankingToRankingJSON(bm25_ranking);
+
+
+                    writeJSONFile.writeMultipleFiles("output_query_json_file",
+                            rankingJSONTemplate,
+                            "JSON"+level+datafile);
+
+                    List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
+                            searchParser.getEntitylinker(),
+                            converted_entity_ids);
+                    writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
+                            watJSONTemplate,
+                            "WAT_JSON"+level+datafile);
+
+                    List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
+                    writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
+                            wikiJSONTemplate,
+                            "Wiki_JSON"+level+datafile);
                 }
                 System.out.println("**************");
                 System.out.println(bm25_ranking.size());
                 System.out.println("**************");
 
 
-                writeJSONFile.writeMultipleFiles("output_query_json_file",
-                        rankingJSONTemplate,
-                        "JSON"+level+datafile);
-
-                List<RankingJSONTemplate> watJSONTemplate = bm25RankingConversion.convertBM25RankingToWATEntityJSON(bm25_ranking,
-                        searchParser.getEntitylinker(),
-                        converted_entity_ids);
-                writeJSONFile.writeMultipleFiles("output_query_wat_json_file",
-                        watJSONTemplate,
-                        "WAT_JSON"+level+datafile);
-
-                List<RankingJSONTemplate> wikiJSONTemplate = bm25RankingConversion.convertBM25RankingToWikiEntityJSON(bm25_ranking);
-                writeJSONFile.writeMultipleFiles("output_query_wiki_json_file",
-                        wikiJSONTemplate,
-                        "Wiki_JSON"+level+datafile);
 
                 /*JSONConversion.RankingJSONTemplateConversion rankingJSONTemplateConversion = new JSONConversion.RankingJSONTemplateConversion();
                 Map<String, Map<String, Map<Integer, List<String>>>> rankingMap = rankingJSONTemplateConversion.ConvertRankingJSONtoMap(watJSONTemplate);

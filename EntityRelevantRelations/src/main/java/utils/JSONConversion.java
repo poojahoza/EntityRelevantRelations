@@ -71,6 +71,69 @@ public class JSONConversion {
             return rankingJSONTemplateList;
         }
 
+        public List<RankingJSONTemplate> convertParaAggrBM25RankingToWikiEntityJSON(Map<String, Map<String, Container>> BM25Ranking){
+            List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
+                for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
+                    RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
+                    jsonTemplate.setQueryid(queryid.getKey());
+                    jsonTemplate.setContextid(para.getKey());
+                    jsonTemplate.setContexttext(para.getValue().getText());
+                    jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
+                    jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
+                    jsonTemplate.setWATEntitiesTitle(Arrays.asList(para.getValue().getEntity().getEntityId().split("[\r\n]+")));
+                    rankingJSONTemplateList.add(jsonTemplate);
+                }
+            }
+            return rankingJSONTemplateList;
+        }
+
+        public List<RankingJSONTemplate> convertParaAggrBM25RankingToWATEntityJSON(Map<String, Map<String, Container>> BM25Ranking,
+                                                                           String WATEntityIndexLoc,
+                                                                           Map<String, List<String>> converted_entity_ids){
+            List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
+            Map<String, List<String>> para_entities = new LinkedHashMap<>();
+            try {
+                WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(WATEntityIndexLoc, "EntityLinks");
+                for (Map.Entry<String, Map<String, Container>> queryid : BM25Ranking.entrySet()) {
+                    for (Map.Entry<String, Container> para : queryid.getValue().entrySet()) {
+                        List<String> wat_entities;
+                        RankingJSONTemplate jsonTemplate = new RankingJSONTemplate();
+                        jsonTemplate.setQueryid(queryid.getKey());
+                        jsonTemplate.setContextid(para.getKey());
+                        jsonTemplate.setContexttext(para.getValue().getText());
+                        jsonTemplate.setContextrank(String.valueOf(para.getValue().getRank()));
+                        jsonTemplate.setContextscore(String.valueOf(para.getValue().getScore()));
+                        if(para_entities.containsKey(para.getKey())){
+                            wat_entities = para_entities.get(para.getKey());
+                        }else{
+                            wat_entities = new ArrayList<>();
+                            List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(para.getKey());
+                            if(wat_mentions.size()>0){
+                                //System.out.println(wat_mentions.get(0));
+                                String[] temp = wat_mentions.get(0).split("\n");
+                                wat_mentions.clear();
+                                for(String t:temp){
+                                    wat_mentions.add(t.split("_")[0]);
+                                }
+                                for(String m:wat_mentions){
+                                    if(converted_entity_ids.containsKey(m)){
+                                        wat_entities.addAll(converted_entity_ids.get(m));
+                                    }
+                                }
+                            }
+                            para_entities.put(para.getKey(), wat_entities);
+                        }
+                        jsonTemplate.setWATEntitiesTitle(wat_entities);
+                        rankingJSONTemplateList.add(jsonTemplate);
+                    }
+                }
+            }catch (IOException ioe){
+                ioe.printStackTrace();
+            }
+            return rankingJSONTemplateList;
+        }
+
         public List<RankingJSONTemplate> convertBM25RankingToWikiEntityJSON(Map<String, Map<String, Container>> BM25Ranking){
             List<RankingJSONTemplate> rankingJSONTemplateList = new ArrayList<>() ;
             try {

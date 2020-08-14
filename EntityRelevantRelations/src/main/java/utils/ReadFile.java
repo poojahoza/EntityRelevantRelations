@@ -3,8 +3,11 @@ package main.java.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import main.java.containers.Container;
+import main.java.containers.EntityContainer;
 import main.java.containers.RankingJSONTemplate;
+import main.java.searcher.DocumentEntityIndexSearcher;
 import main.java.searcher.WATEntityIndexSearcher;
+import org.apache.lucene.document.Document;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,29 +32,29 @@ public class ReadFile {
     public Map<String, Map<String, Container>> convertParaAggrCsvtoBM25Ranking(List<String> csv_data, String entityLinkerLoc){
         Map<String, Map<String, Container>> final_map = new LinkedHashMap<>();
         try {
-            WATEntityIndexSearcher watEntityIndexSearcher = new WATEntityIndexSearcher(entityLinkerLoc, "Text");
-            Map<String, String> para_details = new LinkedHashMap<>();
+            DocumentEntityIndexSearcher documentEntityIndexSearcher = new DocumentEntityIndexSearcher(entityLinkerLoc);
+            Map<String, Document> para_details = new LinkedHashMap<>();
 
             for (String s : csv_data) {
                 String[] splited_text = s.split("\t");
 
-                String field_text = null;
+                Document document = null;
                 if (para_details.containsKey(splited_text[1])) {
-                    field_text = para_details.get(splited_text[1]);
+                    document = para_details.get(splited_text[1]);
                 } else {
-                    List<String> wat_mentions = watEntityIndexSearcher.createWATAnnotations(splited_text[1]);
+                    List<Document> wat_mentions = documentEntityIndexSearcher.getLuceneDocuments(splited_text[1]);
                     if (wat_mentions.size() > 0) {
                         if (wat_mentions.get(0) != null) {
-                            field_text = wat_mentions.get(0);
-                        } else {
-                            field_text = "";
+                            document = wat_mentions.get(0);
                         }
                     }
                 }
                 Container c = new Container(Double.parseDouble(splited_text[3]));
                 c.setRank(Integer.parseInt(splited_text[2]));
-                c.setText(field_text);
-                para_details.put(splited_text[1], field_text);
+                c.setText(document.getField("Text").stringValue());
+                c.addEntityContainer(new EntityContainer(document.getField("EntityLinks").stringValue(), document.getField("OutlinkIds").stringValue()));
+                c.setScoreVal(Double.parseDouble(splited_text[3]));
+                para_details.put(splited_text[1], document);
 
                 String outer_key = splited_text[0];
                 String inner_key = splited_text[1];
