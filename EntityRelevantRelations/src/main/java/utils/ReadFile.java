@@ -51,9 +51,11 @@ public class ReadFile {
                 }
                 Container c = new Container(Double.parseDouble(splited_text[3]));
                 c.setRank(Integer.parseInt(splited_text[2]));
-                c.setText(document.getField("Text").stringValue());
-                c.addEntityContainer(new EntityContainer(document.getField("EntityLinks").stringValue(), document.getField("OutlinkIds").stringValue()));
                 c.setScoreVal(Double.parseDouble(splited_text[3]));
+                if(document != null) {
+                    c.setText(document.getField("Text").stringValue());
+                    c.addEntityContainer(new EntityContainer(document.getField("EntityLinks").stringValue(), document.getField("OutlinkIds").stringValue()));
+                }
                 para_details.put(splited_text[1], document);
 
                 String outer_key = splited_text[0];
