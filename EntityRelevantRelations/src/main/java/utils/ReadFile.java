@@ -49,25 +49,26 @@ public class ReadFile {
                         }
                     }
                 }
-                Container c = new Container(Double.parseDouble(splited_text[3]));
-                c.setRank(Integer.parseInt(splited_text[2]));
-                c.setScoreVal(Double.parseDouble(splited_text[3]));
                 if(document != null) {
+                    Container c = new Container(Double.parseDouble(splited_text[3]));
+                    c.setRank(Integer.parseInt(splited_text[2]));
+                    c.setScoreVal(Double.parseDouble(splited_text[3]));
                     c.setText(document.getField("Text").stringValue());
                     c.addEntityContainer(new EntityContainer(document.getField("EntityLinks").stringValue(), document.getField("OutlinkIds").stringValue()));
-                }
-                para_details.put(splited_text[1], document);
 
-                String outer_key = splited_text[0];
-                String inner_key = splited_text[1];
+                    para_details.put(splited_text[1], document);
 
-                if (final_map.containsKey(outer_key)) {
-                    Map<String, Container> extract = final_map.get(outer_key);
-                    extract.put(inner_key, c);
-                } else {
-                    Map<String, Container> temp = new LinkedHashMap<>();
-                    temp.put(inner_key, c);
-                    final_map.put(outer_key, temp);
+                    String outer_key = splited_text[0];
+                    String inner_key = splited_text[1];
+
+                    if (final_map.containsKey(outer_key)) {
+                        Map<String, Container> extract = final_map.get(outer_key);
+                        extract.put(inner_key, c);
+                    } else {
+                        Map<String, Container> temp = new LinkedHashMap<>();
+                        temp.put(inner_key, c);
+                        final_map.put(outer_key, temp);
+                    }
                 }
             }
         }
