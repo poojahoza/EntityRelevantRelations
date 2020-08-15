@@ -176,7 +176,7 @@ public class SearchRunner implements ProgramRunner
 
                 if(searchParser.isParaAggr()){
                     List<String> csv_data = readFile.readFile(searchParser.getParacsvloc());
-                    bm25_ranking = readFile.convertParaAggrCsvtoBM25Ranking(csv_data, searchParser.getEntitylinker());
+                    bm25_ranking = readFile.convertParaAggrCsvtoBM25Ranking(csv_data, searchParser.getIndexlocation());
                     rankingJSONTemplate = bm25RankingConversion.convertParaAggrBM25RankingToRankingJSON(bm25_ranking);
 
 
