@@ -28,6 +28,8 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
                             subject_token_dict = dict()
                             subject_token_dict['wiki_id'] = ann['wiki_id']
                             subject_token_dict['wiki_title'] = ann['wiki_title']
+                            subject_token_dict['start'] = ann['start']
+                            subject_token_dict['end'] = ann['end']
                             if ann['wiki_title'] in ent_dict:
                                 subject_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
                             else:
@@ -49,6 +51,8 @@ def map_relation_triples_wat_ann(rel_dict, ann_dict, ent_dict):
                             object_token_dict = dict()
                             object_token_dict['wiki_id'] = ann['wiki_id']
                             object_token_dict['wiki_title'] = ann['wiki_title']
+                            object_token_dict['start'] = ann['start']
+                            object_token_dict['end'] = ann['end']
                             if ann['wiki_title'] in ent_dict:
                                 object_token_dict['wiki_converted_id'] = ent_dict[ann['wiki_title']]
                             else:
