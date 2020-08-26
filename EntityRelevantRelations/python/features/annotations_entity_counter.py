@@ -80,7 +80,7 @@ def count_entities(input_json, field):
     for query, val in query_json.items():
         reciprocal_freq_dict = dict()
         for ent, freq in val.items():
-            reciprocal_freq_dict[ent] = 1/freq
+            reciprocal_freq_dict[ent] = (1/int(freq))
         final_query_json[query] = reciprocal_freq_dict
     return final_query_json
 
