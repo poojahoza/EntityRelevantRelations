@@ -73,15 +73,17 @@ def count_entities(input_json, field):
                             else:
                                 entities_dict[entityid] = 1
                     query_json[item['queryid']] = entities_dict
-    # for query in query_json:
-    #     if query == 'enwiki:Agriprocessors':
-    #         print(query_json[query])
+
     final_query_json = dict()
     for query, val in query_json.items():
         reciprocal_freq_dict = dict()
         for ent, freq in val.items():
             reciprocal_freq_dict[ent] = (1/int(freq))
         final_query_json[query] = reciprocal_freq_dict
+
+    for query in final_query_json:
+        if query == 'enwiki:Agriprocessors':
+            print(final_query_json[query])
     return final_query_json
 
 
