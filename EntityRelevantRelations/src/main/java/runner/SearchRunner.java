@@ -322,7 +322,14 @@ public class SearchRunner implements ProgramRunner
 
                 WriteFile write_file = new WriteFile();
                 String level = searchParser.isArticleEnabled()? "_article": "_section";
-                String input_json_file = searchParser.isWikiEnabled()? "_wiki": "_wat";
+                String input_json_file = "";
+                if (searchParser.isWikiEnabled()){
+                    input_json_file = "_wiki";
+                }else if(searchParser.isWatEnabled()){
+                    input_json_file = "_wat";
+                }else if(searchParser.isStanfordEnabled()){
+                    input_json_file = "_stanford";
+                }
                 String datafile ="";
                 if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))
                 {

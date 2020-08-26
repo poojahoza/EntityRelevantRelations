@@ -237,6 +237,9 @@ public class RegisterCommands
          @Parameter(names = "wat",description ="WAT JSON file input")
          private boolean isWatEnabled =false;
 
+         @Parameter(names = "stanford",description ="Stanford JSON file input")
+         private boolean isStanfordEnabled =false;
+
          @Parameter(names = "coref-flag",description ="flag to indicate stanford coref should be enabled or disabled")
          private boolean isCorefFlag =false;
 
@@ -376,6 +379,7 @@ public class RegisterCommands
          }
          public boolean isWikiEnabled(){return isWikiEnabled;}
          public boolean isWatEnabled() {return isWatEnabled;}
+         public boolean isStanfordEnabled() {return isStanfordEnabled;}
          public boolean isCorefFlag(){return isCorefFlag;}
          public boolean isSectionEnabled()
          {
