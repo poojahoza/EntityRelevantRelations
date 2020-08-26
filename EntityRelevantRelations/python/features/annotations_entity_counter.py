@@ -76,7 +76,13 @@ def count_entities(input_json, field):
     # for query in query_json:
     #     if query == 'enwiki:Agriprocessors':
     #         print(query_json[query])
-    return query_json
+    final_query_json = dict()
+    for query, val in query_json.items():
+        reciprocal_freq_dict = dict()
+        for ent, freq in val.items():
+            reciprocal_freq_dict[ent] = 1/freq
+        final_query_json[query] = reciprocal_freq_dict
+    return final_query_json
 
 
 def annotations_entity_counter_wrapper(input, field, lim, output):
