@@ -73,9 +73,9 @@ def count_entities(input_json, field):
                             else:
                                 entities_dict[entityid] = 1
                     query_json[item['queryid']] = entities_dict
-    for query in query_json:
-        if query == 'enwiki:Agriprocessors':
-            print(query_json[query])
+    # for query in query_json:
+    #     if query == 'enwiki:Agriprocessors':
+    #         print(query_json[query])
     return query_json
 
 
@@ -83,5 +83,8 @@ def annotations_entity_counter_wrapper(input, field, lim, output):
     inputjson = read_write_utils.read_multiple_json_files(input)
     queryjson = count_entities(inputjson, field)
     sorted_queryjson = sort_utils.sort_elements(queryjson, lim)
+    for query in sorted_queryjson:
+        if query == 'enwiki:Agriprocessors':
+            print(sorted_queryjson[query])
     output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'rel_ann_entity_freq')
     read_write_utils.write_text_file(output, output_list)
