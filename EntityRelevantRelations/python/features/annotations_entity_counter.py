@@ -73,6 +73,9 @@ def count_entities(input_json, field):
                             else:
                                 entities_dict[entityid] = 1
                     query_json[item['queryid']] = entities_dict
+    for query in query_json:
+        if query == 'enwiki:Agriprocessors':
+            print(query_json[query])
     return query_json
 
 
