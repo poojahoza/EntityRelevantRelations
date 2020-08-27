@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def write_text_file(final_list, output_file_loc):
@@ -39,19 +40,22 @@ def generate_candidate_pool(qrel_dict, run_dict):
     return output_dict
 
 
-def process_run_files(run_file):
+def process_run_files(run_folder_loc):
 
     run_dict = dict()
 
-    with open(run_file, 'r') as r:
-        for line in r.readline():
-            splitted_text = line.split()
-            if splitted_text[0] in run_dict:
-                run_entities = run_dict[splitted_text[0]]
-                run_entities.add(splitted_text[2])
-                run_dict[splitted_text[0]] = run_entities
-            else:
-                run_dict[splitted_text[0]] = set(splitted_text[2])
+    files = os.listdir(run_folder_loc)
+
+    for file in files:
+        with open(run_folder_loc+'/'+file, 'r') as r:
+            for line in r.readline():
+                splitted_text = line.split()
+                if splitted_text[0] in run_dict:
+                    run_entities = run_dict[splitted_text[0]]
+                    run_entities.add(splitted_text[2])
+                    run_dict[splitted_text[0]] = run_entities
+                else:
+                    run_dict[splitted_text[0]] = set(splitted_text[2])
     return run_dict
 
 
@@ -74,7 +78,7 @@ def process_qrel_file(qrel_file):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide qrel file and the run files location")
     parser.add_argument('--q', help='qrel text file location')
-    parser.add_argument('--r', help='input-run text file location')
+    parser.add_argument('--r', help='input-runs folder location')
     parser.add_argument('--o', help='output text file location')
     args = parser.parse_args()
     qrel_data = process_qrel_file(args.q)
