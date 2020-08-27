@@ -48,7 +48,7 @@ def process_run_files(run_folder_loc):
 
     for file in files:
         with open(run_folder_loc+'/'+file, 'r') as r:
-            for line in r.readline():
+            for line in r.readlines():
                 splitted_text = line.split()
                 if splitted_text[0] in run_dict:
                     run_entities = run_dict[splitted_text[0]]
@@ -64,7 +64,7 @@ def process_qrel_file(qrel_file):
     qrel_dict = dict()
 
     with open(qrel_file, 'r') as f:
-        for line in f.readline():
+        for line in f.readlines():
             splitted_text = line.split()
             if splitted_text[0] in qrel_dict:
                 relevant_entities = qrel_dict[splitted_text[0]]
