@@ -6,6 +6,7 @@ import main.java.commandparser.RegisterCommands;
 import main.java.commandparser.ValidateCommands;
 import main.java.containers.Container;
 import main.java.containers.RelationWrapperJSONTemplate;
+import main.java.entitylinker.dbpedia.DBpediaIndextoJSON;
 import main.java.entityrelation.*;
 import main.java.indexer.IndexCompare;
 import main.java.indexer.ParagraphIndexReaderJSON;
@@ -277,6 +278,12 @@ public class SearchRunner implements ProgramRunner
                     relationWrapperJSONTemplateList,
                     "Stanford_relation_triple"+level+datafile);
 
+        }
+
+        if(searchParser.isDbpedia()){
+            DBpediaIndextoJSON dBpediaIndextoJSON = new DBpediaIndextoJSON();
+            dBpediaIndextoJSON.getDBpediaAnnotations(searchParser.getIndexlocation(),
+                    searchParser.getJsonfile(), searchParser.getOutputfileloc());
         }
 
         if(searchParser.isEntityFreqEnabled()){

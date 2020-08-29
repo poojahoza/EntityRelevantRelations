@@ -84,6 +84,9 @@ public class RegisterCommands
           @Parameter(names = {"-q", "--query-cbor"}, description = "Query file (CBOR file)", required = true)
           private String queryfile = null;
 
+         @Parameter(names = {"-o", "--output-file-loc"}, description = "Output file location")
+         private String outputfileloc = null;
+
          @Parameter(names = {"-qrel", "--entity-qrel"}, description = "Entity qrel file")
          private String qrelfile = null;
 
@@ -200,6 +203,9 @@ public class RegisterCommands
          @Parameter(names = "--para-aggr",description ="flag to convert para aggr to BM25 ranking hashmap")
          private boolean paraAggr =false;
 
+         @Parameter(names = "--dbpedia",description ="flag to convert dbpedia index to JSON file")
+         private boolean dbpedia =false;
+
          @Parameter(names = "--entity-degree",description ="Rerank the initial retrieved document using entity degree")
          private boolean isEntityDegree =false;
 
@@ -239,6 +245,9 @@ public class RegisterCommands
 
          @Parameter(names = "stanford",description ="Stanford JSON file input")
          private boolean isStanfordEnabled =false;
+
+         @Parameter(names = "dbpedia",description ="DBpedia flag")
+         private boolean isDBpediaEnabled =false;
 
          @Parameter(names = "coref-flag",description ="flag to indicate stanford coref should be enabled or disabled")
          private boolean isCorefFlag =false;
@@ -359,6 +368,10 @@ public class RegisterCommands
          {
              return qrelPath;
          }
+         public String getOutputfileloc()
+         {
+             return outputfileloc;
+         }
          public boolean isMrfEnabled() {return  isMrfEnabled;}
          public boolean isParallelEnabled(){return isParallelEnabled;}
          public static boolean isSpamFilterEnabled()
@@ -476,6 +489,8 @@ public class RegisterCommands
          }
 
          public boolean isEntityFreqEnabled() { return isEntityFreq;}
+
+         public boolean isDbpedia() { return dbpedia;}
 
          public boolean isCreateEntityJSON(){return isCreateEntityJSON;}
 

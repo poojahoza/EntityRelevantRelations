@@ -2,6 +2,7 @@ package main.java.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import main.java.containers.EntityLinkerAnnotationsWrapperJSONTemplate;
 import main.java.containers.RankingJSONTemplate;
 import main.java.containers.RelationWrapperJSONTemplate;
 
@@ -54,6 +55,24 @@ public class WriteJSONFile {
         }
         Path file = Paths.get(System.getProperty("user.dir")+"/"+folder_name, output_file_name);
         checkFileExistence(System.getProperty("user.dir")+"/"+folder_name+"/"+output_file_name);
+
+        try(Writer writer = new OutputStreamWriter(new FileOutputStream(file.toFile()), StandardCharsets.UTF_8)){
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(rankingJSON, writer);
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    public void writeDBpediaAnnotationsFile(String output_file_name,
+                                        List<EntityLinkerAnnotationsWrapperJSONTemplate> rankingJSON){
+        //String result_dir = "JSON";
+        /*File directory = new File(folder_name);
+        if (! directory.exists()){
+            directory.mkdir();
+        }*/
+        Path file = Paths.get(output_file_name);
+        checkFileExistence(output_file_name);
 
         try(Writer writer = new OutputStreamWriter(new FileOutputStream(file.toFile()), StandardCharsets.UTF_8)){
             Gson gson = new GsonBuilder().create();
