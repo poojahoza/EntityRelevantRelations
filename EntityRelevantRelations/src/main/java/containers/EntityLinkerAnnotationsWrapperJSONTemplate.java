@@ -12,7 +12,7 @@ public class EntityLinkerAnnotationsWrapperJSONTemplate {
     private String contexttext;
     private String contextrank;
     private String contextscore;
-    private List<EntityLinkerAnnotationsJSONTemplate> WATAnnotations;
+    private List<EntityLinkerAnnotationsJSONTemplate> WATannotations;
 
 
     public String getQueryid(){
@@ -35,7 +35,7 @@ public class EntityLinkerAnnotationsWrapperJSONTemplate {
         return contextscore;
     }
 
-    public List<EntityLinkerAnnotationsJSONTemplate> getWATAnnotations() {return WATAnnotations;}
+    public List<EntityLinkerAnnotationsJSONTemplate> getWATAnnotations() {return WATannotations;}
 
     public void setQueryid(String queryid){
         this.queryid = queryid;
@@ -57,5 +57,5 @@ public class EntityLinkerAnnotationsWrapperJSONTemplate {
         this.contextscore = contextscore;
     }
 
-    public void setWATAnnotations(List<EntityLinkerAnnotationsJSONTemplate> watAnnotations){this.WATAnnotations=watAnnotations;}
+    public void setWATAnnotations(List<EntityLinkerAnnotationsJSONTemplate> watAnnotations){this.WATannotations=watAnnotations;}
 }
