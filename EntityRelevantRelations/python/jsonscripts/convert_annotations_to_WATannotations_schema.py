@@ -45,7 +45,7 @@ def convert_annotations_to_wat_annotations_schema(input_file_loc, entity_id_conv
         wat_annotations = []
         for ann in item['WATannotations']:
             if ann['wiki_title'] in converted_entity_ids:
-                wat_annotations.append(converted_entity_ids[ann['wiki_title']])
+                wat_annotations.extend(converted_entity_ids[ann['wiki_title']])
 
         item_dict['WATEntitiesTitle'] = wat_annotations
         final_output_json.append(item_dict)
