@@ -203,7 +203,7 @@ public class RegisterCommands
          @Parameter(names = "--para-aggr",description ="flag to convert para aggr to BM25 ranking hashmap")
          private boolean paraAggr =false;
 
-         @Parameter(names = "--dbpedia",description ="flag to convert dbpedia index to JSON file")
+         @Parameter(names = "--dbpedia-index-to-json",description ="flag to convert dbpedia index to JSON file")
          private boolean dbpedia =false;
 
          @Parameter(names = "--entity-degree",description ="Rerank the initial retrieved document using entity degree")
