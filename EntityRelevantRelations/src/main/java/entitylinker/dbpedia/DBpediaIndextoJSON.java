@@ -23,18 +23,21 @@ public class DBpediaIndextoJSON {
     private List<EntityLinkerAnnotationsJSONTemplate> getAnnotations(String paraid){
         List<EntityLinkerAnnotationsJSONTemplate> entityLinkerAnnotationsJSONTemplateList = new ArrayList<>();
         List<String> annotations = watEntityIndexSearcher.createWATAnnotations(paraid);
-        if (annotations.get(0) != null){
-            String[] splitted_text = annotations.get(0).split("\n");
-            for (int i=0; i<splitted_text.length; i++){
-                EntityLinkerAnnotationsJSONTemplate entityLinkerAnnotationsJSONTemplate = new EntityLinkerAnnotationsJSONTemplate();
-                String[] inner_splitted_text = splitted_text[i].split("\t");
-                entityLinkerAnnotationsJSONTemplate.setSpot(inner_splitted_text[0]);
-                entityLinkerAnnotationsJSONTemplate.setStart(Integer.parseInt(inner_splitted_text[1]));
-                entityLinkerAnnotationsJSONTemplate.setEnd(Integer.parseInt(inner_splitted_text[2]));
-                entityLinkerAnnotationsJSONTemplate.setRho(Double.parseDouble(inner_splitted_text[3]));
-                entityLinkerAnnotationsJSONTemplate.setWiki_title(inner_splitted_text[4]);
-                entityLinkerAnnotationsJSONTemplate.setWiki_id(Integer.parseInt("0"));
-                entityLinkerAnnotationsJSONTemplateList.add(entityLinkerAnnotationsJSONTemplate);
+        System.out.println(paraid+" "+String.valueOf(annotations.size()));
+        if(annotations.size()>0) {
+            if (annotations.get(0) != null) {
+                String[] splitted_text = annotations.get(0).split("\n");
+                for (int i = 0; i < splitted_text.length; i++) {
+                    EntityLinkerAnnotationsJSONTemplate entityLinkerAnnotationsJSONTemplate = new EntityLinkerAnnotationsJSONTemplate();
+                    String[] inner_splitted_text = splitted_text[i].split("\t");
+                    entityLinkerAnnotationsJSONTemplate.setSpot(inner_splitted_text[0]);
+                    entityLinkerAnnotationsJSONTemplate.setStart(Integer.parseInt(inner_splitted_text[1]));
+                    entityLinkerAnnotationsJSONTemplate.setEnd(Integer.parseInt(inner_splitted_text[2]));
+                    entityLinkerAnnotationsJSONTemplate.setRho(Double.parseDouble(inner_splitted_text[3]));
+                    entityLinkerAnnotationsJSONTemplate.setWiki_title(inner_splitted_text[4]);
+                    entityLinkerAnnotationsJSONTemplate.setWiki_id(Integer.parseInt("0"));
+                    entityLinkerAnnotationsJSONTemplateList.add(entityLinkerAnnotationsJSONTemplate);
+                }
             }
         }
         return entityLinkerAnnotationsJSONTemplateList;
@@ -55,7 +58,7 @@ public class DBpediaIndextoJSON {
                 entityLinkerAnnotationsWrapperJSONTemplate.setContexttext(jsonTemplate.getContexttext());
                 entityLinkerAnnotationsWrapperJSONTemplate.setContextrank(jsonTemplate.getContextrank());
                 entityLinkerAnnotationsWrapperJSONTemplate.setContextscore(jsonTemplate.getContextscore());
-                entityLinkerAnnotationsWrapperJSONTemplate.setWATAnnotations(getAnnotations(jsonTemplate.getQueryid()));
+                entityLinkerAnnotationsWrapperJSONTemplate.setWATAnnotations(getAnnotations(jsonTemplate.getContextid()));
                 entityLinkerAnnotationsWrapperJSONTemplates.add(entityLinkerAnnotationsWrapperJSONTemplate);
             });
 
