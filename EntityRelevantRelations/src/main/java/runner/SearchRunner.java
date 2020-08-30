@@ -336,6 +336,8 @@ public class SearchRunner implements ProgramRunner
                     input_json_file = "_wat";
                 }else if(searchParser.isStanfordEnabled()){
                     input_json_file = "_stanford";
+                }else if(searchParser.isDBpediaEnabled()){
+                    input_json_file = "_dbpedia";
                 }
                 String datafile ="";
                 if(searchParser.getQueryfile().toLowerCase().contains("test".toLowerCase()))

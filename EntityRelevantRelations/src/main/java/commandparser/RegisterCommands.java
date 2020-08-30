@@ -393,6 +393,7 @@ public class RegisterCommands
          public boolean isWikiEnabled(){return isWikiEnabled;}
          public boolean isWatEnabled() {return isWatEnabled;}
          public boolean isStanfordEnabled() {return isStanfordEnabled;}
+         public boolean isDBpediaEnabled() {return isDBpediaEnabled;}
          public boolean isCorefFlag(){return isCorefFlag;}
          public boolean isSectionEnabled()
          {
