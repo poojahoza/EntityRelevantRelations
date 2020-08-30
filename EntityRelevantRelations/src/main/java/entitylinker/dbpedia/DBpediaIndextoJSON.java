@@ -25,7 +25,7 @@ public class DBpediaIndextoJSON {
         List<String> annotations = watEntityIndexSearcher.createWATAnnotations(paraid);
         System.out.println(paraid+" "+String.valueOf(annotations.size()));
         if(annotations.size()>0) {
-            if (annotations.get(0) != null) {
+            if (annotations.get(0) != null && !annotations.get(0).equals("")) {
                 String[] splitted_text = annotations.get(0).split("\n");
                 for (int i = 0; i < splitted_text.length; i++) {
                     EntityLinkerAnnotationsJSONTemplate entityLinkerAnnotationsJSONTemplate = new EntityLinkerAnnotationsJSONTemplate();
