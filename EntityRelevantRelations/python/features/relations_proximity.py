@@ -19,9 +19,9 @@ def create_relations_graph(input_json):
                     for s in subj['wiki_converted_id']:
                         for o in obj['wiki_converted_id']:
                             if query_graphobj_mapping[item['queryid']].has_edge(s, o):
-                                query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + abs(int(s['end'])-int(o['start']))
+                                query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + abs(int(subj['end'])-int(obj['start']))
                             else:
-                                query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=(abs(int(s['end'])-int(o['start']))))
+                                query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=(abs(int(subj['end'])-int(obj['start']))))
 
         print(counter)
         counter = counter + 1
