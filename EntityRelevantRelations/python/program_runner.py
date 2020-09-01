@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import annotations_entity_counter, relations_freq, relations_relevance, relations_score
+from features import annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     if 'relationproximity' in parser_arguments and parser_arguments['relationproximity']:
         if validate_runner_commands.validate_relations_proximity(parser_arguments):
-            relations_score.relation_proximity_wrapper(parser_arguments['annotations']
+            relations_proximity.relation_proximity_wrapper(parser_arguments['annotations']
                                                    , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)
