@@ -56,6 +56,6 @@ def relation_relevance_wrapper(input, lim, output):
     query_map_json = create_relations_graph(inputjson)
     queryjson = convert_map_to_output(query_map_json)
     #sorted_queryjson = sort_utils.sort_elements(queryjson, lim)
-    sorted_queryjson = sort_utils.sort_elements_by_value(queryjson, lim)
+    sorted_queryjson = sort_utils.sort_elements_by_value(queryjson)
     output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'relation_edge_weight_relevace')
     read_write_utils.write_text_file(output, output_list)
