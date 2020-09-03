@@ -5,6 +5,7 @@ import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
 from features import annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity
+from features import relations_degree
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -46,6 +47,9 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-relprox", "--relationproximity", action='store_true', help='execute relation '
                                                                                                  'proximity feature')
+
+    parser_features.add_argument("-reldeg", "--relationdegree", action='store_true', help='execute relation '
+                                                                                                     'degree feature')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
@@ -115,6 +119,15 @@ if __name__ == "__main__":
         else:
             parser.print_help(sys.stderr)
             sys.exit(1)
+
+    if 'relationdegree' in parser_arguments and parser_arguments['relationdegree']:
+        if validate_runner_commands.validate_relations_proximity(parser_arguments):
+            relations_degree.relation_degree_wrapper(parser_arguments['annotations']
+                                                   , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
 
     if 'ranklib' in parser_arguments:
         pass
