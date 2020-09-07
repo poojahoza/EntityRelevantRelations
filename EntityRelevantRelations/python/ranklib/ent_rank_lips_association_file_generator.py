@@ -6,12 +6,14 @@ import os
 
 def write_jsonl_file(output_file, output_list):
     with jsonlines.open(output_file, mode='w') as f:
-        f.write(output_list)
+        for a in output_list:
+            f.write(a)
 
 
 def generate_assocations_file(input_folder,method_name):
 
     output_list = []
+    counter = 0
 
     files = os.listdir(input_folder)
     for file in files:
@@ -39,6 +41,8 @@ def generate_assocations_file(input_folder,method_name):
                             ann_doc['entity'] = [s, o]
                             ann_dict['document'] = ann_doc
                             output_list.append(ann_dict)
+                print(counter)
+                counter = counter + 1
     return output_list
 
 
