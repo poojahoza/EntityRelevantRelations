@@ -68,7 +68,7 @@ def process_qrel_file(qrel_folder_loc):
     for file in files:
         with open(qrel_folder_loc+'/'+file, 'r') as f:
             for line in f.readlines():
-                splitted_text = line.split()
+                splitted_text = line.split('\t')
                 if splitted_text[0] in qrel_dict:
                     relevant_entities = qrel_dict[splitted_text[0]]
                     relevant_entities.add(splitted_text[2])
