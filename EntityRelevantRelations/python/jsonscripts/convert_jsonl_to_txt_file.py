@@ -6,7 +6,7 @@ def generate_trec_eval_run_file_from_jsonl(input_file_loc, output_file_loc, fiel
     text_file_list = []
     with jsonlines.open(input_file_loc, "r") as f:
         for line in f:
-            text_file_list.append(line["query"]+" Q0 "+line["document"][field]+" "+line["rank"]+" "+line["score"]+" unh_trema "+line["method"])
+            text_file_list.append(line["query"]+" Q0 "+line["document"][field]+" "+str(line["rank"])+" "+str(line["score"])+" unh_trema "+line["method"])
 
     with open(output_file_loc, "w", encoding='utf-8') as writer:
         for l in text_file_list:
