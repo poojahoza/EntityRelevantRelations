@@ -33,8 +33,8 @@ def generate_assocations_file(input_folder,method_name):
                             ann_dict = dict()
                             ann_doc = dict()
                             ann_dict['query'] = item['queryid']
-                            ann_dict['rank'] = "1"
-                            ann_dict['score'] = "1"
+                            ann_dict['rank'] = 1
+                            ann_dict['score'] = 1
                             ann_dict['method'] = method_name
                             ann_doc['paragraph'] = item['contextid']
                             ann_doc['neighbor'] = []
