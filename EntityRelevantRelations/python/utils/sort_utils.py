@@ -16,5 +16,5 @@ def sort_elements_by_value(inputjson):
 
     sortedjson = dict()
     for key, value in inputjson.items():
-        sortedjson[key] = {k:v for k, v in sorted(value.items(), key=lambda item: item[1])}
+        sortedjson[key] = {k:v for k, v in sorted(value.items(), key=lambda item: item[1], reverse=True)}
     return sortedjson
