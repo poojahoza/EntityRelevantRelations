@@ -2,7 +2,7 @@ import jsonlines
 import argparse
 
 
-def generate_trec_eval_run_file_from_jsonl(input_file_loc, output_file_loc, query_id):
+def generate_trec_eval_run_file_from_jsonl(input_file_loc, output_file_loc, query_id, field):
     output_file_list = []
     with jsonlines.open(input_file_loc, "r") as f:
         for line in f:
@@ -15,10 +15,10 @@ def generate_trec_eval_run_file_from_jsonl(input_file_loc, output_file_loc, quer
             writer.write('%s\n' % l)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide input jsonl file, output text file location and query")
+    parser = argparse.ArgumentParser("Please provide input jsonl file, output text file location, field and query")
     parser.add_argument('--r', help='input jsonl location')
     parser.add_argument('--o', help='output text file location')
-    #parser.add_argument('--f', help='values: paragraph|entity|neighbor')
+    parser.add_argument('--f', help='values: paragraph|entity|neighbor')
     parser.add_argument('--q', help='sample query')
     args = parser.parse_args()
-    run_data = generate_trec_eval_run_file_from_jsonl(args.r, args.o, args.q)
+    run_data = generate_trec_eval_run_file_from_jsonl(args.r, args.o, args.q, args.f)
