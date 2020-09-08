@@ -3,6 +3,8 @@ import json
 import jsonlines
 import os
 
+from collections import defaultdict
+
 
 def write_jsonl_file(output_file, output_list):
     with jsonlines.open(output_file, mode='w') as f:
