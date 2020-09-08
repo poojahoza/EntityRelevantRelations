@@ -40,10 +40,22 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query):
                             sub_ann.extend(sub['wiki_converted_id'])
                         for obj in rel['objectAnnotations']:
                             obj_ann.extend(obj['wiki_converted_id'])
-    
+
                         for s in sub_ann:
                             for o in obj_ann:
-                                if s in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
+                                if s in qrel_dict[item['queryid']] and o in qrel_dict[item['queryid']]:
+                                    ann_dict = dict()
+                                    ann_doc = dict()
+                                    ann_dict['query'] = item['queryid']
+                                    ann_dict['rank'] = 1
+                                    ann_dict['score'] = 1
+                                    ann_dict['method'] = method_name
+                                    ann_doc['paragraph'] = item['contextid']
+                                    ann_doc['neighbor'] = []
+                                    ann_doc['entity'] = [s, o]
+                                    ann_dict['document'] = ann_doc
+                                    output_list.append(ann_dict)
+                                elif s not in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
                                     ann_dict = dict()
                                     ann_doc = dict()
                                     ann_dict['query'] = item['queryid']
