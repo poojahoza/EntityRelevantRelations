@@ -8,8 +8,8 @@ def generate_sample_query_qrel_file_from_jsonl(input_qrel, output_qrel_txt, outp
         for line in f:
             if line["query"] == query_id:
                 #output_file_list.append(line)
-                output_file_list.append(line["query"]+" 0 "+line["document"]["entity"]+" "+str(line["relevance"])
-                output_dict= dict()
+                output_file_list.append(line["query"]+" 0 "+line["document"]["entity"]+" "+str(line["relevance"]))
+                output_dict = dict()
                 output_dict["relevance"] = 1
                 output_dict["query"] = line["query"]
                 item_dict = dict()
