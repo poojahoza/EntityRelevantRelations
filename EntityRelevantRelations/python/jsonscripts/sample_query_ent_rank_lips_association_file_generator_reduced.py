@@ -45,17 +45,23 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query, entit
                             for o in obj_ann:
                                 if s in entityid and o in entityid:
                                     if s in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
-                                        ann_dict = dict()
-                                        ann_doc = dict()
-                                        ann_dict['query'] = item['queryid']
-                                        ann_dict['rank'] = 1
-                                        ann_dict['score'] = 1
-                                        ann_dict['method'] = method_name
-                                        #ann_doc['paragraph'] = item['contextid']
-                                        #ann_doc['neighbor'] = []
-                                        ann_doc['entity'] = [s, o]
-                                        ann_dict['document'] = ann_doc
-                                        output_list.append(ann_dict)
+                                        exists_flag = False
+                                        for assoc in output_list:
+                                            if assoc['document']['entity'] == [s, o]: # add the new document only if does not exists in the file
+                                                exists_flag = True
+                                                break
+                                        if exists_flag == False:
+                                            ann_dict = dict()
+                                            ann_doc = dict()
+                                            ann_dict['query'] = item['queryid']
+                                            ann_dict['rank'] = 1
+                                            ann_dict['score'] = 1
+                                            ann_dict['method'] = method_name
+                                            #ann_doc['paragraph'] = item['contextid']
+                                            #ann_doc['neighbor'] = []
+                                            ann_doc['entity'] = [s, o]
+                                            ann_dict['document'] = ann_doc
+                                            output_list.append(ann_dict)
                 print(counter)
                 counter = counter + 1
     return output_list
