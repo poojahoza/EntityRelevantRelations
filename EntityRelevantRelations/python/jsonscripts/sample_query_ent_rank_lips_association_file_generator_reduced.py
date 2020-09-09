@@ -22,7 +22,7 @@ def process_qrel_file(qrel_file_path):
     # print(qrel_dict)
     return qrel_dict
 
-def generate_assocations_file(input_folder, method_name, qrel_dict, query, paraid):
+def generate_assocations_file(input_folder, method_name, qrel_dict, query, entityid):
 
     output_list = []
     counter = 0
@@ -32,7 +32,7 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query, parai
         with open(input_folder+'/'+file, 'r') as f:
             input_json = json.load(f)
             for item in input_json:
-                if item['queryid'] == query and item['contextid'] == paraid:
+                if item['queryid'] == query:
                     for rel in item['relAnnotations']:
                         sub_ann = []
                         obj_ann = []
@@ -43,18 +43,19 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query, parai
 
                         for s in sub_ann:
                             for o in obj_ann:
-                                if s in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
-                                    ann_dict = dict()
-                                    ann_doc = dict()
-                                    ann_dict['query'] = item['queryid']
-                                    ann_dict['rank'] = 1
-                                    ann_dict['score'] = 1
-                                    ann_dict['method'] = method_name
-                                    ann_doc['paragraph'] = item['contextid']
-                                    ann_doc['neighbor'] = []
-                                    ann_doc['entity'] = [s, o]
-                                    ann_dict['document'] = ann_doc
-                                    output_list.append(ann_dict)
+                                if s in entityid and o in entityid:
+                                    if s in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
+                                        ann_dict = dict()
+                                        ann_doc = dict()
+                                        ann_dict['query'] = item['queryid']
+                                        ann_dict['rank'] = 1
+                                        ann_dict['score'] = 1
+                                        ann_dict['method'] = method_name
+                                        #ann_doc['paragraph'] = item['contextid']
+                                        #ann_doc['neighbor'] = []
+                                        ann_doc['entity'] = [s, o]
+                                        ann_dict['document'] = ann_doc
+                                        output_list.append(ann_dict)
                 print(counter)
                 counter = counter + 1
     return output_list
@@ -65,10 +66,10 @@ if __name__ == "__main__":
     parser.add_argument('--a', help='relation annotations folder location')
     parser.add_argument('--q', help='entity qrel file location')
     parser.add_argument('--o', help='output jsonl associations file location')
-    parser.add_argument('--pid', help='paragraph id')
+    parser.add_argument('-eid', '--eidlist', nargs='+', help='paragraph id', required=True)
     parser.add_argument('--query', help='sample query')
     parser.add_argument('--m', help='method name')
     args = parser.parse_args()
     qrel_data = process_qrel_file(args.q)
-    output_data = generate_assocations_file(args.a, args.m, qrel_data, args.query, args.pid)
+    output_data = generate_assocations_file(args.a, args.m, qrel_data, args.query, args.eidlist)
     write_jsonl_file(args.o, output_data)
