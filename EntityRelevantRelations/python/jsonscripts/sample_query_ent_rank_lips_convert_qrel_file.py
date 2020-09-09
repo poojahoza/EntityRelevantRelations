@@ -6,7 +6,7 @@ def generate_sample_query_qrel_file_from_jsonl(input_qrel, output_qrel_txt, outp
     jsonl_output_list = []
     with jsonlines.open(input_qrel, "r") as f:
         for line in f:
-            if line["query"] == query_id:
+            if line["query"] == query:
                 #output_file_list.append(line)
                 output_file_list.append(line["query"]+" 0 "+line["document"]["entity"]+" "+str(line["relevance"]))
                 output_dict = dict()
