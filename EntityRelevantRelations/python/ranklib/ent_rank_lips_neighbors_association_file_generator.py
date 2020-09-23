@@ -33,14 +33,16 @@ def generate_assocations_file(input_folder, method_name):
                     for s in sub_ann:
                         for o in obj_ann:
                             if s in para_relational_neighbors:
-                                para_relational_neighbors[s].append(o)
+                                if o not in para_relational_neighbors[s]:
+                                    para_relational_neighbors[s].append(o)
                             else:
                                 para_relational_neighbors[s] = [o]
 
                     for obj in obj_ann:
                         for sub in sub_ann:
                             if obj in para_relational_neighbors:
-                                para_relational_neighbors[obj].append(sub)
+                                if sub not in para_relational_neighbors[obj]:
+                                    para_relational_neighbors[obj].append(sub)
                             else:
                                 para_relational_neighbors[obj] = [sub]
 
