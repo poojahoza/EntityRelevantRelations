@@ -26,5 +26,5 @@ if __name__ == "__main__":
     parser.add_argument('--a', help='ENT rank lips associations folder location')
     parser.add_argument('--o', help='output jsonl associations file location')
     args = parser.parse_args()
-    output_data = generate_assocations_file(args.a)
+    output_data = merge_associations(args.a)
     write_jsonl_file(args.o, output_data)
