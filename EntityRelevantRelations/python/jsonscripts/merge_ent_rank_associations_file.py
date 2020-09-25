@@ -1,5 +1,5 @@
 import jsonlines
-import agrparse
+import argparse
 
 
 def write_jsonl_file(output_file, output_list):
