@@ -123,6 +123,13 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                                 rel_set.add(r1)
                             both_relevant_query_dict[query_id] = rel_set
 
+                if query_id not in sub_relevant_query_dict:
+                    sub_relevant_query_dict[query_id] = set()
+                if query_id not in obj_relevant_query_dict:
+                    obj_relevant_query_dict[query_id] = set()
+                if query_id not in both_relevant_query_dict:
+                    both_relevant_query_dict[query_id] = set()
+
                 if query_id in output_json:
                     output_json[query_id]['total_relations'] = output_json[query_id]['total_relations'] + total_relations
                     output_json[query_id]['subject_relations_present'] = output_json[query_id]['subject_relations_present'] + subject_relations
