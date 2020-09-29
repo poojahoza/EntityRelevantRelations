@@ -28,9 +28,9 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, qrel_dict):
         query_json['relevant_object_relations_present'] = val['relevant_object_relations_present']
         query_json['relevant_both_relations_present'] = val['relevant_both_relations_present']
         query_json['total_qrel_entities'] = len(qrel_dict[key])
-        query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & set(qrel_dict[key]))
-        query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & set(qrel_dict[key]))
-        query_json['both_relevant_qrel_common_entities'] = len(both_dict[key] & set(qrel_dict[key]))
+        query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & qrel_dict[key])
+        query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & qrel_dict[key])
+        query_json['both_relevant_qrel_common_entities'] = len(both_dict[key] & qrel_dict[key])
         output_list.append(query_json)
 
     return output_list
