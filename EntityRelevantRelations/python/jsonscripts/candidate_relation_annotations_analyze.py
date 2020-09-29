@@ -31,6 +31,7 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, qrel_dict):
         query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & qrel_dict[key])
         query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & qrel_dict[key])
         query_json['both_relevant_qrel_common_entities'] = len(both_dict[key] & qrel_dict[key])
+        query_json['relevant_qrel_common_entities'] = len(sub_dict[key].union(obj_dict[key]).union(both_dict[key]))
         output_list.append(query_json)
 
     return output_list
@@ -160,6 +161,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     qrel_dict = process_qrel_files(args.q)
     json_dict, sub_dict, obj_dict, both_dict = process_input_json_files(args.i, qrel_dict)
-    print(sub_dict)
+    #print(sub_dict)
     output_list = convert_dict_to_list(json_dict, sub_dict, obj_dict, both_dict, qrel_dict)
     write_csv_file(args.o, output_list)
