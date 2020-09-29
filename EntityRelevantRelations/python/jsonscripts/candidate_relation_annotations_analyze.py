@@ -153,5 +153,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     qrel_dict = process_qrel_files(args.q)
     json_dict, sub_dict, obj_dict, both_dict = process_input_json_files(args.i, qrel_dict)
+    print(sub_dict)
     output_list = convert_dict_to_list(json_dict, sub_dict, obj_dict, both_dict, qrel_dict)
     write_csv_file(args.o, output_list)
