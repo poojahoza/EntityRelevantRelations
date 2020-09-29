@@ -96,32 +96,32 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                         if sub_intersection_set_len > 0:
                             rel_sub_relations = rel_sub_relations + 1
                             if query_id in sub_relevant_query_dict:
-                                rel_set = sub_relevant_query_dict[queryid]
+                                rel_set = sub_relevant_query_dict[query_id]
                             else:
                                 rel_set = set()
                             for r in sub_ann:
                                 rel_set.add(r)
-                            sub_relevant_query_dict = rel_set
+                            sub_relevant_query_dict[query_id] = rel_set
                         if obj_intersection_set_len > 0:
                             rel_obj_relations = rel_obj_relations + 1
                             if query_id in obj_relevant_query_dict:
-                                rel_set = obj_relevant_query_dict[queryid]
+                                rel_set = obj_relevant_query_dict[query_id]
                             else:
                                 rel_set = set()
                             for r in obj_ann:
                                 rel_set.add(r)
-                            obj_relevant_query_dict = rel_set
+                            obj_relevant_query_dict[query_id] = rel_set
                         if sub_intersection_set_len >0 and obj_intersection_set_len > 0:
                             rel_both_relations = rel_both_relations + 1
                             if query_id in both_relevant_query_dict:
-                                rel_set = both_relevant_query_dict[queryid]
+                                rel_set = both_relevant_query_dict[query_id]
                             else:
                                 rel_set = set()
                             for r in obj_ann:
                                 rel_set.add(r)
                             for r1 in sub_ann:
                                 rel_set.add(r1)
-                            both_relevant_query_dict = rel_set
+                            both_relevant_query_dict[query_id] = rel_set
 
                 if query_id in output_json:
                     output_json[query_id]['total_relations'] = output_json[query_id]['total_relations'] + total_relations
