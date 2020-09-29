@@ -11,7 +11,7 @@ def write_jsonl_file(output_file, output_list):
         for a in output_list:
             f.write(a)
 
-def generate_assocations_file(input_folder, method_name):
+def generate_assocations_file(input_folder, method_name, paragraph_flag):
 
     output_list = []
     counter = 0
@@ -29,7 +29,8 @@ def generate_assocations_file(input_folder, method_name):
                     ann_dict['rank'] = 1
                     ann_dict['score'] = 1
                     ann_dict['method'] = method_name
-                    ann_doc['paragraph'] = item['contextid']
+                    if paragraph_flag:
+                        ann_doc['paragraph'] = item['contextid']
                     ann_doc['neighbor'] = []
                     ann_doc['entity'] = rel
                     ann_dict['document'] = ann_doc
@@ -40,10 +41,11 @@ def generate_assocations_file(input_folder, method_name):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide WAT annotations (entity links) folder, output file location and method name")
+    parser = argparse.ArgumentParser("Please provide WAT annotations (entity links) folder, output file location, paragraph flag and method name")
     parser.add_argument('--a', help='WAT annotations folder location')
     parser.add_argument('--o', help='output jsonl associations file location')
     parser.add_argument('--m', help='method name')
+    parser.add_argument('--p', action='store_true', help='method name')
     args = parser.parse_args()
-    output_data = generate_assocations_file(args.a, args.m)
+    output_data = generate_assocations_file(args.a, args.m, args.p)
     write_jsonl_file(args.o, output_data)
