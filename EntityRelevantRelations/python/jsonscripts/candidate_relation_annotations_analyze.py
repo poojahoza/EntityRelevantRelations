@@ -95,7 +95,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                         obj_intersection_set_len = len(qrel_rel_set & obj_rel_set)
                         if sub_intersection_set_len > 0:
                             rel_sub_relations = rel_sub_relations + 1
-                            if queryid in sub_relevant_query_dict:
+                            if query_id in sub_relevant_query_dict:
                                 rel_set = sub_relevant_query_dict[queryid]
                             else:
                                 rel_set = set()
@@ -104,7 +104,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                             sub_relevant_query_dict = rel_set
                         if obj_intersection_set_len > 0:
                             rel_obj_relations = rel_obj_relations + 1
-                            if queryid in obj_relevant_query_dict:
+                            if query_id in obj_relevant_query_dict:
                                 rel_set = obj_relevant_query_dict[queryid]
                             else:
                                 rel_set = set()
@@ -113,7 +113,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                             obj_relevant_query_dict = rel_set
                         if sub_intersection_set_len >0 and obj_intersection_set_len > 0:
                             rel_both_relations = rel_both_relations + 1
-                            if queryid in both_relevant_query_dict:
+                            if query_id in both_relevant_query_dict:
                                 rel_set = both_relevant_query_dict[queryid]
                             else:
                                 rel_set = set()
