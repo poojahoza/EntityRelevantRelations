@@ -17,7 +17,7 @@ def change_old_associations(associations_file):
         for item in f:
             ann_dict = dict()
             ann_doc = dict()
-            ann_dict['query'] = item['queryid']
+            ann_dict['query'] = item['query']
             ann_dict['rank'] = item['rank']
             ann_dict['score'] = item['score']
             ann_dict['method'] = item['method']
