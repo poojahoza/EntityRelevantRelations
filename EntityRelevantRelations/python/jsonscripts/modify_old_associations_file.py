@@ -22,7 +22,7 @@ def change_old_associations(associations_file):
             ann_dict['score'] = item['score']
             ann_dict['method'] = item['method']
             ann_doc['neighbor'] = []
-            ann_doc['entity'] = item['entity']
+            ann_doc['entity'] = item['document']['entity']
             ann_dict['document'] = ann_doc
             output_list.append(ann_dict)
             print(counter)
