@@ -8,7 +8,7 @@ def write_jsonl_file(output_file, output_list):
         for a in output_list:
             f.write(a)
 
-def change_old_associations(associations_file):
+def change_old_associations(associations_file, para_flag):
 
     output_list = []
     counter = 1
@@ -23,6 +23,8 @@ def change_old_associations(associations_file):
             ann_dict['method'] = item['method']
             ann_doc['neighbor'] = []
             ann_doc['entity'] = item['document']['entity']
+            if para_flag:
+                ann_doc['paragraph'] = item['document']['paragraph']
             ann_dict['document'] = ann_doc
             output_list.append(ann_dict)
             print(counter)
@@ -30,9 +32,10 @@ def change_old_associations(associations_file):
     return output_list
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide associations file and output file location")
+    parser = argparse.ArgumentParser("Please provide associations file, paragraph flag and output file location")
     parser.add_argument('--a', help='ENT rank lips associations file location')
+    parser.add_argument('--p', action='store_true', help='ENT rank lips associations file location')
     parser.add_argument('--o', help='output jsonl associations file location')
     args = parser.parse_args()
-    output_data = change_old_associations(args.a)
+    output_data = change_old_associations(args.a, args.p)
     write_jsonl_file(args.o, output_data)
