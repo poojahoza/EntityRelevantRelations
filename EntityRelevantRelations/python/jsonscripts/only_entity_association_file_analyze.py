@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide associations file, qrel file and output file location")
     parser.add_argument('--a', help='ENT rank lips associations file location')
     parser.add_argument('--q', help='Qrel file location')
-    parser.add_argument('--o', help='output jsonl associations file location')
+    parser.add_argument('--o', help='output csv file location')
     args = parser.parse_args()
     output_data = generate_associations_dict(args.a)
     qrel_dict = process_qrel_files(args.q)
