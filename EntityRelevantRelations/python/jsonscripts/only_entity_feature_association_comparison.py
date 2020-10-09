@@ -26,7 +26,7 @@ def find_common_entities(feature_data, association_data):
     return common_entities_list
 
 
-def generate_associations_dict(associations_file):
+def generate_associations_dict(associations_file, field):
 
     output_dict = dict()
     counter = 1
@@ -36,7 +36,10 @@ def generate_associations_dict(associations_file):
             entities_set = set()
             if item['query'] in output_dict:
                 entities_set = output_dict[item['query']]
-            entities_set.add(item['document']['entity'])
+            if field == "entity":
+                entities_set.add(item['document']['entity'])
+            else:
+                entities_set.add(item['document']['neighbor'])
             output_dict[item['query']] = entities_set
             print(counter)
             counter = counter + 1
@@ -47,8 +50,9 @@ if __name__ == "__main__":
     parser.add_argument('--a', help='ENT rank lips associations file location')
     parser.add_argument('--f', help='feature file location')
     parser.add_argument('--o', help='output csv associations file location')
+    parser.add_argument('--field', help='field to compare', choices=['entity', 'neighbor'])
     args = parser.parse_args()
-    association_data = generate_associations_dict(args.a)
-    feature_data = generate_associations_dict(args.f)
+    association_data = generate_associations_dict(args.a, args.field)
+    feature_data = generate_associations_dict(args.f, args.field)
     common_entities_list = find_common_entities(feature_data, association_data)
     write_csv_file(args.o, common_entities_list)
