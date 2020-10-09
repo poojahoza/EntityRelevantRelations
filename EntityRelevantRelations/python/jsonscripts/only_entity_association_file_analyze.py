@@ -41,7 +41,7 @@ def find_common_entities(json_dict, qrel_dict):
     return common_entities_list
 
 
-def generate_associations_dict(associations_file):
+def generate_associations_dict(associations_file, field):
 
     output_dict = dict()
     counter = 1
@@ -51,19 +51,25 @@ def generate_associations_dict(associations_file):
             entities_set = set()
             if item['query'] in output_dict:
                 entities_set = output_dict[item['query']]
-            entities_set.add(item['document']['entity'])
+            if field == 'entity':
+                entities_set.add(item['document']['entity'])
+            elif field == 'neighbor':
+                entities_set.add(item['document']['neighbor'])
+            else:
+                entities_set.add(item['document']['entity'])
             output_dict[item['query']] = entities_set
             print(counter)
             counter = counter + 1
     return output_dict
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide associations file, qrel file and output file location")
-    parser.add_argument('--a', help='ENT rank lips associations file location')
+    parser = argparse.ArgumentParser("Please provide associations/feature file, qrel file and output file location")
+    parser.add_argument('--a', help='ENT rank lips associations/feature file location')
     parser.add_argument('--q', help='Qrel file location')
     parser.add_argument('--o', help='output csv file location')
+    parser.add_argument('--f', help='field to compare', choices=['entity', 'neighbor', 'paragraph'])
     args = parser.parse_args()
-    output_data = generate_associations_dict(args.a)
+    output_data = generate_associations_dict(args.a, args.f)
     qrel_dict = process_qrel_files(args.q)
     common_entities_list = find_common_entities(output_data, qrel_dict)
     write_csv_file(args.o, common_entities_list)
