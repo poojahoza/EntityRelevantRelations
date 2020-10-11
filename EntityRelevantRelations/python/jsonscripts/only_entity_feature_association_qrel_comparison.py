@@ -39,6 +39,7 @@ def find_common_entities(feature_data, association_data, qrel_data):
             common_entities_dict['total_feature_entities'] = len(feature_data[query])
             common_entities_dict['total_qrel_entities'] = len(qrel_data[query])
             common_entities_dict['common_entities'] = len(ent & feature_data[query] & qrel_data[query])
+            common_entities_dict['percent_of_common_entities_from_qrel_entities'] = (len(ent & feature_data[query] & qrel_data[query]))/len(qrel_data[query])
             common_entities_list.append(common_entities_dict)
     return common_entities_list
 
