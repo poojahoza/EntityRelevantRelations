@@ -60,15 +60,36 @@ def generate_associations_dict(associations_file):
             counter = counter + 1
     return output_dict
 
+def generate_feature_dict(feature_file, field):
+
+    output_dict = dict()
+    counter = 1
+
+    with jsonlines.open(feature_file, 'r') as f:
+        for item in f:
+            entities_set = set()
+            if item['query'] in output_dict:
+                entities_set = output_dict[item['query']]
+            if field == "entity":
+                entities_set.add(item['document']['entity'])
+            else:
+                entities_set.add(item['document']['neighbor'])
+            output_dict[item['query']] = entities_set
+            print(counter)
+            counter = counter + 1
+    return output_dict
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide associations file, feature file, qrel file and output file location")
     parser.add_argument('--a', help='ENT rank lips associations file location')
     parser.add_argument('--f', help='feature file location')
     parser.add_argument('--q', help='qrel file location')
+    parser.add_argument('--field', help='field to compare', choices=['entity', 'neighbor'])
     parser.add_argument('--o', help='output csv associations file location')
     args = parser.parse_args()
     association_data = generate_associations_dict(args.a)
-    feature_data = generate_associations_dict(args.f)
+    feature_data = generate_feature_dict(args.f, args.field)
     qrel_data = process_qrel_files(args.q)
     common_entities_list = find_common_entities(feature_data, association_data, qrel_data)
     write_csv_file(args.o, common_entities_list)
