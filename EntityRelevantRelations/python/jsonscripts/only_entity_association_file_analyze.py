@@ -37,6 +37,7 @@ def find_common_entities(json_dict, qrel_dict):
             common_entities_dict['total_qrel_entities'] = len(ent)
             common_entities_dict['common_entities'] = len(ent & json_dict[query])
             common_entities_dict['difference_entities'] = len(ent - json_dict[query])
+            common_entities_dict['percent_of_common_entites_from_qrel_entities'] = (len(ent & json_dict[query])/len(ent))*100
             common_entities_list.append(common_entities_dict)
     return common_entities_list
 
