@@ -14,7 +14,7 @@ def write_csv_file(output_file, output_dict):
     tmp.to_csv(output_file)
 
 
-def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, qrel_dict):
+def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, both_non_rel_dict, qrel_dict):
     output_list = []
 
     for key, val in output_json.items():
@@ -27,6 +27,7 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, qrel_dict):
         query_json['relevant_subject_relations_present'] = val['relevant_subject_relations_present']
         query_json['relevant_object_relations_present'] = val['relevant_object_relations_present']
         query_json['relevant_both_relations_present'] = val['relevant_both_relations_present']
+        query_json['both_non_relevant_relations_present'] = val['both_non_relevant_relations_present']
         query_json['total_qrel_entities'] = len(qrel_dict[key])
         query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & qrel_dict[key])
         query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & qrel_dict[key])
@@ -57,6 +58,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
     sub_relevant_query_dict = dict()
     obj_relevant_query_dict = dict()
     both_relevant_query_dict = dict()
+    both_non_relevant_query_dict = dict()
     files = os.listdir(input_json_dir_loc)
     print(len(files))
     for file in files:
@@ -73,6 +75,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                 rel_sub_relations = 0  # how many relevant entities are present in subject if entities are present in both subject and object
                 rel_obj_relations = 0  # how many relevant entities are present in object if entities are present in both subject and object
                 rel_both_relations = 0 # how many relevant entities are present in both subject and object
+                non_rel_both_relations = 0 # how many relevant entities are present in both subject and object
 
                 for relation in item['relAnnotations']:
                     sub_ann = []
@@ -124,12 +127,26 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                                 rel_set.add(r1)
                             both_relevant_query_dict[query_id] = rel_set
 
+                        if sub_intersection_set_len == 0 and obj_intersection_set_len == 0:
+                            non_rel_both_relations = non_rel_both_relations + 1
+                            if query_id in both_non_relevant_query_dict:
+                                non_rel_set = both_non_relevant_query_dict[query_id]
+                            else:
+                                non_rel_set = set()
+                            for r in obj_ann:
+                                non_rel_set.add(r)
+                            for r1 in sub_ann:
+                                non_rel_set.add(r1)
+                            both_non_relevant_query_dict[query_id] = non_rel_set
+
                 if query_id not in sub_relevant_query_dict:
                     sub_relevant_query_dict[query_id] = set()
                 if query_id not in obj_relevant_query_dict:
                     obj_relevant_query_dict[query_id] = set()
                 if query_id not in both_relevant_query_dict:
                     both_relevant_query_dict[query_id] = set()
+                if query_id not in both_non_relevant_query_dict:
+                    both_non_relevant_query_dict[query_id] = set()
 
                 if query_id in output_json:
                     output_json[query_id]['total_relations'] = output_json[query_id]['total_relations'] + total_relations
@@ -139,6 +156,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                     output_json[query_id]['relevant_subject_relations_present'] = output_json[query_id]['relevant_subject_relations_present'] + rel_sub_relations
                     output_json[query_id]['relevant_object_relations_present'] = output_json[query_id]['relevant_object_relations_present'] + rel_obj_relations
                     output_json[query_id]['relevant_both_relations_present'] = output_json[query_id]['relevant_both_relations_present'] + rel_both_relations
+                    output_json[query_id]['both_non_relevant_relations_present'] = output_json[query_id]['both_non_relevant_relations_present'] + non_rel_both_relations
                 else:
                     item_json = dict()
                     item_json['total_relations'] = total_relations
@@ -148,9 +166,10 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                     item_json['relevant_subject_relations_present'] = rel_sub_relations
                     item_json['relevant_object_relations_present'] = rel_obj_relations
                     item_json['relevant_both_relations_present'] = rel_both_relations
+                    item_json['both_non_relevant_relations_present'] = non_rel_both_relations
                     output_json[query_id] = item_json
 
-    return (output_json, sub_relevant_query_dict, obj_relevant_query_dict, both_relevant_query_dict)
+    return (output_json, sub_relevant_query_dict, obj_relevant_query_dict, both_relevant_query_dict, both_non_relevant_query_dict)
 
 
 if __name__ == "__main__":
@@ -160,7 +179,7 @@ if __name__ == "__main__":
     parser.add_argument("--o", help="Output csv file location")
     args = parser.parse_args()
     qrel_dict = process_qrel_files(args.q)
-    json_dict, sub_dict, obj_dict, both_dict = process_input_json_files(args.i, qrel_dict)
+    json_dict, sub_dict, obj_dict, both_dict, both_non_rel_dict = process_input_json_files(args.i, qrel_dict)
     #print(sub_dict)
-    output_list = convert_dict_to_list(json_dict, sub_dict, obj_dict, both_dict, qrel_dict)
+    output_list = convert_dict_to_list(json_dict, sub_dict, obj_dict, both_dict, both_non_rel_dict, qrel_dict)
     write_csv_file(args.o, output_list)
