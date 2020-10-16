@@ -28,6 +28,8 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, both_non_re
         query_json['relevant_object_relations_present'] = val['relevant_object_relations_present']
         query_json['relevant_both_relations_present'] = val['relevant_both_relations_present']
         query_json['both_non_relevant_relations_present'] = val['both_non_relevant_relations_present']
+        query_json['all_relevant_relations_list'] = val['all_relevant_relations_list']
+        query_json['both_relevant_relations_list'] = val['both_relevant_relations_list']
         query_json['total_qrel_entities'] = len(qrel_dict[key])
         query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & qrel_dict[key])
         query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & qrel_dict[key])
@@ -76,6 +78,8 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                 rel_obj_relations = 0  # how many relevant entities are present in object if entities are present in both subject and object
                 rel_both_relations = 0 # how many relevant entities are present in both subject and object
                 non_rel_both_relations = 0 # how many relevant entities are present in both subject and object
+                all_relevant_relations = ''
+                both_relevant_relations = ''
 
                 for relation in item['relAnnotations']:
                     sub_ann = []
@@ -97,6 +101,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                         obj_rel_set = set(obj_ann)
                         sub_intersection_set_len = len(qrel_rel_set & sub_rel_set)
                         obj_intersection_set_len = len(qrel_rel_set & obj_rel_set)
+                        all_relevant_relations = all_relevant_relations+'\n'+relation['relation']
                         if sub_intersection_set_len > 0:
                             rel_sub_relations = rel_sub_relations + 1
                             if query_id in sub_relevant_query_dict:
@@ -117,6 +122,7 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                             obj_relevant_query_dict[query_id] = rel_set
                         if sub_intersection_set_len >0 and obj_intersection_set_len > 0:
                             rel_both_relations = rel_both_relations + 1
+                            both_relevant_relations = both_relevant_relations+'\n'+relation['relation']
                             if query_id in both_relevant_query_dict:
                                 rel_set = both_relevant_query_dict[query_id]
                             else:
@@ -157,6 +163,8 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                     output_json[query_id]['relevant_object_relations_present'] = output_json[query_id]['relevant_object_relations_present'] + rel_obj_relations
                     output_json[query_id]['relevant_both_relations_present'] = output_json[query_id]['relevant_both_relations_present'] + rel_both_relations
                     output_json[query_id]['both_non_relevant_relations_present'] = output_json[query_id]['both_non_relevant_relations_present'] + non_rel_both_relations
+                    output_json[query_id]['all_relevant_relations_list'] = output_json[query_id]['all_relevant_relations_list'] + all_relevant_relations
+                    output_json[query_id]['both_relevant_relations_list'] = output_json[query_id]['both_relevant_relations_list'] + both_relevant_relations
                 else:
                     item_json = dict()
                     item_json['total_relations'] = total_relations
@@ -167,6 +175,8 @@ def process_input_json_files(input_json_dir_loc, qrel_dict):
                     item_json['relevant_object_relations_present'] = rel_obj_relations
                     item_json['relevant_both_relations_present'] = rel_both_relations
                     item_json['both_non_relevant_relations_present'] = non_rel_both_relations
+                    item_json['all_relevant_relations_list'] = all_relevant_relations
+                    item_json['both_relevant_relations_list'] = both_relevant_relations
                     output_json[query_id] = item_json
 
     return (output_json, sub_relevant_query_dict, obj_relevant_query_dict, both_relevant_query_dict, both_non_relevant_query_dict)
