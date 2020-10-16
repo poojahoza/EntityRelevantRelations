@@ -19,6 +19,7 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, both_non_re
 
     for key, val in output_json.items():
         query_json = dict()
+        relevant_qrel_common_entities = len((sub_dict[key].union(obj_dict[key]).union(both_dict[key])) & qrel_dict[key])
         query_json['queryid'] = key
         query_json['total_relations'] = val['total_relations']
         query_json['subject_relations_present'] = val['subject_relations_present']
@@ -34,7 +35,9 @@ def convert_dict_to_list(output_json, sub_dict, obj_dict, both_dict, both_non_re
         query_json['subject_relevant_qrel_common_entities'] = len(sub_dict[key] & qrel_dict[key])
         query_json['object_relevant_qrel_common_entities'] = len(obj_dict[key] & qrel_dict[key])
         query_json['both_relevant_qrel_common_entities'] = len(both_dict[key] & qrel_dict[key])
-        query_json['relevant_qrel_common_entities'] = len((sub_dict[key].union(obj_dict[key]).union(both_dict[key])) & qrel_dict[key])
+        query_json['relevant_qrel_common_entities'] = relevant_qrel_common_entities
+        query_json['percent_of_relevant_common_entities_from_total_qrel_entities'] = (relevant_qrel_common_entities/len(qrel_dict[key]))*100
+        query_json['percent_of_relations_considered_from_total_relations'] = (val['both_relations_present']/val['total_relations'])*100
         output_list.append(query_json)
 
     return output_list
