@@ -46,10 +46,10 @@ def get_relevant_passage_data(item, intersection_set, output_data):
                 rank_set.add(int(item['contextrank']))
                 output_data[item['queryid']][element] = rank_set
             else:
-                output_data[item['queryid']][element] = set(int(item['contextrank']))
+                output_data[item['queryid']][element] = set([int(item['contextrank'])])
         else:
             rel_entities = dict()
-            rel_entities[element] = set(int(item['contextrank']))
+            rel_entities[element] = set([int(item['contextrank'])])
             output_data[item['queryid']] = rel_entities
 
     return output_data
