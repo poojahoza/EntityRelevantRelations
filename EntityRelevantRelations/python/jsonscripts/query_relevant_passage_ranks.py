@@ -27,8 +27,9 @@ def write_csv_file(output_file, output_dict):
 
 def find_relevant_passage_rank(json_dict, qrel_dict):
     relevant_entities = dict()
-    query_dict = dict()
+    output_list = []
     for query in qrel_dict:
+        query_dict = dict()
         for ent in qrel_dict[query]:
             relevant_entities[ent] = []
         print(len(json_dict))
@@ -48,7 +49,8 @@ def find_relevant_passage_rank(json_dict, qrel_dict):
                         ent_list.append(item['contextrank'])
                         relevant_entities[entity] = ent_list
         query_dict[query] = relevant_entities
-    return query_dict
+        output_list.append(query_dict)
+    return output_list
 
 
 def process_qrel_files(input_qrel_file):
