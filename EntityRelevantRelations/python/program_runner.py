@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity
+from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity
 from features import relations_degree
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     if 'entityfreq' in parser_arguments and parser_arguments['entityfreq']:
         if validate_runner_commands.validate_entityfreq(parser_arguments):
-            annotations_entity_counter.annotations_entity_counter_wrapper(parser_arguments['annotations']
+            relations_annotations_entity_counter.annotations_entity_counter_wrapper(parser_arguments['annotations']
                                                                           , parser_arguments['field']
                                                                           , parser_arguments['limit']
                                                                           , parser_arguments['output'])
