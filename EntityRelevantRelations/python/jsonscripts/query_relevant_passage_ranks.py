@@ -20,39 +20,69 @@ def write_csv_file(output_file, output_dict):
     # for item in output_dict:
     #     l.append(pd.DataFrame(item, index=[1]))
     # tmp = pd.concat(l)
-    tmp = pd.DataFrame(output_dict, index=[0])
-    tmp.index.name = 'Queries'
+    tmp = pd.DataFrame(output_dict)
+    #tmp.index.name = 'Queries'
     #tmp = tmp.rename(columns={0:'Total',1:'Common',2:'Difference'})
     tmp.to_csv(output_file)
 
 
-def find_relevant_passage_rank(json_dict, qrel_dict):
-    relevant_entities = dict()
-    output_list = []
-    for query in qrel_dict:
-        query_dict = dict()
-        for ent in qrel_dict[query]:
-            relevant_entities[ent] = []
-        print(len(json_dict))
-        for item in json_dict:
-            if item['queryid'] == query:
-                entity_set = set()
-                for relation in item['relAnnotations']:
-                    for sann in relation["subjectAnnotations"]:
-                        for entityid in sann['wiki_converted_id']:
-                            entity_set.add(entityid)
-                    for oann in relation["objectAnnotations"]:
-                        for entityid in oann['wiki_converted_id']:
-                            entity_set.add(entityid)
-                for entity in entity_set:
-                    if entity in relevant_entities:
-                        ent_list = relevant_entities[entity]
-                        ent_list.append(item['contextrank'])
-                        relevant_entities[entity] = ent_list
-        query_dict[query] = relevant_entities
-        output_list.append(query_dict)
-    return output_list
+def convert_dict_to_pandas_format(output_data):
 
+    final_list = []
+
+    for query, entities in output_data.items():
+        for ent, rank in entities.items():
+            ent_dict = {'query':query, 'relent':ent, 'contextrank': rank}
+            final_list.append(ent_dict)
+
+    return final_list
+
+def get_relevant_passage_data(item, intersection_set, output_data):
+
+    for element in intersection_set:
+        if item['queryid'] in output_data:
+            if element in output_data[item['queryid']]:
+                rank_set = output_data[item['queryid']][element]
+                rank_set.add(item['contextrank'])
+                output_data[item['queryid']][element] = rank_set
+            else:
+                output_data[item['queryid']][element] = set(item['contextrank'])
+        else:
+            rel_entities = dict()
+            rel_entities[element] = set(item['contextrank'])
+            output_data[item['queryid']] = rel_entities
+
+    return output_data
+
+def find_relevant_passage_rank(json_dict, qrel_dict):
+    output_data = dict()
+
+    for item in json_dict:
+        for relation in item['relAnnotations']:
+            sub_ann = []
+            obj_ann = []
+
+            for s_ann in relation['subjectAnnotations']:
+                sub_ann.extend(s_ann['wiki_converted_id'])
+            for o_ann in relation['objectAnnotations']:
+                obj_ann.extend(o_ann['wiki_converted_id'])
+
+            if len(sub_ann) > 0 and len(obj_ann) > 0:
+                qrel_rel_set = set(qrel_dict[item['queryid']])
+                sub_set = set(sub_ann)
+                obj_set = set(obj_ann)
+
+                sub_intersection_set = qrel_rel_set & sub_set
+                obj_intersection_set = qrel_rel_set & obj_set
+
+
+                if len(sub_intersection_set) > 0:
+                    output_data = get_relevant_passage_data(item, sub_intersection_set, output_data)
+
+                if len(obj_intersection_set) > 0:
+                    output_data = get_relevant_passage_data(item, obj_intersection_set, output_data)
+
+    return output_data
 
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
@@ -94,5 +124,6 @@ if __name__ == "__main__":
     qrel_dict = process_qrel_files(args.q)
     #common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.Q)
     common_entities = find_relevant_passage_rank(json_dict, qrel_dict)
+    final_entities_list = convert_dict_to_pandas_format(common_entities)
     #write_json_file(args.o, common_entities)
-    write_csv_file(args.o, common_entities)
+    write_csv_file(args.o, final_entities_list)
