@@ -32,7 +32,7 @@ def convert_dict_to_pandas_format(output_data):
 
     for query, entities in output_data.items():
         for ent, rank in entities.items():
-            ent_dict = {'query':query, 'relent':ent, 'contextrank': ','.join(list(sorted(rank)))}
+            ent_dict = {'query':query, 'relent':ent, 'contextrank': ','.join(sorted(list(rank)))}
             final_list.append(ent_dict)
 
     return final_list
