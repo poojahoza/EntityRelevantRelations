@@ -61,7 +61,7 @@ def get_relevant_passage_data(item, intersection_set, output_data):
 
     return output_data
 
-def find_relevant_passage_rank(json_dict, qrel_dict):
+def find_relevant_passage_rank(json_dict, qrel_dict, operation_field):
     output_data = dict()
 
     for item in json_dict:
@@ -79,9 +79,12 @@ def find_relevant_passage_rank(json_dict, qrel_dict):
                 sub_set = set(sub_ann)
                 obj_set = set(obj_ann)
 
-                sub_intersection_set = qrel_rel_set & sub_set
-                obj_intersection_set = qrel_rel_set & obj_set
-
+                if operation_field == "intersection":
+                    sub_intersection_set = qrel_rel_set & sub_set
+                    obj_intersection_set = qrel_rel_set & obj_set
+                else:
+                    sub_intersection_set = sub_set - qrel_rel_set
+                    obj_intersection_set = obj_set - qrel_rel_set
 
                 if len(sub_intersection_set) > 0:
                     output_data = get_relevant_passage_data(item, sub_intersection_set, output_data)
@@ -126,11 +129,12 @@ if __name__ == "__main__":
     parser.add_argument("--q", help="Input qrel file location")
     #parser.add_argument("--Q", help="Query to search for")
     parser.add_argument("--o", help="Output json file location")
+    parser.add_argument("--f", help="operation to perform", choices=['intersection', 'difference'])
     args = parser.parse_args()
     json_dict = read_multiple_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
     #common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.Q)
-    common_entities = find_relevant_passage_rank(json_dict, qrel_dict)
+    common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.f)
     final_entities_list = convert_dict_to_pandas_format(common_entities)
     #write_json_file(args.o, common_entities)
     write_csv_file(args.o, final_entities_list)
