@@ -32,7 +32,11 @@ def convert_dict_to_pandas_format(output_data):
 
     for query, entities in output_data.items():
         for ent, rank in entities.items():
-            ent_dict = {'query':query, 'relent':ent, 'contextrank': ','.join(map(str, list(sorted(rank))))}
+            ent_dict = {'query':query,
+                        'relent':ent,
+                        'contextrank': ','.join(map(str, list(sorted(rank['contextrank'])))),
+                        'total_paras':len(rank['contextrank']),
+                        'total_relations':rank['relations']}
             final_list.append(ent_dict)
 
     return final_list
@@ -42,14 +46,17 @@ def get_relevant_passage_data(item, intersection_set, output_data):
     for element in intersection_set:
         if item['queryid'] in output_data:
             if element in output_data[item['queryid']]:
-                rank_set = output_data[item['queryid']][element]
+                rank_set = output_data[item['queryid']][element]['contextrank']
                 rank_set.add(int(item['contextrank']))
-                output_data[item['queryid']][element] = rank_set
+                relations_no = output_data[item['queryid']][element]['relations']
+                relations_no = relations_no + 1
+                output_data[item['queryid']][element]['contextrank'] = rank_set
+                output_data[item['queryid']][element]['relations'] = relations_no
             else:
-                output_data[item['queryid']][element] = set([int(item['contextrank'])])
+                output_data[item['queryid']][element] = {'contextrank':set([int(item['contextrank'])]), 'relations':1}
         else:
             rel_entities = dict()
-            rel_entities[element] = set([int(item['contextrank'])])
+            rel_entities[element] = {'contextrank':set([int(item['contextrank'])]), 'relations':1}
             output_data[item['queryid']] = rel_entities
 
     return output_data
