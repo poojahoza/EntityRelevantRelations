@@ -36,12 +36,13 @@ def convert_dict_to_pandas_format(output_data):
                         'relent':ent,
                         'contextrank': ','.join(map(str, list(sorted(rank['contextrank'])))),
                         'total_paras':len(rank['contextrank']),
-                        'total_relations':rank['relations']}
+                        'total_relations':rank['relations'],
+                        'run-rank':rank['run-file-rank']}
             final_list.append(ent_dict)
 
     return final_list
 
-def get_relevant_passage_data(item, intersection_set, output_data):
+def get_relevant_passage_data(item, intersection_set, output_data, run_file_data):
 
     for element in intersection_set:
         if item['queryid'] in output_data:
@@ -53,15 +54,19 @@ def get_relevant_passage_data(item, intersection_set, output_data):
                 output_data[item['queryid']][element]['contextrank'] = rank_set
                 output_data[item['queryid']][element]['relations'] = relations_no
             else:
-                output_data[item['queryid']][element] = {'contextrank':set([int(item['contextrank'])]), 'relations':1}
+                output_data[item['queryid']][element] = {'contextrank':set([int(item['contextrank'])]),
+                                                         'relations':1,
+                                                         'run-file-rank': run_file_data[item['queryid']][element]}
         else:
             rel_entities = dict()
-            rel_entities[element] = {'contextrank':set([int(item['contextrank'])]), 'relations':1}
+            rel_entities[element] = {'contextrank':set([int(item['contextrank'])]),
+                                     'relations':1,
+                                     'run-file-rank': run_file_data[item['queryid']][element]}
             output_data[item['queryid']] = rel_entities
 
     return output_data
 
-def find_relevant_passage_rank(json_dict, qrel_dict, operation_field):
+def find_relevant_passage_rank(json_dict, qrel_dict, operation_field, run_file_dict):
     output_data = dict()
 
     for item in json_dict:
@@ -87,10 +92,10 @@ def find_relevant_passage_rank(json_dict, qrel_dict, operation_field):
                     obj_intersection_set = obj_set - qrel_rel_set
 
                 if len(sub_intersection_set) > 0:
-                    output_data = get_relevant_passage_data(item, sub_intersection_set, output_data)
+                    output_data = get_relevant_passage_data(item, sub_intersection_set, output_data, run_file_dict)
 
                 if len(obj_intersection_set) > 0:
-                    output_data = get_relevant_passage_data(item, obj_intersection_set, output_data)
+                    output_data = get_relevant_passage_data(item, obj_intersection_set, output_data, run_file_dict)
 
     return output_data
 
@@ -110,6 +115,23 @@ def process_qrel_files(input_qrel_file):
     return qrel_list
 
 
+def process_run_files(input_run_file):
+    run_list = dict()
+    with open(input_run_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            data = line.split(" ")
+            query_id = data[0]
+            ent = data[2]
+            rank = data[3]
+            val = dict()
+            if query_id in run_list:
+                val = run_list[query_id]
+            val[ent] = rank
+            run_list[query_id] = val
+    #print(qrel_list)
+    return run_list
+
+
 def read_multiple_json_files(folder_location):
     files = os.listdir(folder_location)
     content_json = []
@@ -124,17 +146,18 @@ def read_multiple_json_files(folder_location):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file and output file path")
+    parser = argparse.ArgumentParser("Please provide input JSON directory, Qrel file, entity run file and output file path")
     parser.add_argument("--i", help="Input JSON folder location")
     parser.add_argument("--q", help="Input qrel file location")
-    #parser.add_argument("--Q", help="Query to search for")
+    parser.add_argument("--r", help="Input entity run file location")
     parser.add_argument("--o", help="Output json file location")
     parser.add_argument("--f", help="operation to perform", choices=['intersection', 'difference'])
     args = parser.parse_args()
     json_dict = read_multiple_json_files(args.i)
     qrel_dict = process_qrel_files(args.q)
+    run_file_dict = process_run_files(args.r)
     #common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.Q)
-    common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.f)
+    common_entities = find_relevant_passage_rank(json_dict, qrel_dict, args.f, run_file_dict)
     final_entities_list = convert_dict_to_pandas_format(common_entities)
     #write_json_file(args.o, common_entities)
     write_csv_file(args.o, final_entities_list)
