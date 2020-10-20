@@ -10,28 +10,6 @@ def load_embedding(embedding_binary_file):
     wiki2vec = Wikipedia2Vec.load(embedding_binary_file)
     return wiki2vec
 
-def get_entity_converted_ids(conversion_folder_loc):
-    files = os.listdir(conversion_folder_loc)
-    converted_ids = dict()
-
-    try:
-        for file in files:
-            with open(conversion_folder_loc+'/'+file, 'r', encoding='utf-8') as f:
-                for line in f.readlines():
-                    splitted_text = line.split('\t')
-                    title = splitted_text[1].split('\n')[0]
-                    conv_id = splitted_text[0]
-                    if title in converted_ids:
-                        converted_ids[title].append(conv_id)
-                    else:
-                        converted_ids[title] = [conv_id]
-        return converted_ids
-    except Exception as e:
-        print(e)
-        return None
-
-
-
 def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
 
     output_dict = dict()
@@ -50,7 +28,7 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
                         else:
                             output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
         except KeyError as ke:
-            print('keyerror : {}'.format(ke))
+            print('keyerror : {} {}'.format(ke, query_title))
 
     return output_dict
 
@@ -58,7 +36,7 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
 def entity_similarity_wrapper(input, embedding_bin_file, conversion_folder_loc, output):
     print("inside entity similarity wrapper")
     inputjson = read_write_utils.read_multiple_json_files(input)
-    entity_converted_ids = get_entity_converted_ids(conversion_folder_loc)
+    entity_converted_ids = read_write_utils.read_converted_entity_ids(conversion_folder_loc)
     wiki2vecobj = load_embedding(embedding_bin_file)
     queryjson = calculate_entity_similarity(inputjson, wiki2vecobj, entity_converted_ids)
     sorted_queryjson = sort_utils.sort_elements_by_value(queryjson)
