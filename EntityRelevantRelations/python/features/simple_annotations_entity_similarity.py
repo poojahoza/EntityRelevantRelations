@@ -28,7 +28,7 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
                         else:
                             output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
         except KeyError as ke:
-            print('keyerror : {} {}'.format(ke, query_title))
+            print('keyerror : {} {} {}'.format(ke, query_title, ent['wiki_title']))
 
     return output_dict
 
