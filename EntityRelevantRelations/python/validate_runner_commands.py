@@ -13,32 +13,37 @@ def validate_stanford(parser_args):
 
 
 def validate_entityfreq(parser_args):
-    if parser_args['annotations'] is not None and parser_args['field'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None:
+    if parser_args['annotations'] is not None and parser_args['field'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['embedding-file'] is None and parser_args['entity-conversion-folder'] is None:
         return True
     else:
         return False
 
 
 def validate_relations_freq(parser_args):
-    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['field'] is None:
+    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['field'] is None and parser_args['embedding-file'] is None and parser_args['entity-conversion-folder'] is None:
         return True
     else:
         return False
 
 
 def validate_relations_relevance(parser_args):
-    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['field'] is None:
+    if parser_args['annotations'] is not None and parser_args['limit'] is not None and parser_args['output'] is not None and parser_args['field'] is None and parser_args['embedding-file'] is None and parser_args['entity-conversion-folder'] is None:
         return True
     else:
         return False
 
 
 def validate_relations_proximity(parser_args):
-    if parser_args['annotations'] is not None and parser_args['limit'] is None and parser_args['output'] is not None and parser_args['field'] is None:
+    if parser_args['annotations'] is not None and parser_args['limit'] is None and parser_args['output'] is not None and parser_args['field'] is None and parser_args['embedding-file'] is None and parser_args['entity-conversion-folder'] is None:
         return True
     else:
         return False
 
+def validate_entity_similarity_score(parser_args):
+    if parser_args['annotations'] is not None and parser_args['limit'] is None and parser_args['output'] is not None and parser_args['field'] is None and parser_args['embedding-file'] is not None and parser_args['entity-conversion-folder'] is not None:
+        return True
+    else:
+        return False
 
 def validate_ranklib(parser_args):
     if parser_args['qrel'] is not None and parser_args['feature'] is not None and parser_args['zscore'] is not None and parser_args['output'] is not None and parser_args['outputzscore'] is not None and parser_args['rankliboutput'] is not None:

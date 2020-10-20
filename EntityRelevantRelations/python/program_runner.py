@@ -4,7 +4,7 @@ import sys
 import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
-from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity
+from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity, simple_annotations_entity_similarity
 from features import relations_degree
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
@@ -33,6 +33,8 @@ if __name__ == "__main__":
     parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object', 'both'])
     parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
     parser_features.add_argument('-o', '--output', help='text output file location')
+    parser_features.add_argument('-embed', '--embedding-file', help='embedding bin file location')
+    parser_features.add_argument('-c', '--entity-conversion-folder', help='entity conversion folder location')
 
     parser_features.add_argument("-relfreq", "--relationentityfreq", action='store_true', help='execute relation'
                                                                                                ' entity freq feature')
@@ -43,6 +45,9 @@ if __name__ == "__main__":
                                                                                                          'feature')
 
     parser_features.add_argument("-relscore", "--relationentityscore", action='store_true', help='execute relation '
+                                                                                                 'entity score feature')
+
+    parser_features.add_argument("-entsim", "--entitysimilarityscore", action='store_true', help='execute relation '
                                                                                                  'entity score feature')
 
     parser_features.add_argument("-relprox", "--relationproximity", action='store_true', help='execute relation '
@@ -124,6 +129,18 @@ if __name__ == "__main__":
         if validate_runner_commands.validate_relations_proximity(parser_arguments):
             relations_degree.relation_degree_wrapper(parser_arguments['annotations']
                                                    , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
+
+    if 'entitysimilarityscore' in parser_arguments and parser_arguments['entitysimilarityscore']:
+        print("entity similarity score")
+        if validate_runner_commands.validate_entity_similarity_score(parser_arguments):
+            simple_annotations_entity_similarity.entity_similarity_wrapper(parser_arguments['annotations']
+                                                                           , parser_arguments['embedding-file']
+                                                                           , parser_arguments['entity-conversion-folder']
+                                                                           , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)
             sys.exit(1)
