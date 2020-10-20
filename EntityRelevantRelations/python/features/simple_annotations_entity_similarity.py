@@ -22,7 +22,7 @@ def get_entity_converted_ids(conversion_folder_loc):
                     title = splitted_text[1].split('\n')[0]
                     conv_id = splitted_text[0]
                     if title in converted_ids:
-                        converted_ids[title] = converted_ids[title].append(conv_id)
+                        converted_ids[title].append(conv_id)
                     else:
                         converted_ids[title] = [conv_id]
         return converted_ids
