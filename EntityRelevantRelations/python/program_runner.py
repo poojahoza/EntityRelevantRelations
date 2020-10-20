@@ -33,8 +33,8 @@ if __name__ == "__main__":
     parser_features.add_argument('-f', '--field', help='field subject | object', choices=['subject', 'object', 'both'])
     parser_features.add_argument('-l', '--limit', type=int, help='top k elements limit')
     parser_features.add_argument('-o', '--output', help='text output file location')
-    parser_features.add_argument('-embed', '--embedding-file', help='embedding bin file location')
-    parser_features.add_argument('-c', '--entity-conversion-folder', help='entity conversion folder location')
+    parser_features.add_argument('-embed', '--embeddingfile', help='embedding bin file location')
+    parser_features.add_argument('-ec', '--entityconversionfolder', help='entity conversion folder location')
 
     parser_features.add_argument("-relfreq", "--relationentityfreq", action='store_true', help='execute relation'
                                                                                                ' entity freq feature')
@@ -138,8 +138,8 @@ if __name__ == "__main__":
         print("entity similarity score")
         if validate_runner_commands.validate_entity_similarity_score(parser_arguments):
             simple_annotations_entity_similarity.entity_similarity_wrapper(parser_arguments['annotations']
-                                                                           , parser_arguments['embedding-file']
-                                                                           , parser_arguments['entity-conversion-folder']
+                                                                           , parser_arguments['embeddingfile']
+                                                                           , parser_arguments['entityconversionfolder']
                                                                            , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)

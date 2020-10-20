@@ -36,18 +36,19 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
 
     for item in inputjson:
         query_title = item['queryid'].replace("enwiki:","").replace("%20"," ")
-        query_embedding = wiki2vecobj.get_entity_vector(query_title)
-        for ent in item['WATannotations']:
-            if ent['wiki_title'] in conversion_ids:
-                try:
-                    ent_embedding = wiki2vecobj.get_entity_vector(ent['wiki_title'])
-                    converted_id = conversion_ids[ent['wiki_title']][0]
-                    if converted_id in output_dict[item['queryid']]:
-                        output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
-                    else:
-                        output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
-                except KeyError:
-                    print('keyerror for entity : '+ent['wiki_title'])
+        try:
+            query_embedding = wiki2vecobj.get_entity_vector(query_title)
+            for ent in item['WATannotations']:
+                if ent['wiki_title'] in conversion_ids:
+
+                        ent_embedding = wiki2vecobj.get_entity_vector(ent['wiki_title'])
+                        converted_id = conversion_ids[ent['wiki_title']][0]
+                        if converted_id in output_dict[item['queryid']]:
+                            output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
+                        else:
+                            output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
+        except KeyError as ke:
+            print('keyerror : {}'.format(ke.message))
 
     return output_dict
 
