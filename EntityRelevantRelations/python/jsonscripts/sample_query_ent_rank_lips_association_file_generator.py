@@ -50,12 +50,12 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query):
                                             para_relational_neighbors[s].append(o)
                                     else:
                                         para_relational_neighbors[s] = [o]
-                                elif s not in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
-                                    if s in para_relational_neighbors:
-                                        if o not in para_relational_neighbors[s]:
-                                            para_relational_neighbors[s].append(o)
-                                    else:
-                                        para_relational_neighbors[s] = [o]
+                                # elif s not in qrel_dict[item['queryid']] and o not in qrel_dict[item['queryid']]:
+                                #     if s in para_relational_neighbors:
+                                #         if o not in para_relational_neighbors[s]:
+                                #             para_relational_neighbors[s].append(o)
+                                #     else:
+                                #         para_relational_neighbors[s] = [o]
 
                         for obj in obj_ann:
                             for sub in sub_ann:
@@ -65,12 +65,12 @@ def generate_assocations_file(input_folder, method_name, qrel_dict, query):
                                             para_relational_neighbors[obj].append(sub)
                                     else:
                                         para_relational_neighbors[obj] = [sub]
-                                elif obj not in qrel_dict[item['queryid']] and sub not in qrel_dict[item['queryid']]:
-                                    if obj in para_relational_neighbors:
-                                        if sub not in para_relational_neighbors[obj]:
-                                            para_relational_neighbors[obj].append(sub)
-                                        else:
-                                            para_relational_neighbors[obj] = [sub]
+                                # elif obj not in qrel_dict[item['queryid']] and sub not in qrel_dict[item['queryid']]:
+                                #     if obj in para_relational_neighbors:
+                                #         if sub not in para_relational_neighbors[obj]:
+                                #             para_relational_neighbors[obj].append(sub)
+                                #         else:
+                                #             para_relational_neighbors[obj] = [sub]
 
                     for neghbr in para_relational_neighbors:
                         ann_dict = dict()
