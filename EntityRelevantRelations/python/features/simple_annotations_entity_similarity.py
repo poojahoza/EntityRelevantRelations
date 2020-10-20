@@ -19,10 +19,12 @@ def get_entity_converted_ids(conversion_folder_loc):
             with open(conversion_folder_loc+'/'+file, 'r', encoding='utf-8') as f:
                 for line in f.readlines():
                     splitted_text = line.split('\t')
-                    if splitted_text[1] in converted_ids:
-                        converted_ids[splitted_text[0]] = converted_ids[splitted_text[0]].append(splitted_text[1].split('\n')[0])
+                    title = splitted_text[1].split('\n')[0]
+                    conv_id = splitted_text[0]
+                    if title in converted_ids:
+                        converted_ids[title] = converted_ids[title].append(conv_id)
                     else:
-                        converted_ids[splitted_text[0]] = [splitted_text[1].split('\n')[0]]
+                        converted_ids[title] = [conv_id]
         return converted_ids
     except Exception as e:
         print(e)
