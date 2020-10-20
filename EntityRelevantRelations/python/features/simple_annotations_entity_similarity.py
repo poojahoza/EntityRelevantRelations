@@ -20,9 +20,9 @@ def get_entity_converted_ids(conversion_folder_loc):
                 for line in f.readlines():
                     splitted_text = line.split('\t')
                     if splitted_text[1] in converted_ids:
-                        converted_ids[splitted_text[1]] = converted_ids[splitted_text[1]].append(splitted_text[0])
+                        converted_ids[splitted_text[0]] = converted_ids[splitted_text[0]].append(splitted_text[1].split('\n')[0])
                     else:
-                        converted_ids[splitted_text[1]] = [splitted_text[0]]
+                        converted_ids[splitted_text[0]] = [splitted_text[1].split('\n')[0]]
         return converted_ids
     except Exception as e:
         print(e)
@@ -48,7 +48,7 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
                         else:
                             output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
         except KeyError as ke:
-            print('keyerror : {}'.format(ke.message))
+            print('keyerror : {}'.format(ke))
 
     return output_dict
 
