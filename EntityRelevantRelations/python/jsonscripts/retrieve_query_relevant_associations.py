@@ -14,7 +14,7 @@ def merge_associations(associations_file, query):
 
     with jsonlines.open(associations_file, 'r') as f:
         for item in f:
-            if item['queryid'] == query:
+            if item['query'] == query:
                 output_list.append(item)
                 print(counter)
                 counter = counter + 1
