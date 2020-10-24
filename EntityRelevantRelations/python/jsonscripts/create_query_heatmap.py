@@ -47,7 +47,7 @@ def create_relations_graph(input_json, query):
     return G
 
 
-def create_heatmap(G):
+def create_heatmap(G, query):
     fig, ax = plt.subplots(figsize=(12, 7))
     title = query
     plt.title(title, fontsize=10)
@@ -63,5 +63,8 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", help="output png image file location")
     args = parser.parse_args()
     input_data = read_multiple_json_files(args.annotations)
+    print("read annotations files")
     query_graph = create_relations_graph(input_data, args.query)
-    create_heatmap(query_graph)
+    print("generated graph")
+    create_heatmap(query_graph, args.query)
+    print("generated heatmap file")
