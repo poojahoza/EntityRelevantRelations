@@ -68,6 +68,7 @@ def process_qrel_files(input_qrel_file):
     return qrel_list
 
 def create_heatmap(query_graph_map, output_folder_loc):
+    counter = 1
     for key, graph in query_graph_map.items():
         G = query_graph_map[key]
         fig, ax = plt.subplots(figsize=(30, 30))
@@ -80,6 +81,8 @@ def create_heatmap(query_graph_map, output_folder_loc):
         plt.clf()
         plt.close(fig)
         gc.collect()
+        print(counter)
+        counter = counter + 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide relation annotation folder location \
