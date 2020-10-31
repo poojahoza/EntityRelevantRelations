@@ -68,8 +68,9 @@ def create_heatmap(G, query):
     fig, ax = plt.subplots(figsize=(30, 30))
     title = query
     plt.title(title, fontsize=10)
-    A = nx.to_numpy_matrix(G)
-    sns.heatmap(A, ax=ax, annot=True)
+    A = nx.to_pandas_adjacency(G)
+    sns.heatmap(A, ax=ax, annot=True, fmt="d")
+    #plt.yticks(rotation=0)
     plt.savefig('query1.png')
 
 if __name__ == "__main__":
