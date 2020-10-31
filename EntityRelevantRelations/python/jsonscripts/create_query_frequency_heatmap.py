@@ -73,7 +73,8 @@ def create_heatmap(query_graph_map, output_folder_loc):
         title = key
         plt.title(title, fontsize=10)
         A = nx.to_pandas_adjacency(G)
-        sns.heatmap(A, ax=ax, annot=True)
+        snsmap = sns.heatmap(A, ax=ax, annot=True)
+        snsmap.invert_yaxis()
         plt.savefig(output_folder_loc+key+'.png')
 
 if __name__ == "__main__":
