@@ -8,6 +8,7 @@ Created on Sat Oct 24 17:42:14 2020
 import json
 import os
 import argparse
+import gc
 import networkx as nx
 import matplotlib.pyplot as plt
 import seaborn as sns
