@@ -49,7 +49,7 @@ def create_relations_graph(input_json, qrel_data):
                             query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=1)
                         else:
                             query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + 1
-    return G
+    return query_graphobj_mapping
 
 def process_qrel_files(input_qrel_file):
     qrel_list = dict()
