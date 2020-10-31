@@ -25,46 +25,50 @@ def read_multiple_json_files(folder_location):
         return None
     
 
-def create_relations_graph(input_json, query):
+def create_relations_graph(input_json):
 
-    G = nx.Graph()
+    query_graphobj_mapping = dict()
     
     for item in input_json:
-        if item['queryid'] == query:
-            for relation in item['relAnnotations']:
-                sub_ann = []
-                obj_ann = []
-    
-                for s_ann in relation['subjectAnnotations']:
-                    sub_ann.extend(s_ann['wiki_converted_id'])
-                for o_ann in relation['objectAnnotations']:
-                    obj_ann.extend(o_ann['wiki_converted_id'])
-    
-                for s in sub_ann:
-                    for o in obj_ann:
-                        if not G.has_edge(s, o):
-                            G.add_edge(s, o)
-    return G
+        if item['queryid'] not in query_graphobj_mapping:
+            G = nx.Graph()
+            query_graphobj_mapping[item['queryid']] = G
+
+        for relation in item['relAnnotations']:
+            sub_ann = []
+            obj_ann = []
+
+            for s_ann in relation['subjectAnnotations']:
+                sub_ann.extend(s_ann['wiki_converted_id'])
+            for o_ann in relation['objectAnnotations']:
+                obj_ann.extend(o_ann['wiki_converted_id'])
+
+            for s in sub_ann:
+                for o in obj_ann:
+                    if not query_graphobj_mapping[item['queryid']].has_edge(s, o):
+                        query_graphobj_mapping[item['queryid']].add_edge(s, o)
+    return query_graphobj_mapping
 
 
-def create_heatmap(G, query):
-    fig, ax = plt.subplots(figsize=(30, 30))
-    title = query
-    plt.title(title, fontsize=10)
-    A = nx.to_pandas_adjacency(G)
-    sns.heatmap(A, ax=ax)
-    plt.savefig('query1.png')
+def create_heatmap(query_graph_map, output_folder_loc):
+    for key, graph in query_graph_map.items():
+        G = query_graph_map[key]
+        fig, ax = plt.subplots(figsize=(30, 30))
+        title = key
+        plt.title(title, fontsize=10)
+        A = nx.to_pandas_adjacency(G)
+        sns.heatmap(A, ax=ax)
+        plt.savefig(output_folder_loc+key+'.png')
     
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Please provide relation annotation folder location,\
-                                     query and output folder location")
+    parser = argparse.ArgumentParser("Please provide relation annotation folder location \
+                                     and output folder location")
     parser.add_argument("-a", "--annotations", help="Input relation annotations JSON folder location")
-    parser.add_argument("-q", "--query", help="Query to generate heatmap for")
-    parser.add_argument("-o", "--output", help="output png image file location")
+    parser.add_argument("-o", "--output", help="output png image folder location")
     args = parser.parse_args()
     input_data = read_multiple_json_files(args.annotations)
     print("read annotations files")
-    query_graph = create_relations_graph(input_data, args.query)
-    print("generated graph")
-    create_heatmap(query_graph, args.query)
-    print("generated heatmap file")
+    query_graph = create_relations_graph(input_data)
+    print("generated graphs")
+    create_heatmap(query_graph, args.output)
+    print("generated heatmap files")
