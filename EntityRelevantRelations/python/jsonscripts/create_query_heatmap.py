@@ -48,11 +48,12 @@ def create_relations_graph(input_json, query):
 
 
 def create_heatmap(G, query):
-    fig, ax = plt.subplots(figsize=(12, 7))
+    fig, ax = plt.subplots(figsize=(30, 30))
     title = query
     plt.title(title, fontsize=10)
     A = nx.to_numpy_matrix(G)
-    sns.heatmap(A, ax=ax, xticklabels=True)
+    heatmap = sns.heatmap(A, ax=ax, xticklabels=True)
+    heatmap.set_xticklabels(heatmap.get_xmajorticklabels(), fontsize = 0.5)
     plt.savefig('query1.png')
     
 if __name__ == "__main__":
