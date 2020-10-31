@@ -69,7 +69,7 @@ def create_heatmap(G, query):
     title = query
     plt.title(title, fontsize=10)
     A = nx.to_pandas_adjacency(G)
-    sns.heatmap(A, ax=ax, annot=True, fmt="f")
+    sns.heatmap(A, ax=ax, annot=True)
     #plt.yticks(rotation=0)
     plt.savefig('query1.png')
 
