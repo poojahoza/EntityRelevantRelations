@@ -76,6 +76,9 @@ def create_heatmap(query_graph_map, output_folder_loc):
         snsmap = sns.heatmap(A, ax=ax, annot=True)
         snsmap.invert_yaxis()
         plt.savefig(output_folder_loc+key+'.png')
+        plt.clf()
+        plt.close(fig)
+        gc.collect()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide relation annotation folder location \
