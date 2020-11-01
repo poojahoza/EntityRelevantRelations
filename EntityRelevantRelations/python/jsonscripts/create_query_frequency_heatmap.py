@@ -69,20 +69,25 @@ def process_qrel_files(input_qrel_file):
 
 def create_heatmap(query_graph_map, output_folder_loc):
     counter = 1
-    for key, graph in query_graph_map.items():
-        G = query_graph_map[key]
-        fig, ax = plt.subplots(figsize=(30, 30))
-        title = key
-        plt.title(title, fontsize=10)
-        A = nx.to_pandas_adjacency(G)
-        snsmap = sns.heatmap(A, ax=ax, annot=True)
-        snsmap.invert_yaxis()
-        plt.savefig(output_folder_loc+key+'.png')
-        plt.clf()
-        plt.close(fig)
-        gc.collect()
+    try:
+        for key, graph in query_graph_map.items():
+            G = query_graph_map[key]
+            fig, ax = plt.subplots(figsize=(30, 30))
+            title = key
+            plt.title(title, fontsize=10)
+            A = nx.to_pandas_adjacency(G)
+            snsmap = sns.heatmap(A, ax=ax, annot=True)
+            snsmap.invert_yaxis()
+            plt.savefig(output_folder_loc+key+'.png')
+            plt.clf()
+            plt.close(fig)
+            gc.collect()
+            print(counter)
+            counter = counter + 1
+    except Exception as e:
         print(counter)
         counter = counter + 1
+        print(e)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Please provide relation annotation folder location \
