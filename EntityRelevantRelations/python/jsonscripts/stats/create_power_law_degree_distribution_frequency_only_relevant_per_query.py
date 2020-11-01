@@ -88,7 +88,10 @@ def create_power_law_degree_distribution(query_graph_map, output_folder_loc):
         log_order = np.argsort(log_deg)
         log_deg_sort = np.array(log_deg)[log_order]
         log_freq_sort = np.array(log_freq)[log_order]
-        m, c = np.polyfit(log_deg_sort, log_freq_sort, 1)
+        try:
+            m, c = np.polyfit(log_deg_sort, log_freq_sort, 1)
+        except TypeError as e:
+            print(e)
 
 
         fig, ax = plt.subplots(figsize=(30, 30))
