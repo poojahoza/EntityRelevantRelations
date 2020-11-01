@@ -100,10 +100,12 @@ def create_power_law_degree_distribution(query_graph_map, output_folder_loc):
         plt.plot(deg_sort, freq_sort, 'ro')
         plt.savefig(output_folder_loc+key+'_dd.png')
 
+        plt.clf()
+
         plt.plot(log_deg_sort, m*log_freq_sort+c,"-")
         plt.savefig(output_folder_loc+key+'_log_scale.png')
 
-        plt.clf()
+
         plt.close(fig)
 
         print(counter)
