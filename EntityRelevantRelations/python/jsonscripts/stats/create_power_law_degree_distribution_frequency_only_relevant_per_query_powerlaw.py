@@ -68,9 +68,12 @@ def create_power_law_degree_distribution(query_graph_map, output_folder_loc):
         degree_seq = sorted([d for n,d in G.degree()], reverse=True)
         fit = powerlaw.Fit(degree_seq)
         fig2 = plt.figure(figsize=(30, 30))
-        fig2 = fit.plot_pdf(color='b', linewidth=2)
-        fit.power_law.plot_pdf(color='g', linestyle='--', ax=fig2)
-        plt.savefig(output_folder_loc+key+'.png')
+        try:
+            fig2 = fit.plot_pdf(color='b', linewidth=2)
+            fit.power_law.plot_pdf(color='g', linestyle='--', ax=fig2)
+            plt.savefig(output_folder_loc+key+'.png')
+        except ValueError as ve:
+            print(ve)
 
         print(counter)
         counter += 1
