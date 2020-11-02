@@ -87,7 +87,7 @@ if __name__ == "__main__":
                                      and output folder location")
     parser.add_argument("-a", "--annotations", help="Input relation annotations JSON folder location")
     parser.add_argument("-qrel", "--qrel", help="Qrel file location")
-    parser.add_argument("-f", "--field", help="choice of only postive relations or negative relations", choice=["positive", "negative"])
+    parser.add_argument("-f", "--field", help="choice of only postive relations or negative relations", choices=["positive", "negative"])
     parser.add_argument("-o", "--output", help="output png image file location")
     args = parser.parse_args()
     input_data = read_multiple_json_files(args.annotations)
