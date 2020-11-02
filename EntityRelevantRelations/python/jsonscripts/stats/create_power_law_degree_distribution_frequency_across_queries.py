@@ -68,7 +68,7 @@ def create_power_law_degree_distribution(query_graph, output_folder_loc):
     try:
         fig2 = fit.plot_pdf(color='b', linewidth=2)
         fit.power_law.plot_pdf(color='g', linestyle='--', ax=fig2)
-        plt.savefig(output_folder_loc+key+'.png')
+        plt.savefig(output_folder_loc+'only_relevant_entities_powerlaw.png')
     except ValueError as ve:
         print(ve)
 
