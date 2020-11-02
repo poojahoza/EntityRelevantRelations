@@ -71,7 +71,6 @@ def create_power_law_degree_distribution(query_graph_map, output_folder_loc):
         fig2 = fit.plot_pdf(color='b', linewidth=2)
         fit.power_law.plot_pdf(color='g', linestyle='--', ax=fig2)
         plt.savefig(output_folder_loc+key+'.png')
-        plt.close(fig2)
 
         print(counter)
         counter += 1
