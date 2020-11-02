@@ -21,7 +21,7 @@ def read_multiple_json_files(folder_location):
         return None
 
 
-def create_relations_graph(input_json, qrel_data):
+def create_relations_graph(input_json, qrel_data, field):
 
     query_graphobj_mapping = dict()
 
@@ -40,8 +40,12 @@ def create_relations_graph(input_json, qrel_data):
 
             for s in sub_ann:
                 for o in obj_ann:
-                    if s in qrel_data[item['queryid']] and o in qrel_data[item['queryid']]:
-                        query_graphobj_mapping[item['queryid']].add_edge(s, o)
+                    if field == "positive":
+                        if s in qrel_data[item['queryid']] and o in qrel_data[item['queryid']]:
+                            query_graphobj_mapping[item['queryid']].add_edge(s, o)
+                    elif field == "negative":
+                        if s not in qrel_data[item['queryid']] and o not in qrel_data[item['queryid']]:
+                            query_graphobj_mapping[item['queryid']].add_edge(s, o)
     return query_graphobj_mapping
 
 def process_qrel_files(input_qrel_file):
@@ -83,13 +87,14 @@ if __name__ == "__main__":
                                      and output folder location")
     parser.add_argument("-a", "--annotations", help="Input relation annotations JSON folder location")
     parser.add_argument("-qrel", "--qrel", help="Qrel file location")
+    parser.add_argument("-f", "--field", help="choice of only postive relations or negative relations", choice=["positive", "negative"])
     parser.add_argument("-o", "--output", help="output png image file location")
     args = parser.parse_args()
     input_data = read_multiple_json_files(args.annotations)
     print("read annotations files")
     qrel_data = process_qrel_files(args.qrel)
     print("read qrel file")
-    query_graph = create_relations_graph(input_data, qrel_data)
+    query_graph = create_relations_graph(input_data, qrel_data, args.field)
     print("generated graphs")
     create_power_law_degree_distribution(query_graph, args.output)
     print("generated power law files")
