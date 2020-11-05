@@ -6,8 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from utils import read_write_utils, conversion_utils, sort_utils
 
 
-def load_embedding(embedding_binary_file):
-    wiki2vec = Wikipedia2Vec.load(embedding_binary_file)
+def load_embedding(embedding_txt_file):
+    wiki2vec = Wikipedia2Vec.load(embedding_txt_file)
     return wiki2vec
 
 def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
@@ -38,11 +38,11 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
     return output_dict
 
 
-def entity_similarity_wrapper(input, embedding_bin_file, conversion_folder_loc, output):
+def entity_similarity_wrapper(input, embedding_txt_file, conversion_folder_loc, output):
     print("inside entity similarity wrapper")
     inputjson = read_write_utils.read_multiple_json_files(input)
     entity_converted_ids = read_write_utils.read_converted_entity_ids(conversion_folder_loc)
-    wiki2vecobj = load_embedding(embedding_bin_file)
+    wiki2vecobj = load_embedding(embedding_txt_file)
     queryjson = calculate_entity_similarity(inputjson, wiki2vecobj, entity_converted_ids)
     sorted_queryjson = sort_utils.sort_elements_by_value(queryjson)
     output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'annotations_entity_wikipedia2vec_similarity')
