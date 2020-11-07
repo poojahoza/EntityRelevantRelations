@@ -91,8 +91,7 @@ def read_converted_entity_ids_reversed(folder_location):
 
                     # the titles contain \n at the end, hack to resolve that
                     title = data[1].split('\n')[0]
-                    for i in range(1,len(data)):
-                        converted_entity_ids[data[i]] = title
+                    converted_entity_ids[data[0]] = title
 
         return converted_entity_ids
     except Exception as e:
