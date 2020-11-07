@@ -25,12 +25,12 @@ def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
                         converted_id = conversion_ids[ent['wiki_title']][0]
                         if item['queryid'] in output_dict:
                             if converted_id in output_dict[item['queryid']]:
-                                output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
+                                output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
                             else:
-                                output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
+                                output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
                         else:
                             inner_dict = dict()
-                            inner_dict[converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1)))
+                            inner_dict[converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
                             output_dict[item['queryid']] = inner_dict
         except KeyError as ke:
             print('keyerror : {} {} {}'.format(ke, query_title, ent['wiki_title']))
