@@ -1,7 +1,7 @@
 from wikipedia2vec import Wikipedia2Vec
 from sklearn.metrics.pairwise import cosine_similarity
 
-class Wikipedia2VecSim:
+class Wikipedia2VecSimilarity:
 
 
     def __init__(self, embed_file_loc):

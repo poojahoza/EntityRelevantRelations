@@ -1,5 +1,5 @@
 from utils import read_write_utils, conversion_utils, sort_utils
-from similarity import Wikipedia2VecSim
+from similarity import Wikipedia2VecSimilarity
 
 
 def calculate_score(contextrank, wiki2vecobj, entity1_embed, entity2_embed):
@@ -37,7 +37,7 @@ def entity_similarity_wrapper(input, embedding_txt_file, conversion_folder_loc, 
     print("inside entity similarity wrapper")
     inputjson = read_write_utils.read_multiple_json_files(input)
     entity_converted_ids = read_write_utils.read_converted_entity_ids(conversion_folder_loc)
-    wiki2vecobj = Wikipedia2VecSim(embedding_txt_file)
+    wiki2vecobj = Wikipedia2VecSimilarity(embedding_txt_file)
     queryjson = get_entity_ranking(inputjson, wiki2vecobj, entity_converted_ids)
     sorted_queryjson = sort_utils.sort_elements_by_value(queryjson)
     output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'annotations_entity_wikipedia2vec_similarity')
