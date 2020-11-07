@@ -80,6 +80,26 @@ def read_converted_entity_ids(folder_location):
         return None
 
 
+def read_converted_entity_ids_reversed(folder_location):
+    files = os.listdir(folder_location)
+    converted_entity_ids = dict()
+    try:
+        for file in files:
+            with open(folder_location+'/'+file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    data = line.split('\t')
+
+                    # the titles contain \n at the end, hack to resolve that
+                    title = data[1].split('\n')[0]
+                    for i in range(1,len(data)):
+                        converted_entity_ids[data[i]] = title
+
+        return converted_entity_ids
+    except Exception as e:
+        print(e)
+        return None
+
+
 def write_text_file(file_location, output_list):
     with open(file_location, 'w', encoding='utf-8') as f:
         for line in output_list:

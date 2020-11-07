@@ -5,7 +5,7 @@ import validate_runner_commands
 
 from entitylinker import WAT_entity_linker_wrapper
 from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity, simple_annotations_entity_similarity
-from features import relations_degree
+from features import relations_degree, relations_relevance_entity_similarity
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -49,6 +49,10 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-entsim", "--entitysimilarityscore", action='store_true', help='execute relation '
                                                                                                  'entity score feature')
+
+    parser_features.add_argument("-relrelevancesim", "--relationrelevanceentitysimscore", action='store_true', help='execute relation '
+                                                                                                 'entity similarity feature')
+
 
     parser_features.add_argument("-relprox", "--relationproximity", action='store_true', help='execute relation '
                                                                                                  'proximity feature')
@@ -145,6 +149,16 @@ if __name__ == "__main__":
             parser.print_help(sys.stderr)
             sys.exit(1)
 
+    if 'relationrelevanceentitysimscore' in parser_arguments and parser_arguments['relationrelevanceentitysimscore']:
+        print("relation relevance similarity score")
+        if validate_runner_commands.validate_entity_similarity_score(parser_arguments):
+            relations_relevance_entity_similarity.relation_relevance_similarity_wrapper(parser_arguments['annotations']
+                                                                           , parser_arguments['embeddingfile']
+                                                                           , parser_arguments['entityconversionfolder']
+                                                                           , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
 
     if 'ranklib' in parser_arguments:
         pass
