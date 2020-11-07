@@ -28,9 +28,9 @@ def create_relations_graph(input_json, wiki2vecobj, converted_ids):
 
             for s in sub_ann:
                 for o in obj_ann:
-                    s_title = converted_ids(s)
+                    s_title = converted_ids[s]
                     s_embedding = wiki2vecobj.get_entity_embedding(s_title)
-                    o_title = converted_ids(o)
+                    o_title = converted_ids[o]
                     o_embedding = wiki2vecobj.get_entity_embedding(o_title)
                     if query_graphobj_mapping[item['queryid']].has_edge(s, o):
                         query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + calculate_score(int(item['contextrank']),
