@@ -1,36 +1,31 @@
-import os
-
-from wikipedia2vec import Wikipedia2Vec
-from sklearn.metrics.pairwise import cosine_similarity
-
 from utils import read_write_utils, conversion_utils, sort_utils
+from similarity import Wikipedia2VecSim
 
 
-def load_embedding(embedding_txt_file):
-    wiki2vec = Wikipedia2Vec.load(embedding_txt_file)
-    return wiki2vec
+def calculate_score(contextrank, wiki2vecobj, entity1_embed, entity2_embed):
+    return (1/contextrank)*wiki2vecobj.calculate_cosine_sim(entity1_embed, entity2_embed)
 
-def calculate_entity_similarity(inputjson, wiki2vecobj, conversion_ids):
+def get_entity_ranking(inputjson, wiki2vecobj, conversion_ids):
 
     output_dict = dict()
 
     for item in inputjson:
         query_title = item['queryid'].replace("enwiki:","").replace("%20"," ")
         try:
-            query_embedding = wiki2vecobj.get_entity_vector(query_title)
+            query_embedding = wiki2vecobj.get_entity_embedding(query_title)
             for ent in item['WATannotations']:
                 if ent['wiki_title'] in conversion_ids:
 
-                        ent_embedding = wiki2vecobj.get_entity_vector(ent['wiki_title'])
+                        ent_embedding = wiki2vecobj.get_entity_embedding(ent['wiki_title'])
                         converted_id = conversion_ids[ent['wiki_title']][0]
                         if item['queryid'] in output_dict:
                             if converted_id in output_dict[item['queryid']]:
-                                output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
+                                output_dict[item['queryid']][converted_id] = output_dict[item['queryid']][converted_id] + calculate_score(int(item['contextrank']), wiki2vecobj, query_embedding, ent_embedding)
                             else:
-                                output_dict[item['queryid']][converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
+                                output_dict[item['queryid']][converted_id] = calculate_score(int(item['contextrank']), wiki2vecobj, query_embedding, ent_embedding)
                         else:
                             inner_dict = dict()
-                            inner_dict[converted_id] = ((1/int(item['contextrank']))*cosine_similarity(query_embedding.reshape(1, -1), ent_embedding.reshape(1, -1))[0].tolist()[0])
+                            inner_dict[converted_id] = calculate_score(int(item['contextrank']), wiki2vecobj, query_embedding, ent_embedding)
                             output_dict[item['queryid']] = inner_dict
         except KeyError as ke:
             print('keyerror : {} {} {}'.format(ke, query_title, ent['wiki_title']))
@@ -42,8 +37,8 @@ def entity_similarity_wrapper(input, embedding_txt_file, conversion_folder_loc, 
     print("inside entity similarity wrapper")
     inputjson = read_write_utils.read_multiple_json_files(input)
     entity_converted_ids = read_write_utils.read_converted_entity_ids(conversion_folder_loc)
-    wiki2vecobj = load_embedding(embedding_txt_file)
-    queryjson = calculate_entity_similarity(inputjson, wiki2vecobj, entity_converted_ids)
+    wiki2vecobj = Wikipedia2VecSim(embedding_txt_file)
+    queryjson = get_entity_ranking(inputjson, wiki2vecobj, entity_converted_ids)
     sorted_queryjson = sort_utils.sort_elements_by_value(queryjson)
     output_list = conversion_utils.convert_entity_counter_dict_to_trec_format(sorted_queryjson, 'annotations_entity_wikipedia2vec_similarity')
     read_write_utils.write_text_file(output, output_list)
