@@ -82,7 +82,7 @@ def rerank_entities(scored_entities, wiki2vecobj, converted_ids):
     return scored_entities
 
 
-def relation_relevance_similarity_wrapper(input, embedding_txt_file, conversion_folder_loc, output):
+def relation_relevance_query_similarity_wrapper(input, embedding_txt_file, conversion_folder_loc, output):
     print("inside relation relevance entity similarity wrapper")
     inputjson = read_write_utils.read_multiple_json_files(input)
     entity_converted_ids = read_write_utils.read_converted_entity_ids_reversed(conversion_folder_loc)
