@@ -78,7 +78,7 @@ def rerank_entities(scored_entities, wiki2vecobj, converted_ids):
                 entity_embedding = wiki2vecobj.get_entity_embedding(entity_title)
                 scored_entities[query][entity] = score + wiki2vecobj.calculate_cosine_sim(query_embedding, entity_embedding)
         except KeyError as ke:
-            print('keyerror : {} {}'.format(query_title, entity_title))
+            print('keyerror : {} {} {}'.format(ke, query_title, entity_title))
     return scored_entities
 
 
