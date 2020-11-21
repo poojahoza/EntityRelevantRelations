@@ -100,7 +100,7 @@ def generate_sampling(input_data, qrel_data):
                 relation_ann = dict()
                 for sentence in annotated_text.sentence:
                     for token in sentence.token:
-                        relation_ann[int(token.beginPosition)] = [int(token.endPosition),token.word]
+                        relation_ann[int(token.beginChar)] = [int(token.endChar),token.word]
 
                 ordered_relation_ann = OrderedDict(sorted(relation_ann.items(), key=lambda t:t[0]))
                 start_position_list = list(ordered_relation_ann.keys())
