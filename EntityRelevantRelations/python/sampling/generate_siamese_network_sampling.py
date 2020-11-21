@@ -6,6 +6,7 @@ import csv
 from collections import OrderedDict
 from stanfordnlp.server import CoreNLPClient
 from stanfordnlp.server.client import AnnotationException
+from google.protobuf.pyext._message import SetAllowOversizeProtos
 
 def read_multiple_json_files(folder_location):
     files = os.listdir(folder_location)
@@ -96,6 +97,7 @@ def generate_sampling(input_data, qrel_data):
     with CoreNLPClient(start_server=False, endpoint="http://localhost:9000", properties={'annotators': 'tokenize,ssplit'}, timeout=30000, memory='16G') as client:
         for item in input_data:
             try:
+                SetAllowOversizeProtos(True)
                 annotated_text = client.annotate(item['contexttext'])
                 relation_ann = dict()
                 for sentence in annotated_text.sentence:
