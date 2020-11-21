@@ -68,7 +68,7 @@ def get_entity_context(entity_spot, ordered_relation_ann, start_position_list):
         p1_right_token_start_index = temp_index+5 \
             if temp_index+5 < len(start_position_list) else len(start_position_list)-1
 
-        p1_window_charoffsetend_index = ordered_relation_ann[p1_right_token_start_index][0]
+        p1_window_charoffsetend_index = ordered_relation_ann[start_position_list[p1_right_token_start_index]][0]
 
         return p1_window_charoffsetbegin_index, p1_window_charoffsetend_index
 
