@@ -127,7 +127,7 @@ def generate_sampling(input_data, qrel_data):
                                 # and all object entities are non-relevant, then we want only those labels where 1-relevant
                                 # subject entity is paired with non-relevant object entities. The other non-relevant subject
                                 # entity is discarded.
-                                if (len(set(sub_rel['wiki_converted_id'])) & common_sub_entities) > 0:
+                                if len(set(sub_rel['wiki_converted_id']) & common_sub_entities) > 0:
                                     p1_context_start_index, p1_context_end_index = get_entity_context(sub_rel,
                                                                                                 ordered_relation_ann,
                                                                                                 start_position_list)
@@ -148,7 +148,7 @@ def generate_sampling(input_data, qrel_data):
                                 p1 = item['contexttext'][p1_context_start_index:p1_context_end_index]
 
                                 for obj_rel in relation['objectAnnotations']:
-                                    if (len(set(obj_rel['wiki_converted_id'])) & common_obj_entities) > 0:
+                                    if len(set(obj_rel['wiki_converted_id']) & common_obj_entities) > 0:
                                         p2_context_start_index, p2_context_end_index = get_entity_context(obj_rel,
                                                                                                           ordered_relation_ann,
                                                                                                           start_position_list)
@@ -157,14 +157,14 @@ def generate_sampling(input_data, qrel_data):
 
                     elif len(common_sub_entities) >0 and len(common_obj_entities) >0:
                         for sub_rel in relation['subjectAnnotations']:
-                            if (len(set(sub_rel['wiki_converted_id'])) & common_sub_entities) > 0:
+                            if len(set(sub_rel['wiki_converted_id']) & common_sub_entities) > 0:
                                 p1_context_start_index, p1_context_end_index = get_entity_context(sub_rel,
                                                                                                   ordered_relation_ann,
                                                                                                   start_position_list)
                                 p1 = item['contexttext'][p1_context_start_index:p1_context_end_index]
 
                             for obj_rel in relation['objectAnnotations']:
-                                if (len(set(obj_rel['wiki_converted_id'])) & common_obj_entities) > 0:
+                                if len(set(obj_rel['wiki_converted_id']) & common_obj_entities) > 0:
                                     p2_context_start_index, p2_context_end_index = get_entity_context(obj_rel,
                                                                                                       ordered_relation_ann,
                                                                                                       start_position_list)
