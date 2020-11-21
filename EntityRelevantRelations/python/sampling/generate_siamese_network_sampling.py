@@ -172,8 +172,8 @@ def generate_sampling(input_data, qrel_data):
                                     output_list.append({'query':item['queryid'],'p1':p1,'p2':p2,'label':0})
             except AnnotationException:
                 print(item['queryid']+" "+item['contextid']+" AnnotationException")
-        print(counter)
-        counter += 1
+            print(counter)
+            counter += 1
 
     return output_list
 
