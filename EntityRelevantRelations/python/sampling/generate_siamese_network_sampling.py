@@ -94,10 +94,12 @@ def generate_sampling(input_data, qrel_data):
 
     output_list = []
     counter = 1
-    with CoreNLPClient(start_server=False, endpoint="http://localhost:9000", properties={'annotators': 'tokenize,ssplit'}, timeout=30000, memory='16G') as client:
+    with CoreNLPClient(start_server=False, endpoint="http://localhost:9000", properties={'annotators': 'tokenize'}, timeout=30000, memory='16G') as client:
         for item in input_data:
             try:
+                # google.protobuf.message.decodeerror error parsing message parsefromstring
                 SetAllowOversizeProtos(True)
+
                 annotated_text = client.annotate(item['contexttext'])
                 relation_ann = dict()
                 for sentence in annotated_text.sentence:
