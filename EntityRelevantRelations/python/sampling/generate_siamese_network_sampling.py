@@ -177,6 +177,10 @@ def generate_sampling(input_data, qrel_data):
             print(counter)
             counter += 1
 
+            # temporary
+            if counter == 6:
+                break
+
     return output_list
 
 
