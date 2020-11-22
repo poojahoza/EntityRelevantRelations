@@ -37,7 +37,7 @@ def process_qrel_files(input_qrel_file):
 
 def write_output_tsv_file(output_list, output_loc):
     with open(output_loc, 'w') as f:
-        writer = csv.writer(f, delimiter='\t', newline='\n')
+        writer = csv.writer(f, delimiter='\t')
         for record in output_list:
             writer.writerow([record['query'], record['p1'], record['p2'], str(record['label'])])
 
