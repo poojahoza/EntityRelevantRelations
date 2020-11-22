@@ -92,7 +92,10 @@ def create_relation_triples_wat_ann_dicts(rel_file, ann_file, ent_file):
         rel_triples_details['contexttext'] = item['contexttext']
         rel_triples_details['contextrank'] = item['contextrank']
         rel_triples_details['contextscore'] = item['contextscore']
-        rel_triples_details['relationTriples'] = item['relationTriples']
+        if 'relationTriples' not in item:
+            rel_triples_details['relationTriples'] = []
+        else:
+            rel_triples_details['relationTriples'] = item['relationTriples']
         rel_triples_dict[item['queryid']+'_'+item['contextid']] = rel_triples_details
 
     for item in annotations:
