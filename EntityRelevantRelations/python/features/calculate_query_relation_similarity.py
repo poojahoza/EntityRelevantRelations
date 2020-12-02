@@ -61,11 +61,10 @@ def get_query_relation_similarity(input_json, glove_obj):
 
 def retrieve_input_json(input_folder, glove_obj, output_folder):
     files = os.listdir(input_folder)
-    try:
-        for file in files:
-            content_json = read_write_utils.read_json_file(input_folder+'/'+file)
-            modified_json = get_query_relation_similarity(content_json, glove_obj)
-            read_write_utils.write_json_file(output_folder+'/'+file, modified_json)
+    for file in files:
+        content_json = read_write_utils.read_json_file(input_folder+'/'+file)
+        modified_json = get_query_relation_similarity(content_json, glove_obj)
+        read_write_utils.write_json_file(output_folder+'/'+file, modified_json)
 
 def query_relation_similarity_wrapper(input, embedding_txt_file, output):
     print("inside query relation similarity wrapper")
