@@ -28,13 +28,15 @@ def get_query_relation_similarity(input_json, glove_obj):
         query_embed = dict()
         try:
             query_words = query_title.split()
+            present_query_words = []
             for w in query_words:
                 w_lower = w.lower()
                 if glove_obj.check_term_existence(w_lower):
                     query_embed[w_lower] = glove_obj.get_word_embedding(w_lower)
+                    present_query_words.append(w_lower)
 
-            query_ids = {w.lower():ind for ind, w in enumerate(query_words)}
-            query_size = len(query_words)
+            query_ids = {w.lower():ind for ind, w in enumerate(present_query_words)}
+            query_size = len(present_query_words)
 
             Q_avg = get_average_vector(query_size, query_ids, query_embed)
 
@@ -42,14 +44,16 @@ def get_query_relation_similarity(input_json, glove_obj):
                 relation_embed = dict()
                 relation_triple = relation['subject']+' '+relation['relation']+' '+relation['object']
                 relation_words = relation_triple.split()
+                present_relation_words = []
 
                 for r in relation_words:
                     r_lower = r.lower()
                     if glove_obj.check_term_existence(r_lower):
                         relation_embed[r_lower] = glove_obj.get_word_embedding(r_lower)
+                        present_relation_words.append(r_lower)
 
-                relation_ids = {r.lower():ind for ind, r in enumerate(relation_words)}
-                relation_size = len(relation_words)
+                relation_ids = {r.lower():ind for ind, r in enumerate(present_relation_words)}
+                relation_size = len(present_relation_words)
 
                 R_avg = get_average_vector(relation_size, relation_ids, relation_embed)
 
