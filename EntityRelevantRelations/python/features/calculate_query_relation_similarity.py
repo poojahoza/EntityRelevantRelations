@@ -29,7 +29,9 @@ def get_query_relation_similarity(input_json, glove_obj):
         try:
             query_words = query_title.split()
             for w in query_words:
-                query_embed[w.lower()] = glove_obj.get_word_embedding(w.lower())
+                w_lower = w.lower()
+                if glove_obj.check_term_existence(w_lower):
+                    query_embed[w_lower] = glove_obj.get_word_embedding(w_lower)
 
             query_ids = {w.lower():ind for ind, w in enumerate(query_words)}
             query_size = len(query_words)
@@ -42,7 +44,9 @@ def get_query_relation_similarity(input_json, glove_obj):
                 relation_words = relation_triple.split()
 
                 for r in relation_words:
-                    relation_embed[r.lower()] = glove_obj.get_word_embedding(r.lower())
+                    r_lower = r.lower()
+                    if glove_obj.check_term_existence(r_lower):
+                        relation_embed[r_lower] = glove_obj.get_word_embedding(r_lower)
 
                 relation_ids = {r.lower():ind for ind, r in enumerate(relation_words)}
                 relation_size = len(relation_words)

@@ -14,3 +14,9 @@ class GloveSimilarity:
 
     def get_cosine_similarity(self, word1_embed, word2_embed):
         return cosine_similarity(word1_embed.reshape(1, -1), word2_embed.reshape(1, -1))[0][0]
+
+    def check_term_existence(self, word):
+        if word in self.vectors:
+            return True
+        else:
+            return False
