@@ -12,10 +12,10 @@ def get_average_vector(terms_length, ids_dict, embed_vec):
     for terms, ind in ids_dict.items():
         Q[ind, :] = embed_vec[terms]
 
-    Q_norm = np.zeros(Q.shape)
-    d = (np.sum(Q ** 2, 1) ** (0.5))
-    Q_norm = (Q.T / d).T
-    Q_avg = np.average(Q_norm, axis=0)
+    # Q_norm = np.zeros(Q.shape)
+    # d = (np.sum(Q ** 2, 1) ** (0.5))
+    # Q_norm = (Q.T / d).T
+    Q_avg = np.average(Q, axis=0)
 
     return Q_avg
 
@@ -67,12 +67,13 @@ def get_query_relation_similarity(input_json, glove_obj):
 
     return final_output
 
-def retrieve_input_json(input_folder, glove_obj, output_folder):
-    files = os.listdir(input_folder)
-    for file in files:
-        content_json = read_write_utils.read_json_file(input_folder+'/'+file)
-        modified_json = get_query_relation_similarity(content_json, glove_obj)
-        read_write_utils.write_json_file(output_folder+'/'+file, modified_json)
+def retrieve_input_json(input_file, glove_obj, output_file):
+    # files = os.listdir(input_folder)
+    # for file in files:
+    content_json = read_write_utils.read_json_file(input_file)
+    modified_json = get_query_relation_similarity(content_json, glove_obj)
+    #read_write_utils.write_json_file(output_folder+'/'+file, modified_json)
+    read_write_utils.write_json_file(output_file, modified_json)
 
 def query_relation_similarity_wrapper(input, embedding_txt_file, output):
     print("inside query relation similarity wrapper")
