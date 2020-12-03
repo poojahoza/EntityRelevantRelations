@@ -58,9 +58,11 @@ def get_query_relation_similarity(input_json, glove_obj):
                 R_avg = get_average_vector(relation_size, relation_ids, relation_embed)
 
                 relation['query_sim_glove'] = glove_obj.get_cosine_similarity(Q_avg, R_avg)
-            final_output.append(item)
+
         except Exception as e:
             print('{} {} {}'.format(e, item['queryid'], item['contextid']))
+        finally:
+            final_output.append(item)
 
         print(counter)
         counter += 1
