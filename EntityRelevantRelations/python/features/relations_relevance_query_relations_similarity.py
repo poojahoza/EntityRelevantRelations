@@ -5,7 +5,7 @@ from similarity import wikipedia2vecsim
 
 
 def calculate_score(contextrank, wiki2vecobj, entity1_embed, entity2_embed, query_sim):
-    return ((1/contextrank)*wiki2vecobj.calculate_cosine_sim(entity1_embed, entity2_embed))+query_sim
+    return (1/contextrank)*wiki2vecobj.calculate_cosine_sim(entity1_embed, entity2_embed)*query_sim
 
 
 def create_relations_graph(input_json, wiki2vecobj, converted_ids):
@@ -34,12 +34,16 @@ def create_relations_graph(input_json, wiki2vecobj, converted_ids):
                         o_title = converted_ids[o]
                         o_embedding = wiki2vecobj.get_entity_embedding(o_title)
                         if query_graphobj_mapping[item['queryid']].has_edge(s, o):
+                            if 'query_sim_glove' not in relation:
+                                relation['query_sim_glove'] = 0.0
                             query_graphobj_mapping[item['queryid']][s][o]['weight'] = query_graphobj_mapping[item['queryid']][s][o]['weight'] + calculate_score(int(item['contextrank']),
                                                                                                                                                                 wiki2vecobj,
                                                                                                                                                                 s_embedding,
                                                                                                                                                                 o_embedding,
                                                                                                                                                                 relation['query_sim_glove'])
                         else:
+                            if 'query_sim_glove' not in relation:
+                                relation['query_sim_glove'] = 0.0
                             query_graphobj_mapping[item['queryid']].add_edge(s, o, weight=calculate_score(int(item['contextrank']),
                                                                                                           wiki2vecobj,
                                                                                                           s_embedding,
