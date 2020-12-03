@@ -6,7 +6,7 @@ import validate_runner_commands
 from entitylinker import WAT_entity_linker_wrapper
 from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity, simple_annotations_entity_similarity
 from features import relations_degree, relations_relevance_entity_similarity, relations_relevance_query_entity_similarity
-from features import calculate_query_relation_similarity
+from features import calculate_query_relation_similarity, relations_relevance_query_relations_similarity
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -65,6 +65,9 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-queryrelsim", "--queryrelationsimilarity", action='store_true', help='execute query'
                                                                                                ' relation similarity feature')
+
+    parser_features.add_argument("-relrelevancequeryrelsim", "--relationrelevancequeryrelationsimilarity", action='store_true', help='execute query'
+                                                                                                        ' relation similarity feature')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
@@ -171,6 +174,17 @@ if __name__ == "__main__":
         if validate_runner_commands.validate_query_relation_similarity_score(parser_arguments):
             calculate_query_relation_similarity.query_relation_similarity_wrapper(parser_arguments['annotations']
                                                                                         , parser_arguments['embeddingfile']
+                                                                                        , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
+
+    if 'relationrelevancequeryrelationsimilarity' in parser_arguments and parser_arguments['relationrelevancequeryrelationsimilarity']:
+        print("relation relevance query relations similarity score")
+        if validate_runner_commands.validate_entity_similarity_score(parser_arguments):
+            relations_relevance_query_relations_similarity.relation_relevance_query_relation_similarity_wrapper(parser_arguments['annotations']
+                                                                                        , parser_arguments['embeddingfile']
+                                                                                        , parser_arguments['entityconversionfolder']
                                                                                         , parser_arguments['output'])
         else:
             parser.print_help(sys.stderr)
