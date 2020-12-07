@@ -71,11 +71,11 @@ if __name__ == "__main__":
                                                                                                         ' relation similarity feature')
 
 
-    parser_ranklib = sub_parsers.add_parser('sampling', help='sampling help')
-    parser_features.add_argument("-otc", "--opentriplescorpus", action='store_true', help='execute script to generate'
+    parser_sampling = sub_parsers.add_parser('sampling', help='sampling help')
+    parser_sampling.add_argument("-otc", "--opentriplescorpus", action='store_true', help='execute script to generate'
                                                                                                'openie relation triples corpus')
-    parser_ranklib.add_argument('-a', '--annotations', help='relation annotations folder location')
-    parser_ranklib.add_argument('-o', '--output', help='output file path')
+    parser_sampling.add_argument('-a', '--annotations', help='relation annotations folder location')
+    parser_sampling.add_argument('-o', '--output', help='output file path')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
