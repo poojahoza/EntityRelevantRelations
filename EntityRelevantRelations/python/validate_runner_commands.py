@@ -57,3 +57,10 @@ def validate_ranklib(parser_args):
         return True
     else:
         return False
+
+def validate_otc_sampling(parser_args):
+    if parser_args['annotations'] is not None and parser_args['output'] is not None:
+        return True
+    else:
+        return False
+

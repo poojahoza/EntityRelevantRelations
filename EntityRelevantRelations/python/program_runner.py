@@ -7,6 +7,7 @@ from entitylinker import WAT_entity_linker_wrapper
 from features import relations_annotations_entity_counter, relations_freq, relations_relevance, relations_score, relations_proximity, simple_annotations_entity_similarity
 from features import relations_degree, relations_relevance_entity_similarity, relations_relevance_query_entity_similarity
 from features import calculate_query_relation_similarity, relations_relevance_query_relations_similarity
+from sampling import generate_open_triples_corpus
 from ranklib import ranklib_file_generator
 from relationextractor import stanford_relation_extractor
 
@@ -68,6 +69,13 @@ if __name__ == "__main__":
 
     parser_features.add_argument("-relrelevancequeryrelsim", "--relationrelevancequeryrelationsimilarity", action='store_true', help='execute query'
                                                                                                         ' relation similarity feature')
+
+
+    parser_ranklib = sub_parsers.add_parser('sampling', help='sampling help')
+    parser_features.add_argument("-otc", "--opentriplescorpus", action='store_true', help='execute script to generate'
+                                                                                               'openie relation triples corpus')
+    parser_ranklib.add_argument('-a', '--annotations', help='relation annotations folder location')
+    parser_ranklib.add_argument('-o', '--output', help='output file path')
 
     parser_ranklib = sub_parsers.add_parser('ranklib', help='ranklib help')
     parser_ranklib.add_argument('-q', '--qrel', help='qrel file location')
@@ -190,6 +198,14 @@ if __name__ == "__main__":
             parser.print_help(sys.stderr)
             sys.exit(1)
 
+    if 'opentriplescorpus' in parser_arguments and parser_arguments['opentriplescorpus']:
+        print("generate relation annotations corpus")
+        if validate_runner_commands.validate_otc_sampling(parser_arguments):
+            generate_open_triples_corpus.generate_open_triples_corpus_wrapper(parser_arguments['annotations']
+                                                                              , parser_arguments['output'])
+        else:
+            parser.print_help(sys.stderr)
+            sys.exit(1)
 
     if 'ranklib' in parser_arguments:
         pass
