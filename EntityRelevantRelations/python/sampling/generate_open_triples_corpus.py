@@ -32,7 +32,7 @@ def get_flat_relation_triples(input_json):
 def generate_open_triples_corpus_wrapper(input_folder_loc, output_file_location):
     input_data = read_write_utils.read_multiple_json_files(input_folder_loc)
     print("read annotations file")
-    output_data = get_flat_relation_triples(input_data, output_file_location)
+    output_data = get_flat_relation_triples(input_data)
     print("generated output string")
     read_write_utils.write_text_file(output_file_location, output_data)
     print("generated corpus file")
