@@ -16,11 +16,11 @@ def unicode_text(text):
 
 def get_flat_relation_triples(input_json):
 
-    relation_corpus = ''
+    relation_corpus_list = []
     for item in input_json:
         for relation in item['relAnnotations']:
-            relation_corpus = relation_corpus+' '+relation['subject']+' '+relation['relation']+' '+relation['object']
-    return [relation_corpus]
+            relation_corpus_list.append(relation['subject']+' '+relation['relation']+' '+relation['object'])
+    return relation_corpus_list
 
     # with codecs.open(output_file, 'w', encoding='utf-8') as f:
     #     for item in input_json:
